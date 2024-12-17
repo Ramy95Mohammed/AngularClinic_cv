@@ -1,0 +1,342 @@
+
+<div class="row w-100">
+ 
+    <div class="col-md-7 mb-2">
+
+
+        <div class="card" >
+            <p-toolbar styleClass="mb-4 gap-2" >
+                <ng-template pTemplate="left">
+                    <app-custom-new-btn  severity="success" [label]= "_localizeServe.getLabelValue('lbl_new')"    icon="pi pi-plus" (onBtnNewClick)="emitBtnNewClickEvent()" ></app-custom-new-btn>
+                         <app-custom-search-btn (onBtnSearchClick)="showDialogPermissions()"></app-custom-search-btn>
+                         <app-custom-save-btn [hidden]="!hideBtnEdit" (onBtnSaveClick)="saveNewPermissionMasterWithDetails()"></app-custom-save-btn> 
+                         <app-custom-edit-btn [hidden]="hideBtnEdit" (onBtnEditClick)="editPermissionMasterAndDetails()"></app-custom-edit-btn>
+                         <app-custom-print-btn (onBtnPrintClick)="printPermissionsWithDetails()"></app-custom-print-btn>
+                </ng-template>
+        
+                <ng-template pTemplate="right" >
+                   
+                </ng-template>
+            </p-toolbar>
+        <p-table 
+                
+                #dtPermissions
+                sortField="pageCategoryName" 
+                sortMode="single" 
+                rowGroupMode="subheader" 
+                groupRowsBy="pageCategoryName" 
+                [value]="data"
+            [rowHover]="true"
+            [scrollable]="true" 
+            scrollHeight="600px" 
+            [tableStyle]="{'min-width': '50rem'}"
+            [showCurrentPageReport]="true"
+            
+            >
+            <ng-template pTemplate="caption">
+                <div class="row" >
+                    <div class="col-md-2 mb-2">
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dtPermissions.reset()" />
+        
+                    </div>
+                    <div class="col-md-4 mb-2">
+                    <p-iconField iconPosition="left">
+                        <p-inputIcon>
+                            <i class="pi pi-search"></i>
+                        </p-inputIcon>
+                        <input pInputText type="text"
+                        (input)="getByFiltering()"
+                        [(ngModel)]="txtSearchSherdPermissions"  [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
+                    </p-iconField>
+                </div>
+                <div class="col-md-6 mb-2">
+        
+                    <p-floatLabel  [class]="'w-100'"  dir="ltr">
+                        <p-dropdown  
+                            #pagesCategoriesDropDown  
+                            [options]="pagesCategoriesData"
+                           (onChange)="getByFiltering()"
+                            [showClear]="true"
+                            optionLabel="value" 
+                            optionValue="key"
+                            inputId="userPolicy-label"
+                            [placeholder]="_localizeServe.getLabelValue('lbl_choose')"  />
+                    <label  for="userPolicy-label" >{{_localizeServe.getLabelValue('lbl_pagesCategories')}}</label>
+                </p-floatLabel>
+            </div>
+                </div>
+            </ng-template>
+                <ng-template pTemplate="header" >
+                  
+                    <tr >
+                        <th class="text-center">#</th>              
+                        <th pSortableColumn="userControllerName" class="text-center">{{_localizeServe.getLabelValue('lbl_page')}} <p-sortIcon field="userControllerName" /></th>
+                        <th   class="text-center">{{_localizeServe.getLabelValue('lbl_canSee')}}</th>
+                        <th   class="text-center">{{_localizeServe.getLabelValue('lbl_canSave')}}</th>
+                        <th   class="text-center">{{_localizeServe.getLabelValue('lbl_canEdit')}}</th>
+                        <th   class="text-center">{{_localizeServe.getLabelValue('lbl_canDelete')}}</th>
+                        <th   class="text-center">{{_localizeServe.getLabelValue('lbl_canPrint')}}</th>
+                        <th   class="text-center">{{_localizeServe.getLabelValue('lbl_canSearch')}}</th>
+                        <th   class="text-center">
+                            <label for="checkAll" class="mx-2 cursor-pointer">{{_localizeServe.getLabelValue('lbl_doAll')}}</label>
+                            <p-checkbox inputId="checkAll" [binary]="true" (onChange)="checkAllPermissions($event)" /></th>
+        
+                    </tr>
+               
+                </ng-template>
+        
+                <ng-template pTemplate="groupheader" let-per >
+                    <tr pRowGroupHeader *ngIf="per.isRowShown">
+                        <td colspan="9">     
+                            <i class="fa-solid fa-layer-group"></i>              
+                            <span class="font-bold ml-2">{{per.pageCategoryName}}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="groupfooter" let-per>
+                    <tr *ngIf="per.isRowShown">
+                        <td colspan="9" class="text-right font-bold pr-6">
+                            {{_localizeServe.getLabelValue('lbl_count')}}: {{calculateTotal(per.pageCategoryName)}}
+                        </td>
+                    </tr>
+                </ng-template>
+        
+                <ng-template  pTemplate="body" let-per let-i="index"> 
+                 
+                    <tr *ngIf="per.isRowShown"> 
+                        <th class="text-center" hidden><input  type="text" pInputText [(ngModel)]="per.keyId" /></th>
+                        <td class="text-center"><input [disabled]="true"  type="text" pInputText [(ngModel)]="per.pageId" /></td>
+                        <td class="text-center"><input  [disabled]="true"  type="text" pInputText [(ngModel)]="per.userControllerName" /></td>
+                        <td class="text-center"> <p-checkbox  [(ngModel)]="per.canSee" [binary]="true" /></td>
+                        <td class="text-center"> <p-checkbox [(ngModel)]="per.canSave" [binary]="true" /></td>
+                        <td class="text-center"> <p-checkbox [(ngModel)]="per.canEdit" [binary]="true" /></td>
+                        <td class="text-center"> <p-checkbox [(ngModel)]="per.canDelete" [binary]="true" /></td>
+                        <td class="text-center"> <p-checkbox [(ngModel)]="per.canPrint" [binary]="true" /></td>
+                        <td class="text-center"> <p-checkbox [(ngModel)]="per.canSearch" [binary]="true" /></td>
+                        <td class="text-center"> <p-checkbox [(ngModel)]="per.doAll" [binary]="true" (onChange)="checkAllPermissionsPerLine($event , per)" /></td>
+                        <td class="text-center" hidden> <p-checkbox [(ngModel)]="per.isRowShown" [binary]="true" /></td>
+                        <th class="text-center" hidden><input  type="text" pInputText [(ngModel)]="per.permissionsSpecificationId" /></th>
+                    </tr>
+                </ng-template> 
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                    <!-- <p-paginator    dropdownAppendTo="body" [showCurrentPageReport]="true"  currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} " dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator> -->
+                    </div> 
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="9">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+                    </tr>
+                </ng-template>
+        </p-table>
+        
+        </div>
+        
+
+    </div>
+
+    <div class="col-md-5 mb-2">
+
+
+        <div class="row">
+            <div class="col-12 mb-2">
+                <p-panel  [header]="_localizeServe.getLabelValue('lbl_usersWithoutPermissions')" [toggleable]="true">                   
+                    <p-table 
+                    #dtUsersWithoutPermissions
+                [value]="userWithoutPermissionsData" 
+                [rowHover]="true"
+                [scrollable]="true" 
+                scrollHeight="600px" 
+                [tableStyle]="{'min-width': '50rem'}"
+                [showCurrentPageReport]="true"
+                [globalFilterFields]="['displayName', 'userPolicyName']"
+                >
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between" >
+                        <p-button [outlined]="true" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dtUsersWithoutPermissions.reset()" />
+                        <p-iconField iconPosition="left">
+                            <p-inputIcon>
+                                <i class="pi pi-search"></i>
+                            </p-inputIcon>
+                            <input pInputText type="text"  (input)="filterGlobalUsersWithoutPermissions($event)" [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
+                        </p-iconField>
+                    </div>
+                </ng-template>
+                    <ng-template pTemplate="header" >
+                        <tr >
+                            <th pSortableColumn="displayName" class="text-center">{{_localizeServe.getLabelValue('lbl_userName')}} <p-sortIcon field="displayName" /></th>
+                                <th pSortableColumn="userPolicyName"  class="text-center">{{_localizeServe.getLabelValue('lbl_userPolicy')}}<p-sortIcon field="userPolicyName" /></th>
+                            <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-userPer let-rowIndex="rowIndex">
+                        <tr  >
+                            <td class="text-center">{{userPer.displayName}}</td>
+                            <td class="text-center">{{userPer.userPolicyName}}</td>
+                            <td class="text-center">
+                                <div dir="ltr">
+                                    <p-button 
+                                    icon="pi pi-angle-double-down"
+                                    class="mr-2" 
+                                    [rounded]="true" 
+                                    [outlined]="true" 
+                                    severity="secondary"
+                                    (onClick)="addUserToPermssionsList(rowIndex)"
+                                    />
+                                                   
+                               
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                 
+                    <ng-template pTemplate="emptymessage">
+                        <tr >
+                            <td colspan="4">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+                        </tr>
+                    </ng-template>
+                    </p-table>
+                </p-panel>
+                </div>
+                <div class="col-12 mb-2">
+                    <p-panel   [header]="_localizeServe.getLabelValue('lbl_usersHavePermissions')" [toggleable]="true">                   
+                        <p-table 
+                        #dtHavePermssions
+                    [value]="usersHavePermissions" 
+                    [rowHover]="true"
+                    [scrollable]="true" 
+                    scrollHeight="600px" 
+                    [tableStyle]="{'min-width': '50rem'}"
+                    [showCurrentPageReport]="true"
+                    [globalFilterFields]="['displayName', 'userPolicyName']"
+                    >
+                    <ng-template pTemplate="caption">
+                        <div class="flex justify-content-between" >
+                            <p-button [outlined]="true" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dtUsersWithoutPermissions.reset()" />
+                            <p-iconField iconPosition="left">
+                                <p-inputIcon>
+                                    <i class="pi pi-search"></i>
+                                </p-inputIcon>
+                                <input pInputText type="text"  (input)="filterGlobalUsersHavePermissions($event)" [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
+                            </p-iconField>
+                        </div>
+                    </ng-template>
+                        <ng-template pTemplate="header" >
+                            <tr >
+                                <th pSortableColumn="displayName" class="text-center">{{_localizeServe.getLabelValue('lbl_userName')}} <p-sortIcon field="displayName" /></th>
+                                    <th pSortableColumn="userPolicyName"  class="text-center">{{_localizeServe.getLabelValue('lbl_userPolicy')}}<p-sortIcon field="userPolicyName" /></th>
+                                <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-userPer let-rowIndex="rowIndex"  >
+                            <tr >
+                                <td class="text-center">{{userPer.displayName}}</td>
+                                <td class="text-center">{{userPer.userPolicyName}}</td>
+                                <td class="text-center">
+                                    <div dir="ltr">
+                                        <app-custom-delete-btn (onBtnDeleteClick)="deleteUserFromPermissionList(rowIndex)"></app-custom-delete-btn>                                                                                          
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                     
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+                            </tr>
+                        </ng-template>
+                        </p-table>
+                    </p-panel>
+                    </div>
+        </div>
+     
+    </div>
+</div> 
+
+  <!--Search Dialog form Permissions Master -->
+<app-custom-dialog  
+  #permissionsCustomDialog
+  [visible]="permissionsDialog"
+  [width]="'50vw'" 
+  (onClose)="hideDialog()"
+   [onSave]="onSave"  
+  [onEdit]="onEdit" 
+  >
+     
+  <ng-template #dialogContent>
+    <p-table 
+        #dt
+    [value]="permissionsMaster" 
+    [rowHover]="true"
+    [scrollable]="true" 
+    scrollHeight="600px" 
+    [tableStyle]="{'min-width': '50rem'}"
+    [showCurrentPageReport]="true"
+    
+    >
+    <ng-template pTemplate="caption">
+        <div class="flex justify-content-between" >
+            <p-button [outlined]="true" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dt.reset()" />
+            <p-iconField iconPosition="left">
+                <p-inputIcon>
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" [(ngModel)]="txtSearchForPermissionsMaster" (input)="getPermissiosnMasterData(1 , 10 , txtSearchForPermissionsMaster , null)" [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
+            </p-iconField>
+        </div>
+    </ng-template>
+        <ng-template pTemplate="header" >
+            <tr >
+                <th class="text-center">#</th>
+                <th pSortableColumn="profileName" class="text-center">{{_localizeServe.getLabelValue('lbl_name')}} <p-sortIcon field="profileName" /></th>
+                <th pSortableColumn="formattedUpdatedDate"  class="text-center">{{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" /></th>
+                <th class="text-center">{{_localizeServe.getLabelValue('lbl_import')}}</th>
+                <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-permission >
+            <tr >
+                <td class="text-center">{{permission.keyId}}</td>
+                <td class="text-center">{{permission.profileName}}</td>
+                <td class="text-center">{{permission.formattedUpdatedDate}}</td>
+                <td class="text-center"><p-button 
+                    icon="pi pi-file-import" 
+                    class="mr-2"                 
+                    [outlined]="true" 
+                    severity="contrast"
+                    (onClick)="importPermissionsAsTheSame(permission.keyId)" />
+                    </td> 
+                <td class="text-center">
+                    <div dir="ltr">
+                        <app-custom-edit-btn (onBtnEditClick)="getPermissionMasterAndDetailsToEdit(permission.keyId)"></app-custom-edit-btn>
+                        <app-custom-delete-btn (onBtnDeleteClick)="showDeleteDialog(permission.keyId)"></app-custom-delete-btn> 
+                   
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+            <p-paginator    dropdownAppendTo="body" [showCurrentPageReport]="true"  currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} " dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
+            </div> 
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+            </tr>
+        </ng-template>
+</p-table>
+  </ng-template>
+  <ng-template #dialogFooter>
+    
+  </ng-template>
+</app-custom-dialog>
+  <!-- End Dialog  -->
+
+    <!-- Delete Permissions Dialog  -->
+<app-custom-confirm-dialog (onConfirm)="getPermissionMasterAndDetailsToDelete()" #customDeleteDialog ></app-custom-confirm-dialog>
+    <!-- End Dialog  -->    
+
+
+
+    

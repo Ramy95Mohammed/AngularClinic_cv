@@ -1,0 +1,45 @@
+<p-dialog 
+  [(visible)]="visible"
+  [header]="header"
+  [style]="{ width: width  }"
+  [modal]="modal"
+  [styleClass]="styleClass"
+  (onHide)="resetDialog()"
+  [maximizable]="true"
+  
+  >
+  
+  <!-- Injected content goes here -->
+  <ng-template pTemplate="content">
+    <ng-container *ngTemplateOutlet="dialogContent"></ng-container>
+  </ng-template>
+
+  <!-- Footer with cancel and save buttons -->
+  <ng-template pTemplate="footer">
+
+    <ng-container *ngIf="dialogFooter">
+      <ng-container *ngTemplateOutlet="dialogFooter"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="!dialogFooter">
+    <p-button 
+      [label]="_localizeServe.getLabelValue('lbl_cancel')" 
+      icon="pi pi-times" 
+      [text]="true" 
+      (onClick)="hideDialog()" />
+    <app-custom-save-btn 
+       *ngIf="saveOrEdit"
+      [label]="_localizeServe.getLabelValue('lbl_save')"
+      icon="pi pi-check" 
+      [text]="true" 
+      (onClick)="handleSave()" ></app-custom-save-btn>
+
+      <app-custom-edit-btn
+       *ngIf="!saveOrEdit"
+      [label]="_localizeServe.getLabelValue('lbl_edit')"
+      icon="pi pi-check" 
+      [text]="true" 
+      (onClick)="handleEdit()"></app-custom-edit-btn>
+    </ng-container>
+
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,65 @@
+<form [formGroup]="loginForm">
+    <div class="flex flex-column md:flex-row  h-100">
+        <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5" >
+    
+            <div *ngIf="error" class="alert alert-danger">
+                <p>{{error}}</p>
+          </div>
+    
+            <div class="d-flex flex-column flex-column-reverse"> 
+                
+                <p *ngIf="loginForm.get('email')?.getError('required') && loginForm.get('email')?.touched" class="text-danger mx-1">*</p>
+                <p *ngIf="loginForm.get('email')?.getError('email')" class="text-danger mx-1" >{{localizeServ.getLabelValue('lbl_emailInvalid')}}</p>
+    
+            <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;">
+                <p-inputGroup >
+                    <p-inputGroupAddon >
+                        <i class="pi pi-at"></i>
+                    </p-inputGroupAddon>
+                    <input formControlName="email"  type="email" pInputText [placeholder]="localizeServ.getLabelValue('lbl_email')" />
+                   
+                </p-inputGroup>
+               
+            </div>
+           
+        </div>
+    
+        <div class="d-flex flex-column flex-column-reverse">
+            <p *ngIf="loginForm.get('password')?.getError('required') && loginForm.get('password')?.touched" class="text-danger mx-1 " >*</p>
+            <p *ngIf="loginForm.get('password')?.getError('pattern')" class="text-danger mx-1 w-50" >{{localizeServ.getLabelValue('lbl_passworInvalid')}}
+               
+            </p>
+    
+            <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;">
+                <p-inputGroup >
+                    <p-inputGroupAddon >
+                        <i class="pi pi-circle-fill"></i>
+                    </p-inputGroupAddon>
+                    <!-- <input type="password" pInputText [placeholder]="localizeServ.getLabelValue('lbl_password')"/> -->
+                    <p-password [autocomplete]="''"  formControlName="password" [feedback]="false" styleClass="w-100" [placeholder]="localizeServ.getLabelValue('lbl_password')" [toggleMask]="true" />
+                </p-inputGroup>
+            </div>
+            
+        </div>
+            <p-button (onClick)="loginUser()" [label]="localizeServ.getLabelValue('lbl_enter')" icon="pi pi-user" styleClass="w-10rem mx-auto" />
+        </div>
+        <div class="w-full md:w-2">
+            <p-divider layout="vertical" styleClass="hidden md:flex">
+                <b></b>
+            </p-divider>
+            <p-divider layout="horizontal" styleClass="flex md:hidden" [align]="'center'">
+                <b></b>
+            </p-divider>
+        </div>
+        <div class="w-full md:w-5 flex align-items-center justify-content-center py-5">
+            <p-card header="PRIME CLINIC" subheader="Clinic Name" [style]="{ width: '360px' }">
+                <ng-template pTemplate="header">
+                    <img alt="Prime Logo" src="/assets/images/PrimeLogo.png" />
+                </ng-template>
+            </p-card>
+        </div>
+    </div>
+    
+    
+    </form>
+    

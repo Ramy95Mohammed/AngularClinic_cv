@@ -1,0 +1,67 @@
+import { Component, ViewChild, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Sidebar, SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { RippleModule } from 'primeng/ripple';
+import { StyleClassModule } from 'primeng/styleclass';
+import { ImportsModule } from '../../../app/imports';
+import { LocalizeService } from '../../../services/localize/localize.service';
+
+
+
+
+@Component({
+  selector: 'app-slide-bar',
+  standalone: true,
+  imports: [ImportsModule],
+  templateUrl: './slide-bar.component.html',
+  styleUrl: './slide-bar.component.scss'
+})
+export class SlideBarComponent implements OnInit , AfterViewInit {
+_localStorage:Storage | undefined;
+_localizeServ:LocalizeService ;
+constructor(localizeServ:LocalizeService)
+{
+this._localizeServ = localizeServ;
+}
+  ngAfterViewInit(): void {
+          
+  }
+  ngOnInit(): void {
+    if(this.sidebarVisible)
+    {
+
+    }
+    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined')
+    this._localStorage = localStorage;
+ 
+  }
+  @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+  sidebarVisible:boolean = true;
+ @Input() dir: string = ''
+  
+  closeCallback(e:any): void {    
+    this.sidebarRef.close(e);    
+}
+
+   showSlideBar()
+   {
+    this.sidebarVisible = true
+
+    const element = document.getElementById('bodyContents');
+    if (element?.classList.contains('col-md-12')) {
+      element?.classList.remove('col-md-12');
+      element?.classList.add('col-md-10');
+    } 
+   }
+
+   makeBodyContentsFullScree()
+   {
+    const element = document.getElementById('bodyContents');
+    if (element?.classList.contains('col-md-10')) {
+      element?.classList.remove('col-md-10');
+      element?.classList.add('col-md-12');
+    } 
+   }
+}
