@@ -94,7 +94,12 @@ _accounService.currentUser.subscribe(()=>{
                             label: 'lbl_specifyPermissions',
                             icon: 'fa-brands fa-speaker-deck',
                             route:"app-specify-permissions"
-                        }
+                        },
+                        {
+                          label: 'lbl_usersActions',
+                          icon: 'fa-brands fa-artstation',
+                          route:"app-users-action"
+                      }
                     ]
                 }
             ]

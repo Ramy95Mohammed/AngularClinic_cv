@@ -18,4 +18,8 @@ export class SharedDataService {
   {
     return this.httpClient.get(environment.apiUrl+"SharedData/pageCategoriesData");
   }
+  getUserActionsProcessTypesData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl+"SharedData/userActionsProcessTypesData");
+  }
 }

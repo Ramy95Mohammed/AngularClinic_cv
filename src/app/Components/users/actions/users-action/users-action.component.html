@@ -1,0 +1,146 @@
+<div class="card" >
+    <p-toolbar styleClass="mb-4 gap-2" >
+        <ng-template pTemplate="left">            
+            <app-custom-new-btn  severity="success" [label]= "_localizeServe.getLabelValue('lbl_new')"  (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn>
+            <app-custom-delete-btn (onBtnDeleteClick)="showConfirmDialog()"></app-custom-delete-btn>
+                 <app-custom-print-btn ></app-custom-print-btn>
+        </ng-template>
+
+        <ng-template pTemplate="right" >
+           
+        </ng-template>
+    </p-toolbar>
+<p-table 
+        
+        #dtActions
+        [value]="usersActionsData"
+    [rowHover]="true"
+    [scrollable]="true" 
+    scrollHeight="600px" 
+    [tableStyle]="{'min-width': '50rem'}"
+    [showCurrentPageReport]="true"
+    
+    >
+    <ng-template pTemplate="caption">
+        <div class="row" >
+            <div class="col-md-2 mb-4 mt-2">
+                <p-button [outlined]="true" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dtActions.reset()" />
+            </div>
+            <div class="col-md-2 mb-4 mt-2">
+            <p-iconField iconPosition="left" class="w-100">
+                <p-inputIcon class="w-100">
+                    <i class="pi pi-search"></i>
+                </p-inputIcon>
+                <input pInputText type="text" class="w-100"
+                [(ngModel)]="txtSearch"
+                (input)="getDataOnParamsChanges()" 
+                  [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
+            </p-iconField>
+        </div>
+        <div class="col-md-2 mb-4 mt-2">
+
+            <p-floatLabel  [class]="'w-100'"  dir="ltr">
+                <p-dropdown  
+                [(ngModel)]="entityStateSearch"
+                (onChange)="getDataOnParamsChanges()"
+                [options]="userActionsProcessTypesData"
+                optionLabel="value" 
+                optionValue="key"
+                    #actionProcessType                                       
+                    [showClear]="true"
+                   inputId="process-Type"
+                    [placeholder]="_localizeServe.getLabelValue('lbl_choose')"  />
+            <label  for="process-Type" >{{_localizeServe.getLabelValue('lbl_processType')}}</label>
+        </p-floatLabel>
+    </div>
+
+    <div class="col-md-3 mb-4 mt-2">
+
+        <p-floatLabel  [class]="'w-100'"  dir="ltr">
+            <p-calendar 
+            [(ngModel)]="dateFromSearch"
+            (onClose)="getDataOnParamsChanges()"
+            styleClass="w-100"
+            dateFormat="yy-mm-dd"
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                [showButtonBar]="true"
+                inputId="date-From" />
+        <label  for="date-From" >{{_localizeServe.getLabelValue('lbl_startDate')}}</label>
+    </p-floatLabel>
+    </div>
+
+    <div class="col-md-3 mb-4 mt-2">
+
+        <p-floatLabel  [class]="'w-100'"  dir="ltr">
+            <p-calendar 
+            [(ngModel)]="dateToSearch"
+            (onClose)="getDataOnParamsChanges()"
+            styleClass="w-100"
+            dateFormat="yy-mm-dd"
+                [iconDisplay]="'input'" 
+                [showButtonBar]="true"
+                [showIcon]="true" 
+                inputId="date-To" />
+        <label  for="date-To" >{{_localizeServe.getLabelValue('lbl_endDate')}}</label>
+    </p-floatLabel>
+    </div>
+        </div>
+    </ng-template>
+        <ng-template pTemplate="header" >
+          
+            <tr >
+               
+                <th pSortableColumn="pageArName" class="text-center">{{_localizeServe.getLabelValue('lbl_page')}} <p-sortIcon field="pageArName" /></th>
+                <th pSortableColumn="displayName" class="text-center">{{_localizeServe.getLabelValue('lbl_userName')}} <p-sortIcon field="displayName" /></th>
+                <th pSortableColumn="formattedUpdatedTime" class="text-center">{{_localizeServe.getLabelValue('lbl_time')}} <p-sortIcon field="formattedUpdatedTime" /></th>
+                <th pSortableColumn="formattedUpdatedDate" class="text-center">{{_localizeServe.getLabelValue('lbl_date')}} <p-sortIcon field="formattedUpdatedDate" /></th>
+                <th pSortableColumn="entityState" class="text-center">{{_localizeServe.getLabelValue('lbl_processType')}} <p-sortIcon field="entityState" /></th>
+                <th pSortableColumn="tableName" class="text-center">{{_localizeServe.getLabelValue('lbl_table')}} <p-sortIcon field="tableName" /></th>
+                <th pSortableColumn="entityId" class="text-center">{{_localizeServe.getLabelValue('lbl_recordNumber')}} <p-sortIcon field="entityId" /></th>
+                <th   class="text-center">
+                    <label for="checkAll" class="mx-2 cursor-pointer">{{_localizeServe.getLabelValue('lbl_delete')}}</label>
+                    <p-checkbox inputId="checkAll" [binary]="true" (onChange)="checkAllusersActions($event)" /></th>
+
+            </tr>
+       
+        </ng-template>
+
+ 
+ 
+
+        <ng-template  pTemplate="body" let-action > 
+         
+            <tr> 
+                <th hidden><input  type="text" pInputText [(ngModel)]="action.keyId" /></th>
+                <td class="text-center"><input [disabled]="true"  type="text" pInputText [(ngModel)]="action.pageArName" /></td>
+                <td class="text-center"><input [disabled]="true"  type="text" pInputText [(ngModel)]="action.displayName" /></td>                
+                <td class="text-center"><p-calendar [disabled]="true" [showIcon]="true" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" dateFormat="hh:mm:ss a" [(ngModel)]="action.formattedUpdatedTime"></p-calendar>
+                  </td> 
+                <td class="text-center"><p-calendar   [disabled]="true" [showIcon]="true"  dateFormat="yy-mm-dd"  [(ngModel)]="action.formattedUpdatedDate" /></td>
+                <td class="text-center">  <p-dropdown  
+                    [options]="userActionsProcessTypesData"
+                    optionLabel="value" 
+                    optionValue="key"
+                       [(ngModel)] = "action.entityState"
+                       [disabled]="true"
+                         /></td>
+                         <td class="text-center"><input [disabled]="true"  type="text" pInputText [(ngModel)]="action.tableName" /></td>      
+                         <td class="text-center"><input [disabled]="true"  type="text" pInputText [(ngModel)]="action.entityId" /></td>      
+                         <td class="text-center"> <p-checkbox [(ngModel)]="action.actionToDelete" [binary]="true"  /></td>
+
+            </tr>
+        </ng-template> 
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+            <p-paginator (onPageChange)="getDataOnParamsChanges()"  dropdownAppendTo="body" [showCurrentPageReport]="true"  currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} " dir="ltr" #paginatorRef  [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
+            </div> 
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+            </tr>
+        </ng-template>
+</p-table>
+<app-custom-confirm-dialog (onConfirm)="deleteSelectedUsersActions()" #ConfirmDialog></app-custom-confirm-dialog>
+</div>

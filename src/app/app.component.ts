@@ -17,15 +17,24 @@ import { finalize } from 'rxjs/operators';
 import { SlideBarComponent } from './Components/slideBar/slide-bar/slide-bar.component';
 import { Sidebar } from 'primeng/sidebar';
 import { CsrfService } from './services/sharedData/csrf.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ImportsModule , NavBarComponent ,SlideBarComponent],
+  imports: [ImportsModule, NavBarComponent, SlideBarComponent],
   providers:[MessageService],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss' 
+  styleUrl: './app.component.scss' ,
+  animations: [
+    trigger('routeAnimations', [
+      transition('* <=> *', [
+        style({ opacity: 0 }),
+        animate('0.7s ease-in-out', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class AppComponent implements OnInit{
   title = 'Prime x';
@@ -33,12 +42,15 @@ export class AppComponent implements OnInit{
   isLoading: boolean = true;  
 
   @ViewChild(SlideBarComponent) sideBarComponent!: SlideBarComponent;
-
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
 constructor(private themeSerivce:ThemeService , private localizeServ:LocalizeService ,private csrfService: CsrfService)
 {
 
 }
 ngOnInit(): void {
+   this.changeTheme('luna-blue'); 
   this.getLocalizeData();
   //this.setCSRFConfig();
   this.setReportColors();
@@ -52,7 +64,7 @@ changeTheme(theme:string)
   getLocalizeData()
  {
   try {
-    this.changeTheme('luna-blue'); 
+   
     let userLang = localStorage.getItem('userLanguage')??'en-US';
     
       this.localizeServ.getLocalizeData().subscribe((data)=>{
