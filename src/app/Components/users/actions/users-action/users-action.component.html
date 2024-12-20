@@ -1,9 +1,20 @@
 <div class="card" >
     <p-toolbar styleClass="mb-4 gap-2" >
         <ng-template pTemplate="left">            
-            <app-custom-new-btn  severity="success" [label]= "_localizeServe.getLabelValue('lbl_new')"  (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn>
-            <app-custom-delete-btn (onBtnDeleteClick)="showConfirmDialog()"></app-custom-delete-btn>
-                 <app-custom-print-btn ></app-custom-print-btn>
+            <app-custom-new-btn [ControllerName]="ControllerName" severity="success" [label]= "_localizeServe.getLabelValue('lbl_new')"  (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn>
+            <app-custom-delete-btn [ControllerName]="ControllerName" (onBtnDeleteClick)="showConfirmDialog()"></app-custom-delete-btn>
+                 <app-custom-print-btn [ControllerName]="ControllerName" (onBtnPrintClick)="printUsersActionData()"></app-custom-print-btn>
+                    <div class="flex align-items-center gap-1 mx-2  cursor-pointer" >
+                        
+                        <label for="printAll" pInputText  class="cursor-pointer border-0 bg-transparent">{{_localizeServe.getLabelValue('lbl_printAll')}}</label>
+                    
+                    <p-checkbox 
+                    name="printAll"                                     
+                    [binary]="true"
+                    [(ngModel)]="printAll"                    
+                    inputId="printAll" />
+                    </div>
+
         </ng-template>
 
         <ng-template pTemplate="right" >
@@ -59,7 +70,8 @@
         <p-floatLabel  [class]="'w-100'"  dir="ltr">
             <p-calendar 
             [(ngModel)]="dateFromSearch"
-            (onClose)="getDataOnParamsChanges()"
+            (onSelect)="getDataOnParamsChanges()"
+            (onClearClick)="getDataOnParamsChanges()"
             styleClass="w-100"
             dateFormat="yy-mm-dd"
                 [iconDisplay]="'input'" 
@@ -75,7 +87,8 @@
         <p-floatLabel  [class]="'w-100'"  dir="ltr">
             <p-calendar 
             [(ngModel)]="dateToSearch"
-            (onClose)="getDataOnParamsChanges()"
+            (onSelect)="getDataOnParamsChanges()"
+            (onClearClick)="getDataOnParamsChanges()"
             styleClass="w-100"
             dateFormat="yy-mm-dd"
                 [iconDisplay]="'input'" 

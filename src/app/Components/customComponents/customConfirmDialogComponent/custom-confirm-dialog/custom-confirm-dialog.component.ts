@@ -14,6 +14,7 @@ import { Toast, ToastModule, ToastPositionType } from 'primeng/toast';
 })
 export class CustomConfirmDialogComponent {
       toastPosition:ToastPositionType  = 'bottom-right';
+      @Input() ControllerName:string = '';
       position:any;
           constructor(private confirmationService:ConfirmationService, private messageService: MessageService,private _localizeServe:LocalizeService ) {
            

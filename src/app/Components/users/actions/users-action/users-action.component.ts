@@ -11,6 +11,9 @@ import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { CustomConfirmDialogComponent } from "../../../customComponents/customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component";
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { MessageService } from 'primeng/api';
+import { Title } from '@angular/platform-browser';
+import { PrintService } from '../../../../services/printingservice/print.service';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-users-action',
@@ -28,13 +31,22 @@ export class UsersActionComponent implements OnInit{
   entityStateSearch:number | null = null;
   dateFromSearch:Date | null = null;
   dateToSearch:Date | null = null;
+  printAll:boolean = false;
+  userActionForm:FormGroup;
+  ControllerName:string='UserActions';
+  usersActionsDataFormArray:FormArray<any>;
   @ViewChild('paginatorRef') paginatorRef!:Paginator;
   @ViewChild('ConfirmDialog') ConfirmDialog!:CustomConfirmDialogComponent;
-  constructor(localoizeServ:LocalizeService , private sharedServ:SharedDataService , private usersActionsServ:UsersActionsService,private messageService: MessageService)
+  constructor(localoizeServ:LocalizeService , private sharedServ:SharedDataService , private usersActionsServ:UsersActionsService,private messageService: MessageService,private titleService:Title ,private printServ:PrintService)
   {
    this._localizeServe = localoizeServ;
+   this.userActionForm = this.inituserActionForm();
+   this.usersActionsDataFormArray = new FormArray<any>([this.initUsersActionsDataFormArray(null)])
   }
   ngOnInit(): void {
+    let title=this._localizeServe.getLabelValue('lbl_usersActions');
+    if( title !='')
+    this.titleService.setTitle(title );
     this.getUserActionsProcessTypesData();
     this.getUsersActionsData(1,10,this.txtSearch , null );
     
@@ -45,6 +57,39 @@ export class UsersActionComponent implements OnInit{
     this.sharedServ.getUserActionsProcessTypesData().subscribe((data)=>{
       this.userActionsProcessTypesData = data;
     });
+  }
+
+  inituserActionForm():FormGroup
+  {
+    return new FormGroup({
+      printAll:new FormControl(),
+      usersActionsData:new FormArray<any>([])
+    });
+  }
+  
+  getusersActionsDataFromArray():FormArray
+  {
+    return this.userActionForm.get('usersActionsData') as FormArray;
+  }
+
+  initUsersActionsDataFormArray(act:any):FormGroup
+  {
+         return new FormGroup({
+          keyId:new FormControl(act?.keyId??0),
+          controllerName:new FormControl(act?.controllerName??""),
+          pageId:new FormControl(act?.pageId??0),
+          actionName:new FormControl(act?.actionName??""),
+          entityState:new FormControl(act?.entityState??0),
+          displayName:new FormControl(act?.displayName??""),
+          entityId:new FormControl(act?.entityId??0),
+          tableName:new FormControl(act?.tableName??""),
+          pageArName:new FormControl(act?.pageArName??""),  
+          actionToDelete:new FormControl(act?.actionToDelete??false),
+          formattedUpdatedTime:new FormControl(act?.formattedUpdatedTime??""),
+          formattedUpdatedDate:new FormControl(act?.formattedUpdatedDate??""),
+          updatedTime:new FormControl(act?.updatedTime??null),
+          updateDate:new FormControl(act?.updateDate??null)
+         })
   }
 
   getUsersActionsData(pageIndex:number , pageSize:number,searchValue:string|null,sort:string | null,entityState:any = null,dateFrom:any = null
@@ -91,6 +136,12 @@ export class UsersActionComponent implements OnInit{
         this.usersActionsData.forEach(x=> x.actionToDelete = event.checked);
     }
 
+
+    checkPrintAllusersActions(event:CheckboxChangeEvent )
+    {
+        this.printAll = event.checked;
+    }
+
     showConfirmDialog()
     {
        this.ConfirmDialog.showDialog('lbl_sureToDelete' , 'lbl_confirm' , 'lbl_Ok' , 'lbl_cancel');   
@@ -121,5 +172,16 @@ export class UsersActionComponent implements OnInit{
       this.dateFromSearch = null;
       this.dateToSearch= null;
      this.getDataOnParamsChanges()
+    }
+
+    printUsersActionData()
+    {
+      this.userActionForm.get('printAll')?.setValue(this.printAll);
+      
+      this.usersActionsData.forEach((userAction, index) => {
+        this.getusersActionsDataFromArray().setControl(index , this.initUsersActionsDataFormArray(userAction));
+      });
+      
+      this.printServ.generateReportWithBody("UserActions" , this.userActionForm.value , this._localizeServe.getLabelValue('lbl_usersActionsReport'));
     }
 }

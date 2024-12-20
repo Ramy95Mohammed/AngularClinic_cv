@@ -12,6 +12,6 @@ import { errorHandlerInterceptor } from './error-handler.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),provideClientHydration(), provideAnimationsAsync() ,provideHttpClient(withFetch()) ,
-     provideHttpClient(withInterceptors([authInterceptor , errorHandlerInterceptor]))],
+     provideHttpClient(withInterceptors([authInterceptor ]))],
      
 };

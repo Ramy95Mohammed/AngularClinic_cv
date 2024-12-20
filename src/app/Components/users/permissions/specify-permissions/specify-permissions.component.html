@@ -1,36 +1,31 @@
 <form [formGroup]="permssionsSpecForm">
 
-<div class="row mt-3">
-   <div class="col-md-6 mb-2">
-      <input hidden  formControlName="keyId" type="text" pInputText    />
-    <p-floatLabel  >
-        <input class="w-100" id="profileName" formControlName="profileName" type="text" pInputText    />
-        <label for="profileName"  dir="ltr" class="w-100">{{_localizeServ.getLabelValue('lbl_name')}}</label>
-    </p-floatLabel>
-    <p *ngIf="permssionsSpecForm.get('profileName')?.getError('required') && permssionsSpecForm.get('profileName')?.touched" class="text-danger mx-1">*</p>
-    <p *ngIf="permssionsSpecForm.get('profileName')?.getError('pattern') && permssionsSpecForm.get('profileName')?.valueChanges" class="text-danger mx-1">*</p>
+   <div class="row mt-3">
+      <div class="col-md-6 mb-2">
+         <input hidden formControlName="keyId" type="text" pInputText />
+         <p-floatLabel>
+            <input class="w-100" id="profileName" formControlName="profileName" type="text" pInputText />
+            <label for="profileName" dir="ltr" class="w-100">{{_localizeServ.getLabelValue('lbl_name')}}</label>
+         </p-floatLabel>
+         <p *ngIf="permssionsSpecForm.get('profileName')?.getError('required') && permssionsSpecForm.get('profileName')?.touched"
+            class="text-danger mx-1">*</p>
+         <p *ngIf="permssionsSpecForm.get('profileName')?.getError('pattern') && permssionsSpecForm.get('profileName')?.valueChanges"
+            class="text-danger mx-1">*</p>
+      </div>
+
+      <div class="col-12">
+
+         <app-shared-permissions-specifications-ui (onRowBtnEditClick)="getPermissionMasterAndDetailsToEdit()"
+            (onBtnSaveClick)="saveNewPermissionMasterWithDetails()"
+            (onBtnEditClick)="updatePermissionMasterAndDetails()"
+            (onRowBtnDeleteClick)="deletePermissionMasterAndDetals()"
+            (onBtnImportClick)="getPermissionMasterAndDetailsToEdit()" (onBtnPrintClick)="printPermissionsWithDetails()"
+            #app_shared_permissions [data]="permissions" [userWithoutPermissionsData]="userWithoutPermissionsData"
+            [usersHavePermissions]="usersHavePermissions"
+            (onBtnNewClick)="openNew()"></app-shared-permissions-specifications-ui>
+      </div>
+
    </div>
-  
-   <div class="col-12">
-
-    <app-shared-permissions-specifications-ui
-    (onRowBtnEditClick)="getPermissionMasterAndDetailsToEdit()"
-    (onBtnSaveClick)="saveNewPermissionMasterWithDetails()"
-    (onBtnEditClick)="updatePermissionMasterAndDetails()"
-    (onRowBtnDeleteClick)="deletePermissionMasterAndDetals()"
-    (onBtnImportClick)="getPermissionMasterAndDetailsToEdit()"
-    (onBtnPrintClick)="printPermissionsWithDetails()"
-    
-    #app_shared_permissions
-    [data]="permissions"
-    [userWithoutPermissionsData]="userWithoutPermissionsData"
-    [usersHavePermissions]="usersHavePermissions"
-    (onBtnNewClick)="openNew()"
-    
- ></app-shared-permissions-specifications-ui>
-   </div>
-   
-</div>
 
 
-</form> 
+</form>

@@ -15,73 +15,70 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [ImportsModule, CustomDialogComponent, CustomConfirmDialogComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomNewBtnComponent], 
-templateUrl: './section.component.html',
+  imports: [ImportsModule, CustomDialogComponent, CustomConfirmDialogComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomNewBtnComponent],
+  templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
 export class SectionComponent implements OnInit {
+  ControllerName: string = 'Sections';
+  sections: any[] = [];
+  _localizeServe: LocalizeService;
+  first = 0;
+  rows = 10;
+  txtSearch: string = ""
+  totalRecords: number = 10;
+  sectionsDialog: boolean = false;
+  @ViewChild('sectionCustomDialog') sectionCustomDialog!: CustomDialogComponent;
+  @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
 
-  sections:any[] = [];
- _localizeServe:LocalizeService;
- first = 0;
- rows = 10;
- txtSearch:string=""
- totalRecords:number = 10;
- sectionsDialog: boolean = false;
-@ViewChild('sectionCustomDialog') sectionCustomDialog!:CustomDialogComponent;
-@ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent; 
- 
-  constructor(private sectionsServ:SectionsService , localizeServ:LocalizeService ,private titleService:Title )
-  {
-      this._localizeServe = localizeServ;
+  constructor(private sectionsServ: SectionsService, localizeServ: LocalizeService, private titleService: Title) {
+    this._localizeServe = localizeServ;
   }
   ngOnInit(): void {
-    let title=this._localizeServe.getLabelValue('lbl_showSections');
-    if( title !='')
-    this.titleService.setTitle(title );
-   this.getSectionsData(1 , 10 , "" , null);
+    let title = this._localizeServe.getLabelValue('lbl_showSections');
+    if (title != '')
+      this.titleService.setTitle(title);
+    this.getSectionsData(1, 10, "", null);
   }
 
-  getSectionsData(pageIndex:number , pageSize:number,searchValue:string,sort:string | null)
-  {
-    this.sectionsServ.getSectionsData(pageIndex,pageSize,searchValue,sort).subscribe((data)=>{
+  getSectionsData(pageIndex: number, pageSize: number, searchValue: string, sort: string | null) {
+    this.sectionsServ.getSectionsData(pageIndex, pageSize, searchValue, sort).subscribe((data) => {
       this.sections = data.data;
       this.totalRecords = data.count;
-    },(error)=>{});
+    }, (error) => { });
   }
-  onPageChange(event:any)
-  {
-    let pageIndex:number=0;
-    if(event.first==0)pageIndex=event.first+1;
-    else 
-    pageIndex = (event.first / event.rows) +1;
-     this.getSectionsData(pageIndex,event.rows , this.txtSearch , null);     
-     
-     console.log(event.rows);
-  } 
+  onPageChange(event: any) {
+    let pageIndex: number = 0;
+    if (event.first == 0) pageIndex = event.first + 1;
+    else
+      pageIndex = (event.first / event.rows) + 1;
+    this.getSectionsData(pageIndex, event.rows, this.txtSearch, null);
 
-  openNew() {   
+    console.log(event.rows);
+  }
+
+  openNew() {
     this.sectionCustomDialog.saveOrEdit = true;
     this.sectionCustomDialog.header = this._localizeServe.getLabelValue('lbl_addSection');
     this.sectionsDialog = true;
-}
+  }
 
-hideDialog() {
-  this.sectionsDialog = false;
-}
+  hideDialog() {
+    this.sectionsDialog = false;
+  }
 
-deleteProduct() {  
+  deleteProduct() {
 
-  this.customDeleteDialog.showDialog('lbl_sureToDelete' , 'lbl_confirm' , 'lbl_yes' , 'lbl_no');
-  
-}
-      editProduct() {
-        this.sectionCustomDialog.header = this._localizeServe.getLabelValue('lbl_editSection');
-        this.sectionCustomDialog.saveOrEdit = false;
-        this.sectionsDialog = true;
-      }
+    this.customDeleteDialog.showDialog('lbl_sureToDelete', 'lbl_confirm', 'lbl_yes', 'lbl_no');
 
-      // Define the method that should be executed when "Save" is clicked
+  }
+  editProduct() {
+    this.sectionCustomDialog.header = this._localizeServe.getLabelValue('lbl_editSection');
+    this.sectionCustomDialog.saveOrEdit = false;
+    this.sectionsDialog = true;
+  }
+
+  // Define the method that should be executed when "Save" is clicked
   onSave(): void {
     console.log('Save button clicked from Parent! Save');
     // Add any additional logic for Save here
@@ -91,9 +88,8 @@ deleteProduct() {
     console.log('Save button clicked from Parent! Edit');
     // Add any additional logic for Save here
   }
-  test()
-  {
+  test() {
     console.log('Delete from parent');
   }
-      
+
 }

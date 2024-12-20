@@ -70,6 +70,7 @@ export class UsersActionsService {
         headers:new HttpHeaders({
           'Content-Type': 'application/json'
         }),
+        
         body: selectedUsersActions
      } );
   }

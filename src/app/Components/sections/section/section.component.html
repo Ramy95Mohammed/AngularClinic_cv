@@ -1,71 +1,75 @@
 <div class="card">
-    <p-toolbar styleClass="mb-4 gap-2" >
+    <p-toolbar styleClass="mb-4 gap-2">
         <ng-template pTemplate="left">
-                 <app-custom-new-btn  severity="success" [label]= "_localizeServe.getLabelValue('lbl_new')"    icon="pi pi-plus" (onBtnNewClick)="openNew()" ></app-custom-new-btn>
+            <app-custom-new-btn [ControllerName]="ControllerName" severity="success"
+                [label]="_localizeServe.getLabelValue('lbl_new')" icon="pi pi-plus"
+                (onBtnNewClick)="openNew()"></app-custom-new-btn>
         </ng-template>
 
         <ng-template pTemplate="right">
-           
+
         </ng-template>
     </p-toolbar>
-<p-table 
-        #dt
-    [value]="sections" 
-    [rowHover]="true"
-    [scrollable]="true" 
-    scrollHeight="600px" 
-    [tableStyle]="{'min-width': '50rem'}"
-    [showCurrentPageReport]="true"
-    
-    >
-    <ng-template pTemplate="caption">
-        <div class="flex justify-content-between" >
-            <p-button [outlined]="true" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dt.reset()" />
-            <p-iconField iconPosition="left">
-                <p-inputIcon>
-                    <i class="pi pi-search"></i>
-                </p-inputIcon>
-                <input pInputText type="text" [(ngModel)]="txtSearch" (input)="getSectionsData(1 , 10 , txtSearch , null)" [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-            </p-iconField>
-        </div>
-    </ng-template>
-        <ng-template pTemplate="header" >
-            <tr >
+    <p-table #dt [value]="sections" [rowHover]="true" [scrollable]="true" scrollHeight="600px"
+        [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between">
+                <p-button [outlined]="true" icon="pi pi-filter-slash"
+                    [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dt.reset()" />
+                <p-iconField iconPosition="left">
+                    <p-inputIcon>
+                        <i class="pi pi-search"></i>
+                    </p-inputIcon>
+                    <input pInputText type="text" [(ngModel)]="txtSearch"
+                        (input)="getSectionsData(1 , 10 , txtSearch , null)"
+                        [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
+                </p-iconField>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
                 <th class="text-center">#</th>
-                <th pSortableColumn="name" class="text-center">{{_localizeServe.getLabelValue('lbl_sectionName')}} <p-sortIcon field="name" /></th>
-                <th pSortableColumn="formattedUpdatedDate"  class="text-center">{{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" /></th>
+                <th pSortableColumn="name" class="text-center">{{_localizeServe.getLabelValue('lbl_sectionName')}}
+                    <p-sortIcon field="name" /></th>
+                <th pSortableColumn="formattedUpdatedDate" class="text-center">
+                    {{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" /></th>
                 <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-section >
-            <tr >
+        <ng-template pTemplate="body" let-section>
+            <tr>
                 <td class="text-center">{{section.keyId}}</td>
                 <td class="text-center">{{section.name}}</td>
                 <td class="text-center">{{section.formattedUpdatedDate}}</td>
                 <td class="text-center">
                     <div dir="ltr">
-                        <app-custom-edit-btn  (onBtnEditClick)="editProduct()"></app-custom-edit-btn>
-                        <app-custom-delete-btn (onBtnDeleteClick)="deleteProduct()"></app-custom-delete-btn> 
-                   
+                        <app-custom-edit-btn [ControllerName]="ControllerName"
+                            (onBtnEditClick)="editProduct()"></app-custom-edit-btn>
+                        <app-custom-delete-btn [ControllerName]="ControllerName"
+                            (onBtnDeleteClick)="deleteProduct()"></app-custom-delete-btn>
+
                     </div>
                 </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-            <p-paginator    dropdownAppendTo="body" [showCurrentPageReport]="true"  currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} " dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
-            </div> 
+                <p-paginator dropdownAppendTo="body" [showCurrentPageReport]="true"
+                    currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} "
+                    dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10"
+                    [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
+            </div>
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>
                 <td colspan="4">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
             </tr>
         </ng-template>
-</p-table>
+    </p-table>
 
 
 
-<!-- <p-dialog 
+    <!-- <p-dialog 
 #sectionsP_Dialog
 [(visible)]="sectionsDialog" 
 [style]="{ width: '450px' }" 
@@ -88,22 +92,16 @@ styleClass="p-fluid" >
     </ng-template>
 </p-dialog> -->
 
-<app-custom-dialog  
-  #sectionCustomDialog
-  [visible]="sectionsDialog"
-  [width]="'50vw'" 
-  (onClose)="hideDialog()"
-   [onSave]="onSave"  
-  [onEdit]="onEdit"
-  >
-     
-  <!-- Pass dynamic content to the dialog using ng-template -->
-  <ng-template #dialogContent>
-    <p>Here is some dynamic content for the dialog.</p>
-  </ng-template>
+    <app-custom-dialog #sectionCustomDialog [visible]="sectionsDialog" [width]="'50vw'" (onClose)="hideDialog()"
+        [onSave]="onSave" [onEdit]="onEdit">
 
-</app-custom-dialog>
+        <!-- Pass dynamic content to the dialog using ng-template -->
+        <ng-template #dialogContent>
+            <p>Here is some dynamic content for the dialog.</p>
+        </ng-template>
 
-<app-custom-confirm-dialog #customDeleteDialog (onConfirm)="test()"></app-custom-confirm-dialog>
+    </app-custom-dialog>
+
+    <app-custom-confirm-dialog #customDeleteDialog (onConfirm)="test()"></app-custom-confirm-dialog>
 
 </div>
