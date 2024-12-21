@@ -14,12 +14,12 @@ import { Toast, ToastModule, ToastPositionType } from 'primeng/toast';
 })
 export class CustomConfirmDialogComponent {
       toastPosition:ToastPositionType  = 'bottom-right';
-      @Input() ControllerName:string = '';
+      @Input() ControllerName:string = '';      
       position:any;
           constructor(private confirmationService:ConfirmationService, private messageService: MessageService,private _localizeServe:LocalizeService ) {
            
     }
-    showDialog(message:string , headerMsg:string , acceptLabel:string , rejectLabel:string)
+    showDialog(message:string , headerMsg:string , acceptLabel:string , rejectLabel:string , showAcceptLabel:boolean = true)
     {
       this.getLayoutDirection();
       this.confirmationService.confirm({
@@ -27,6 +27,7 @@ export class CustomConfirmDialogComponent {
         header: this._localizeServe.getLabelValue(headerMsg),
          acceptLabel:this._localizeServe.getLabelValue(acceptLabel),
          rejectLabel:this._localizeServe.getLabelValue(rejectLabel),
+         acceptVisible:showAcceptLabel,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
             //check user permissions

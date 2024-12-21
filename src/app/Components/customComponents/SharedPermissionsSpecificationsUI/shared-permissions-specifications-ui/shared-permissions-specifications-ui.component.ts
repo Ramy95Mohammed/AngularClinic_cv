@@ -17,11 +17,12 @@ import { Paginator } from 'primeng/paginator';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { Table } from 'primeng/table';
 import { CustomPrintBtnComponent } from "../../customPrintBtn/custom-print-btn/custom-print-btn.component";
+import { CustomSearchFilterInputComponent } from "../../customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
 
 @Component({
   selector: 'app-shared-permissions-specifications-ui',
   standalone: true,
-  imports: [ImportsModule, CustomDialogComponent, CustomSearchBtnComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomConfirmDialogComponent, CustomSaveBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent],
+  imports: [ImportsModule, CustomDialogComponent, CustomSearchBtnComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomConfirmDialogComponent, CustomSaveBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomSearchFilterInputComponent],
   templateUrl: './shared-permissions-specifications-ui.component.html',
   styleUrl: './shared-permissions-specifications-ui.component.scss'
 })
@@ -123,8 +124,9 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
   }
 
   getByFiltering() {
+    
     const searchTerm = this.txtSearchSherdPermissions.trim().toLowerCase();
-
+    console.log(searchTerm);
     this.data.forEach(s => {
       const matchesUserControllerName = s.userControllerName.toLowerCase().includes(searchTerm) || searchTerm == '';
       const matchesPageCategoryName = s.pageCategoryName.toLowerCase().includes(searchTerm) || searchTerm == '';

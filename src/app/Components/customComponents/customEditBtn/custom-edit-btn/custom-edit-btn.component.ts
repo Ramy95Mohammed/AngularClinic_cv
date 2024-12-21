@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, input } from '@angular/core';
 import { Button, ButtonModule } from 'primeng/button';
 import { CheckUserPermissionService } from '../../../../services/users/permissions/check-user-permission.service';
+import { CustomConfirmDialogComponent } from '../../customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component';
 
 @Component({
   selector: 'app-custom-edit-btn',
   standalone: true,
-  imports: [ButtonModule],
+  imports: [ButtonModule, CustomConfirmDialogComponent],
   templateUrl: './custom-edit-btn.component.html',
   styleUrl: './custom-edit-btn.component.scss'
 })
@@ -20,12 +21,18 @@ export class CustomEditBtnComponent {
   @Input() text:boolean = false;
   @Input() outlined:boolean = true;
   @Input() ControllerName:string = '';
+  @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   onEdit()
   {
-    // if(this.checkUserPermissionServ.check(this.ControllerName , 1)){
-    //   alert('No Permission');
-    //   return;
-    //  }
-    this.onBtnEditClick.emit();
+    this.checkUserPermissionServ.check(this.ControllerName, 1).subscribe((res) => {
+      if (!res)
+      {
+        this.confirmDialog.showDialog('lbl_noPermissionForThisEvent','lbl_warning','','lbl_Ok' , false);
+      }
+      else{
+        this.onBtnEditClick.emit();
+      }
+    });
+   
   }
 }

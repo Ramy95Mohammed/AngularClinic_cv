@@ -17,7 +17,7 @@ export const authGuard: CanActivateFn = (route, state) => {
         if (res)
           return true;
         else {
-          alert('no permission');
+          _router.navigate(['/app-no-permission']);
           return false;
         }
       });

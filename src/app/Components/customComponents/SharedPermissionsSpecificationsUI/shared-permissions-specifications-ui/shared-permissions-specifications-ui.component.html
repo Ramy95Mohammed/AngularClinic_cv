@@ -38,10 +38,17 @@
                                 <p-inputIcon>
                                     <i class="pi pi-search"></i>
                                 </p-inputIcon>
+
+                               
                                 <input pInputText type="text" class="w-100" (input)="getByFiltering()"
                                     [(ngModel)]="txtSearchSherdPermissions"
                                     [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
                             </p-iconField>
+                            <!-- <app-custom-search-filter-input [ControllerName]="ControllerName"
+                            [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                            [txtSerach]="txtSearchSherdPermissions" (onSearchFilterInput)="getByFiltering()">
+
+                            </app-custom-search-filter-input> -->
                         </div>
                         <div class="col-md-6 mb-4 mt-2">
 

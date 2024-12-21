@@ -1,0 +1,12 @@
+
+<p-iconField iconPosition="left">
+    <p-inputIcon>
+        <i class="pi pi-search"></i>
+    </p-inputIcon>
+<input pInputText type="text" class="w-100" (input)="onInput()"
+[(ngModel)]="txtSerach"
+
+[placeholder]="txtPlaceHolder" />
+</p-iconField>
+
+<app-custom-confirm-dialog  #confirmDialog></app-custom-confirm-dialog>

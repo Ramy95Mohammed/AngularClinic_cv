@@ -8,6 +8,7 @@ import { SpecifyPermissionsComponent } from './Components/users/permissions/spec
 import { authGuard } from './auth.guard';
 import { passGuard } from './pass.guard';
 import { UsersActionComponent } from './Components/users/actions/users-action/users-action.component';
+import { NoPermissionComponent } from './Components/noPermissionComponent/no-permission/no-permission.component';
 
 export const routes: Routes = [
     {path:"" , pathMatch:"full" , component:HomeComponent},
@@ -35,6 +36,9 @@ export const routes: Routes = [
 },
     {path:"app-users-action" , canActivate:[authGuard], component:UsersActionComponent,
     data: { animation: 'app-users-action',
-    controller:'UserActions' } }
+    controller:'UserActions' } },
+    {path:"app-no-permission" , canActivate:[authGuard], component:NoPermissionComponent,
+    data: { animation: 'app-no-permission'}
+}
 
 ];
