@@ -6,49 +6,55 @@
 
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-html{  font-size: 14px;}
-.hand-cursor{
-cursor: pointer;
+html {
+    font-size: 14px;
 }
-.z-2000
-{
+
+.hand-cursor {
+    cursor: pointer;
+}
+
+.z-2000 {
     z-index: 2000;
 }
-.z-1000
-{
+
+.z-1000 {
     z-index: 1000;
 }
-.mr-5{
+
+.mr-5 {
     margin-right: 50px;
 }
-.ml-5{
+
+.ml-5 {
     margin-left: 50px;
 }
-.w-80
-{
+
+.w-80 {
     width: 80%;
 }
-.w-85
-{
+
+.w-85 {
     width: 85%;
 }
-.w-90
-{
+
+.w-90 {
     width: 90%;
 }
-.w-91
-{
+
+.w-91 {
     width: 91%;
 }
-.p-sidebar
-{
+
+.p-sidebar {
     position: absolute !important;
-    height: calc(100vh - 70px); 
+    height: calc(100vh - 70px);
     margin-top: 70px;
 }
-body{
+
+body {
     overflow: hidden;
-    background-color: var(--panel-bg) ;
+    background-color: var(--panel-bg);
     height: 100vh;
     font-family: var(--font-family);
     font-weight: normal;
@@ -58,94 +64,98 @@ body{
 }
 
 .router-container {
-    height: calc(100vh - 110px); 
-    overflow-y: auto;  
+    height: calc(100vh - 110px);
+    overflow-y: auto;
     margin-top: 20px;
-     padding-top: 10px;
-    -webkit-overflow-scrolling: touch; 
-  }
+    padding-top: 10px;
+    -webkit-overflow-scrolling: touch;
+}
 
-  .max-height-dialog{
-    margin-top:70px !important;
-    max-height: calc(100vh - 70px); 
-  }
-  #mainLayout .p-card-body{
+.max-height-dialog {
+    margin-top: 70px !important;
+    max-height: calc(100vh - 70px);
+}
+
+#mainLayout .p-card-body {
     padding: 10px;
     padding-top: 20px;
-  }
+}
 
 @media (max-width: 575.98px) {
     .col-xs-11 {
         width: 91.666667%;
     }
-    .d-xs-none{
+
+    .d-xs-none {
         display: none;
     }
-  }
-  
-  .prime-Container .p-panel-header {
-    display: none;    
-  }
-
-.p-menubar{
- border-radius: 0 !important;
 }
-.no-border-rauis{
+
+.prime-Container .p-panel-header {
+    display: none;
+}
+
+.p-menubar {
     border-radius: 0 !important;
 }
-.borderRadius50{
+
+.no-border-rauis {
+    border-radius: 0 !important;
+}
+
+.borderRadius50 {
     border-radius: 50%;
 }
 
-p-menubar * , p-sidebar *{
+p-menubar *,
+p-sidebar * {
     text-decoration: none;
 }
 
 
-.p-dropdown 
-{width: 100%;}
-.full-height{
+.p-dropdown {
+    width: 100%;
+}
+
+.full-height {
     height: 100vh !important;
 }
 
-.z-top
-{
+.z-top {
     z-index: 99999999;
 }
 
-.pr-50px
-{
-      padding-right: 50px;
+.pr-50px {
+    padding-right: 50px;
 }
 
-.pl-50px
-{
-      padding-left: 50px;
+.pl-50px {
+    padding-left: 50px;
 }
 
 .themed-div {
-    background-color: var(--panel-bg);  
+    background-color: var(--panel-bg);
     color: var(--text-color);
     box-shadow: var(--box-shadow);
-  }
+}
 
 //   ::-webkit-scrollbar {
 //     width: 15px; /* Set scrollbar width */
 //     height: 12px; /* For horizontal scrollbar */
 //   }
-  
+
 //   /* Style the scrollbar track (background) */
 //   ::-webkit-scrollbar-track {
 //     background: var(--accent-color); /* Adjust to match theme */
 //   }
-  
+
 //   /* Style the scrollbar thumb (the draggable part) */
 //   ::-webkit-scrollbar-thumb {
 //     background-color: var(--primary-color); /* Adjust to match theme */
 //     border-radius: 10px;
 //     border: 3px solid var(--text-color); /* Optional: adds border around thumb */
 //   }
-  
+
 //   /* Hover effect for the thumb */
 //   ::-webkit-scrollbar-thumb:hover {
 //     background-color:var(--primary-color);
@@ -154,12 +164,17 @@ p-menubar * , p-sidebar *{
 //   }
 
 
-  .p-paginator{
+.p-paginator {
     direction: ltr;
 }
 
-p-confirmDialog .p-confirm-dialog-accept
-{
+p-confirmDialog .p-confirm-dialog-accept {
     margin-left: 5px;
     margin-right: 5px;
+}
+
+p-toolbar .p-toolbar{
+    margin-bottom: 0 !important;
+    gap: 0 !important;
+    border-radius: 0;
 }

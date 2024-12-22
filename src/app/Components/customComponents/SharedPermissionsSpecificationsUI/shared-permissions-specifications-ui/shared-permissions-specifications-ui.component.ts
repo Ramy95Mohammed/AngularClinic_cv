@@ -1,4 +1,4 @@
-import { Component, ContentChild, Input, TemplateRef, input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ContentChild, Input, TemplateRef, input, OnInit, Output, EventEmitter, ViewChild, viewChild } from '@angular/core';
 import { ImportsModule } from '../../../../app/imports';
 import { LocalizeService } from '../../../../services/localize/localize.service';
 import { CustomDialogComponent } from '../../customDialogComponent/custom-dialog/custom-dialog.component';
@@ -18,11 +18,13 @@ import { CheckboxChangeEvent } from 'primeng/checkbox';
 import { Table } from 'primeng/table';
 import { CustomPrintBtnComponent } from "../../customPrintBtn/custom-print-btn/custom-print-btn.component";
 import { CustomSearchFilterInputComponent } from "../../customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
+import { CustomSearchFilterDropDownComponent } from '../../customSearchFilterDropDown/custom-search-filter-drop-down/custom-search-filter-drop-down.component';
 
 @Component({
   selector: 'app-shared-permissions-specifications-ui',
   standalone: true,
-  imports: [ImportsModule, CustomDialogComponent, CustomSearchBtnComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomConfirmDialogComponent, CustomSaveBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomSearchFilterInputComponent],
+  imports: [ImportsModule, CustomDialogComponent, CustomSearchBtnComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomConfirmDialogComponent, CustomSaveBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomSearchFilterInputComponent,
+  CustomSearchFilterDropDownComponent],
   templateUrl: './shared-permissions-specifications-ui.component.html',
   styleUrl: './shared-permissions-specifications-ui.component.scss'
 })
@@ -39,12 +41,15 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
   @Input() userWithoutPermissionsData: any[] = [];
   @Input() usersHavePermissions: any[] = [];
 
-  @ViewChild('pagesCategoriesDropDown') pagesCategoriesDropDown!: Dropdown
+  @ViewChild('pagesCategoriesDropDown') pagesCategoriesDropDown!: CustomSearchFilterDropDownComponent
   @ViewChild('dtPermissions') dtPermissions!: Table
   @ViewChild('dtUsersWithoutPermissions') dtUsersWithoutPermissions!: Table
   @ViewChild('dtHavePermssions') dtHavePermssions!: Table
   @ViewChild('permissionsCustomDialog') permissionsCustomDialog!: CustomDialogComponent
   @ViewChild('paginatorRef') paginatorRef!: Paginator
+  @ViewChild('txtCustomtxtSearchSherdPermissions') txtCustomtxtSearchSherdPermissions!:CustomSearchFilterInputComponent;
+  @ViewChild('txtCustomSearchUsersWithoutPermissions') txtCustomSearchUsersWithoutPermissions!:CustomSearchFilterInputComponent;
+  @ViewChild('txtCustomSearchUsersHavePermission') txtCustomSearchUsersHavePermission!:CustomSearchFilterInputComponent;
   hideBtnEdit: boolean = true;
   @Input() ControllerName: string = 'PermissionsSpecification';
   @Input() emitBtnNewClickEvent: () => void = () => {
@@ -60,7 +65,8 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
   pagesCategoriesData: any[] = [];
   permissionMasterToEdit: number | null = null;
   permissionMasterToDelete: number | null = null;
-
+  txtSearchUsersWithoutPermissions:string='';
+  txtSearchUsersHavePermissions:string='';
 
   constructor(localizeServe: LocalizeService, private _sahredData: SharedDataService, private messageService: MessageService, private permissionsSpecificationServ: PermissionsSpecificationService) {
     this._localizeServe = localizeServe;
@@ -124,13 +130,11 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
   }
 
   getByFiltering() {
-    
-    const searchTerm = this.txtSearchSherdPermissions.trim().toLowerCase();
-    console.log(searchTerm);
+    const searchTerm = this.txtCustomtxtSearchSherdPermissions.txtSerach.trim().toLowerCase();
     this.data.forEach(s => {
       const matchesUserControllerName = s.userControllerName.toLowerCase().includes(searchTerm) || searchTerm == '';
       const matchesPageCategoryName = s.pageCategoryName.toLowerCase().includes(searchTerm) || searchTerm == '';
-      const filterByCategory = s.pageCategory == this.pagesCategoriesDropDown.value || this.pagesCategoriesDropDown.value == null;
+      const filterByCategory = s.pageCategory == this.pagesCategoriesDropDown.dropDownValue || this.pagesCategoriesDropDown.dropDownValue == null;
 
       s.isRowShown = (matchesUserControllerName || matchesPageCategoryName) && filterByCategory;
     });
@@ -199,12 +203,12 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
     this.onBtnPrintClick.emit();
   }
 
-  filterGlobalUsersWithoutPermissions(event: any) {
-    this.dtUsersWithoutPermissions.filterGlobal(event.target.value, 'contains')
+  filterGlobalUsersWithoutPermissions() {
+    this.dtUsersWithoutPermissions.filterGlobal(this.txtCustomSearchUsersWithoutPermissions.txtSerach, 'contains')
 
   }
-  filterGlobalUsersHavePermissions(event: any) {
-    this.dtHavePermssions.filterGlobal(event.target.value, 'contains')
+  filterGlobalUsersHavePermissions() {
+    this.dtHavePermssions.filterGlobal(this.txtCustomSearchUsersHavePermission.txtSerach, 'contains')
 
   }
 }

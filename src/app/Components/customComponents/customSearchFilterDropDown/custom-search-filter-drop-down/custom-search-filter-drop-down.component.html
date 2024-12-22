@@ -1,0 +1,13 @@
+<p-floatLabel [class]="'w-100'" dir="ltr">
+    <p-dropdown #pagesCategoriesDropDown [options]="dropDownData"
+        (onChange)="onChange()" [showClear]="showClear" [optionLabel]="optionLabel"
+        [optionValue]="optionValue" [inputId]="inputId"
+        [placeholder]="placeholder" 
+        [(ngModel)]="dropDownValue"
+        [ngModelOptions]="{standalone: true}"
+        />
+    <label
+        [for]="inputId">{{labelPlaceholder}}</label>
+</p-floatLabel>
+
+<app-custom-confirm-dialog  #confirmDialog></app-custom-confirm-dialog>

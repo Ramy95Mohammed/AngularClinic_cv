@@ -5,7 +5,7 @@
     </p-inputIcon>
 <input pInputText type="text" class="w-100" (input)="onInput()"
 [(ngModel)]="txtSerach"
-
+[ngModelOptions]="{standalone: true}"
 [placeholder]="txtPlaceHolder" />
 </p-iconField>
 

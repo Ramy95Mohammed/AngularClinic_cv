@@ -30,37 +30,29 @@
                     <div class="row">
                         <div class="col-md-2 mb-4 mt-2">
                             <p-button [outlined]="true" icon="pi pi-filter-slash"
+                            class="mr-2"
                                 [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dtPermissions.reset()" />
 
                         </div>
                         <div class="col-md-4 mb-4 mt-2">
-                            <p-iconField iconPosition="left">
-                                <p-inputIcon>
-                                    <i class="pi pi-search"></i>
-                                </p-inputIcon>
 
-                               
-                                <input pInputText type="text" class="w-100" (input)="getByFiltering()"
-                                    [(ngModel)]="txtSearchSherdPermissions"
-                                    [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-                            </p-iconField>
-                            <!-- <app-custom-search-filter-input [ControllerName]="ControllerName"
-                            [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
-                            [txtSerach]="txtSearchSherdPermissions" (onSearchFilterInput)="getByFiltering()">
+                            <app-custom-search-filter-input #txtCustomtxtSearchSherdPermissions
+                                [ControllerName]="ControllerName"
+                                [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                                [txtSerach]="txtSearchSherdPermissions" (onSearchFilterInput)="getByFiltering()">
 
-                            </app-custom-search-filter-input> -->
+                            </app-custom-search-filter-input>
                         </div>
                         <div class="col-md-6 mb-4 mt-2">
-
-                            <p-floatLabel [class]="'w-100'" dir="ltr">
-                                <p-dropdown #pagesCategoriesDropDown [options]="pagesCategoriesData"
-                                    (onChange)="getByFiltering()" [showClear]="true" optionLabel="value"
-                                    optionValue="key" inputId="userPolicy-label"
-                                    [placeholder]="_localizeServe.getLabelValue('lbl_choose')" />
-                                <label
-                                    for="userPolicy-label">{{_localizeServe.getLabelValue('lbl_pagesCategories')}}</label>
-                            </p-floatLabel>
+                     <app-custom-search-filter-drop-down #pagesCategoriesDropDown (onDropDownValueChanged)="getByFiltering()" 
+                     [dropDownData]="pagesCategoriesData" [optionValue]="'key'"
+                     [optionLabel]="'value'" [showClear]="true" [inputId]="'userPolicy-label'" [ControllerName]="ControllerName"
+                     [placeholder]="_localizeServe.getLabelValue('lbl_choose')"
+                     [labelPlaceholder]="_localizeServe.getLabelValue('lbl_pagesCategories')"
+                     ></app-custom-search-filter-drop-down>    
+                            
                         </div>
+                    
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -149,13 +141,13 @@
                         <p-button [outlined]="true" icon="pi pi-filter-slash"
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
                             (onClick)="dtUsersWithoutPermissions.reset()" />
-                        <p-iconField iconPosition="left">
-                            <p-inputIcon>
-                                <i class="pi pi-search"></i>
-                            </p-inputIcon>
-                            <input pInputText type="text" (input)="filterGlobalUsersWithoutPermissions($event)"
-                                [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-                        </p-iconField>
+                        <app-custom-search-filter-input #txtCustomSearchUsersWithoutPermissions
+                            [ControllerName]="ControllerName"
+                            [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                            [txtSerach]="txtSearchUsersWithoutPermissions"
+                            (onSearchFilterInput)="filterGlobalUsersWithoutPermissions()">
+
+                        </app-custom-search-filter-input>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -200,13 +192,13 @@
                         <p-button [outlined]="true" icon="pi pi-filter-slash"
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
                             (onClick)="dtUsersWithoutPermissions.reset()" />
-                        <p-iconField iconPosition="left">
-                            <p-inputIcon>
-                                <i class="pi pi-search"></i>
-                            </p-inputIcon>
-                            <input pInputText type="text" (input)="filterGlobalUsersHavePermissions($event)"
-                                [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-                        </p-iconField>
+                        <app-custom-search-filter-input #txtCustomSearchUsersHavePermission
+                            [ControllerName]="ControllerName"
+                            [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                            [txtSerach]="txtSearchUsersHavePermissions"
+                            (onSearchFilterInput)="filterGlobalUsersHavePermissions()">
+
+                        </app-custom-search-filter-input>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
@@ -273,7 +265,8 @@
                 <tr>
                     <th class="text-center">#</th>
                     <th pSortableColumn="profileName" class="text-center">{{_localizeServe.getLabelValue('lbl_name')}}
-                        <p-sortIcon field="profileName" /></th>
+                        <p-sortIcon field="profileName" />
+                    </th>
                     <th pSortableColumn="formattedUpdatedDate" class="text-center">
                         {{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" />
                     </th>

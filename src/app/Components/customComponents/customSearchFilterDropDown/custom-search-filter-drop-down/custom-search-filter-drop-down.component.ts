@@ -1,31 +1,32 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ImportsModule } from '../../../../app/imports';
 import { CheckUserPermissionService } from '../../../../services/users/permissions/check-user-permission.service';
 import { CustomConfirmDialogComponent } from "../../customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component";
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { ImportsModule } from '../../../../app/imports';
 
 @Component({
-  selector: 'app-custom-search-filter-input',
+  selector: 'app-custom-search-filter-drop-down',
   standalone: true,
-  imports: [ImportsModule, CustomConfirmDialogComponent],  
-  templateUrl: './custom-search-filter-input.component.html',
-  styleUrl: './custom-search-filter-input.component.scss'
+  imports: [ImportsModule, CustomConfirmDialogComponent],
+  templateUrl: './custom-search-filter-drop-down.component.html',
+  styleUrl: './custom-search-filter-drop-down.component.scss'
 })
-
-
-export class CustomSearchFilterInputComponent {
-  @Input() txtSerach:string = '';
-  @Input() txtPlaceHolder:string = '';
+export class CustomSearchFilterDropDownComponent {
   @Input() ControllerName:string = '';
-  @Output() onSearchFilterInput: EventEmitter<any> = new EventEmitter();
+  @Input() dropDownData:any[]=[];
+  @Input() optionLabel:any;
+  @Input() optionValue:any;
+  @Input() inputId:string='';
+  @Input() placeholder:string='';
+  @Input() labelPlaceholder:string='';
+  @Input() showClear:boolean=false;
+  dropDownValue:any;
+  @Output() onDropDownValueChanged: EventEmitter<any> = new EventEmitter();
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   constructor(private checkUserPermissionServ:CheckUserPermissionService)
   {
     
   }
-    onInput()
+  onChange()
     {
       this.checkUserPermissionServ.check(this.ControllerName, 4).subscribe((res) => {
         if (!res)
@@ -33,7 +34,7 @@ export class CustomSearchFilterInputComponent {
           this.confirmDialog.showDialog('lbl_noPermissionForThisEvent','lbl_warning','','lbl_Ok' , false);
         }
         else{
-          this.onSearchFilterInput.emit();
+          this.onDropDownValueChanged.emit();
         }
       }); 
     }
