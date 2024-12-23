@@ -38,36 +38,26 @@
                 <p-button [outlined]="true"  class="mr-2" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dtActions.reset()" />
             </div>
             <div class="col-md-2 mb-4 mt-2">
-            <p-iconField iconPosition="left" class="w-100">
-                <p-inputIcon class="w-100">
-                    <i class="pi pi-search"></i>
-                </p-inputIcon>
-                <input pInputText type="text" class="w-100"
-                [(ngModel)]="txtSearch"
-                (input)="getDataOnParamsChanges()" 
-                  [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-            </p-iconField>
+        
+            <app-custom-search-filter-input #txtCustomSearch
+            [ControllerName]="ControllerName"
+            [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+            [txtSerach]="txtSearch" (onSearchFilterInput)="getDataOnParamsChanges()">
+
+        </app-custom-search-filter-input>
         </div>
         <div class="col-md-2 mb-4 mt-2">
-
-            <p-floatLabel  [class]="'w-100'"  dir="ltr">
-                <p-dropdown  
-                [(ngModel)]="entityStateSearch"
-                (onChange)="getDataOnParamsChanges()"
-                [options]="userActionsProcessTypesData"
-                optionLabel="value" 
-                optionValue="key"
-                    #actionProcessType                                       
-                    [showClear]="true"
-                   inputId="process-Type"
-                    [placeholder]="_localizeServe.getLabelValue('lbl_choose')"  />
-            <label  for="process-Type" >{{_localizeServe.getLabelValue('lbl_processType')}}</label>
-        </p-floatLabel>
+        <app-custom-search-filter-drop-down #actionProcessTypeDropDown (onDropDownValueChanged)="getDataOnParamsChanges()" 
+        [dropDownData]="userActionsProcessTypesData" [optionValue]="'key'"        
+        [optionLabel]="'value'" [showClear]="true" [inputId]="'process-Type'" [ControllerName]="ControllerName"
+        [placeholder]="_localizeServe.getLabelValue('lbl_choose')"
+        [labelPlaceholder]="_localizeServe.getLabelValue('lbl_processType')"
+        ></app-custom-search-filter-drop-down>    
     </div>
 
     <div class="col-md-3 mb-4 mt-2">
 
-        <p-floatLabel  [class]="'w-100'"  dir="ltr">
+        <!-- <p-floatLabel  [class]="'w-100'"  dir="ltr">
             <p-calendar 
             [(ngModel)]="dateFromSearch"
             (onSelect)="getDataOnParamsChanges()"
@@ -79,12 +69,23 @@
                 [showButtonBar]="true"
                 inputId="date-From" />
         <label  for="date-From" >{{_localizeServe.getLabelValue('lbl_startDate')}}</label>
-    </p-floatLabel>
+    </p-floatLabel> -->
+
+    <app-custom-calendar-filter-search [ControllerName]="ControllerName"
+     #dateFromForUserActionUpdateDate
+    (onValueSelected)="getDataOnParamsChanges()"
+    dateFormat="yy-mm-dd"
+    [iconDisplay]="'input'" 
+    [showIcon]="true" 
+    [showButtonBar]="true"
+    inputId="date-From" 
+    [labelPlaceholder]="_localizeServe.getLabelValue('lbl_startDate')"
+    ></app-custom-calendar-filter-search>
     </div>
 
     <div class="col-md-3 mb-4 mt-2">
 
-        <p-floatLabel  [class]="'w-100'"  dir="ltr">
+        <!-- <p-floatLabel  [class]="'w-100'"  dir="ltr">
             <p-calendar 
             [(ngModel)]="dateToSearch"
             (onSelect)="getDataOnParamsChanges()"
@@ -96,7 +97,18 @@
                 [showIcon]="true" 
                 inputId="date-To" />
         <label  for="date-To" >{{_localizeServe.getLabelValue('lbl_endDate')}}</label>
-    </p-floatLabel>
+    </p-floatLabel> -->
+
+    <app-custom-calendar-filter-search [ControllerName]="ControllerName"
+    #dateToForUserActionUpdateDate
+   (onValueSelected)="getDataOnParamsChanges()"
+   dateFormat="yy-mm-dd"
+   [iconDisplay]="'input'" 
+   [showIcon]="true" 
+   [showButtonBar]="true"
+   inputId="date-To" 
+   [labelPlaceholder]="_localizeServe.getLabelValue('lbl_endDate')"
+   ></app-custom-calendar-filter-search>
     </div>
         </div>
     </ng-template>
@@ -146,7 +158,7 @@
         </ng-template> 
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">
-            <p-paginator (onPageChange)="getDataOnParamsChanges()"  dropdownAppendTo="body" [showCurrentPageReport]="true"  currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} " dir="ltr" #paginatorRef  [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
+            <app-custom-paginator-filter-search [ControllerName]="ControllerName" (onPageChange)="getDataOnParamsChanges()" dropdownAppendTo="body" [showCurrentPageReport]="true" currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRef [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
             </div> 
         </ng-template>
         <ng-template pTemplate="emptymessage">

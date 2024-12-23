@@ -22,8 +22,8 @@ export class CustomDialogComponent {
   @Input() width: string = '450px'; // Width of the dialog
   @Input() modal: boolean = true; // Whether the dialog is modal or not
   @Input() styleClass: string = 'p-fluid max-height-dialog'; // Custom style classes
-  @Input() saveOrEdit: boolean = true; //true for save
-  
+  @Input() saveOrEdit: boolean = true; //true for save  
+  @Input() ControllerName: string = '';
 
   @Input() onSave: () => void = () => {
    

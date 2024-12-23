@@ -1,12 +1,15 @@
 <p-button 
 [icon]="icon" 
-class="mr-2" 
+[class]="class" 
+[styleClass]="styleClass"
 [rounded]="rounded" 
 [label]="label" 
 [text]="text" 
 [outlined]="outlined" 
 [severity]="severity"
-(onClick)="onSave()" />
+(onClick)="onSave()" 
+
+/>
 
 
 <app-custom-confirm-dialog  #confirmDialog></app-custom-confirm-dialog>

@@ -14,11 +14,15 @@ import { MessageService } from 'primeng/api';
 import { Title } from '@angular/platform-browser';
 import { PrintService } from '../../../../services/printingservice/print.service';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { CustomSearchFilterInputComponent } from "../../../customComponents/customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
+import { CustomPaginatorFilterSearchComponent } from "../../../customComponents/customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
+import { CustomSearchFilterDropDownComponent } from "../../../customComponents/customSearchFilterDropDown/custom-search-filter-drop-down/custom-search-filter-drop-down.component";
+import { CustomCalendarFilterSearchComponent } from "../../../customComponents/customCalendarFilterSearch/custom-calendar-filter-search/custom-calendar-filter-search.component";
 
 @Component({
   selector: 'app-users-action',
   standalone: true,
-  imports: [ImportsModule, CustomDeleteBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomConfirmDialogComponent],
+  imports: [ImportsModule, CustomDeleteBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomConfirmDialogComponent, CustomSearchFilterInputComponent, CustomPaginatorFilterSearchComponent, CustomSearchFilterDropDownComponent, CustomCalendarFilterSearchComponent],
   templateUrl: './users-action.component.html',
   styleUrl: './users-action.component.scss'
 })
@@ -28,15 +32,17 @@ export class UsersActionComponent implements OnInit{
   usersActionsData:any[]=[];
   userActionsProcessTypesData:any[]=[];
   txtSearch:string="";
-  entityStateSearch:number | null = null;
-  dateFromSearch:Date | null = null;
-  dateToSearch:Date | null = null;
+
   printAll:boolean = false;
   userActionForm:FormGroup;
   ControllerName:string='UserActions';
   usersActionsDataFormArray:FormArray<any>;
-  @ViewChild('paginatorRef') paginatorRef!:Paginator;
+  @ViewChild('paginatorRef') paginatorRef!:CustomPaginatorFilterSearchComponent;
+  @ViewChild('actionProcessTypeDropDown') actionProcessTypeDropDown!:CustomSearchFilterDropDownComponent;
   @ViewChild('ConfirmDialog') ConfirmDialog!:CustomConfirmDialogComponent;
+  @ViewChild('txtCustomSearch') txtCustomSearch!:CustomSearchFilterInputComponent;
+  @ViewChild('dateFromForUserActionUpdateDate') dateFromForUserActionUpdateDate!:CustomCalendarFilterSearchComponent;
+  @ViewChild('dateToForUserActionUpdateDate') dateToForUserActionUpdateDate!:CustomCalendarFilterSearchComponent;
   constructor(localoizeServ:LocalizeService , private sharedServ:SharedDataService , private usersActionsServ:UsersActionsService,private messageService: MessageService,private titleService:Title ,private printServ:PrintService)
   {
    this._localizeServe = localoizeServ;
@@ -124,12 +130,12 @@ export class UsersActionComponent implements OnInit{
     
     getDataOnParamsChanges()
     {
-      let userActionPaginator = this.paginatorRef;
+      let userActionPaginator = this.paginatorRef.paginatorRef;
       let pageIndex:number=0;
       if(userActionPaginator.first==0)pageIndex=userActionPaginator.first+1;
       else 
       pageIndex = (userActionPaginator.first / userActionPaginator.rows) +1;
-      this.getUsersActionsData(pageIndex,userActionPaginator.rows , this.txtSearch , null ,this.entityStateSearch , this.dateFromSearch , this.dateToSearch);           
+      this.getUsersActionsData(pageIndex,userActionPaginator.rows , this.txtCustomSearch.txtSerach , null ,this.actionProcessTypeDropDown.value , this.dateFromForUserActionUpdateDate.value , this.dateToForUserActionUpdateDate.value);           
     }
     checkAllusersActions(event:CheckboxChangeEvent )
     {
@@ -168,9 +174,9 @@ export class UsersActionComponent implements OnInit{
     {
 
       this.txtSearch="";
-      this.entityStateSearch = null;
-      this.dateFromSearch = null;
-      this.dateToSearch= null;
+      this.actionProcessTypeDropDown.value = null;
+      this.dateFromForUserActionUpdateDate.value = null;
+      this.dateToForUserActionUpdateDate.value= null;
      this.getDataOnParamsChanges()
     }
 

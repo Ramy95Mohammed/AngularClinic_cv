@@ -19,7 +19,7 @@ export class CustomSearchFilterDropDownComponent {
   @Input() placeholder:string='';
   @Input() labelPlaceholder:string='';
   @Input() showClear:boolean=false;
-  dropDownValue:any;
+  value:any;
   @Output() onDropDownValueChanged: EventEmitter<any> = new EventEmitter();
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   constructor(private checkUserPermissionServ:CheckUserPermissionService)

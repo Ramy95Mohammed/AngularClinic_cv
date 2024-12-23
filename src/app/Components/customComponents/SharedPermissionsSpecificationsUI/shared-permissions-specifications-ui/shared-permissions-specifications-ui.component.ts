@@ -134,7 +134,7 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
     this.data.forEach(s => {
       const matchesUserControllerName = s.userControllerName.toLowerCase().includes(searchTerm) || searchTerm == '';
       const matchesPageCategoryName = s.pageCategoryName.toLowerCase().includes(searchTerm) || searchTerm == '';
-      const filterByCategory = s.pageCategory == this.pagesCategoriesDropDown.dropDownValue || this.pagesCategoriesDropDown.dropDownValue == null;
+      const filterByCategory = s.pageCategory == this.pagesCategoriesDropDown.value || this.pagesCategoriesDropDown.value == null;
 
       s.isRowShown = (matchesUserControllerName || matchesPageCategoryName) && filterByCategory;
     });

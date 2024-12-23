@@ -27,6 +27,7 @@
       [text]="true" 
       (onClick)="hideDialog()" />
     <app-custom-save-btn 
+    [ControllerName]="ControllerName"
        *ngIf="saveOrEdit"
       [label]="_localizeServe.getLabelValue('lbl_save')"
       icon="pi pi-check" 
@@ -34,6 +35,7 @@
       (onClick)="handleSave()" ></app-custom-save-btn>
 
       <app-custom-edit-btn
+      [ControllerName]="ControllerName"
        *ngIf="!saveOrEdit"
       [label]="_localizeServe.getLabelValue('lbl_edit')"
       icon="pi pi-check" 

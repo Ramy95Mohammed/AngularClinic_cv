@@ -26,6 +26,8 @@ export class CustomSaveBtnComponent {
   @Input() text:boolean = false;
   @Input() outlined:boolean = true;
   @Input() ControllerName:string = '';
+  @Input() styleClass:string = '';
+  @Input() class:string = 'mr-2';
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   onSave()
   {

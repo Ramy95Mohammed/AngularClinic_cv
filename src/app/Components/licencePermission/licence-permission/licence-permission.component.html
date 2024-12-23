@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-center align-items-center w-100 h-100">
+    @if(licenseData.isActivated == 'false' && licenseData.expiredReason =='License Expired Date')
+    {
+    <div class="row">
+ <div class="col-md-8 mb-2">
+        <p-tag [value]="_localizeServ.getLabelValue('lbl_licenseIsExpired')" severity="danger" class="w-100"
+            styleClass="w-100 opacity-90 fs-1 p-5" [rounded]="true" />
+        </div>
+        <div class="col-md-4 mb-2">
+        <p-timeline [value]="events">
+            <ng-template pTemplate="content" let-event>
+                <small class="p-text-secondary">{{ event.date }}</small>
+            </ng-template>
+            <ng-template pTemplate="opposite" let-event>
+                {{ _localizeServ.getLabelValue(event.status) }}
+            </ng-template>
+        </p-timeline>
+    </div>
+
+    </div>
+    }
+    @if(licenseData.isActivated == 'false' && (licenseData.expiredReason =='No License Exists' || licenseData.expiredReason =='Your copy of this application is not activated'))
+    {
+        <p-tag [value]="_localizeServ.getLabelValue('lbl_yourCopyOfThisAppIsNotActivatedConnectWithDeveloper')" severity="danger" class="w-100"
+        styleClass="w-100 opacity-90 fs-1 p-5" [rounded]="true" />
+    }    
+
+</div>

@@ -92,7 +92,16 @@
         <br>
         No Spaces
     </p>
-        <p-button (onClick)="registerUser()" [label]="localizeServ.getLabelValue('lbl_register')" icon="pi pi-user" styleClass="w-10rem mx-auto" />
+
+        <app-custom-save-btn (onBtnSaveClick)="registerUser()"
+          [label]="localizeServ.getLabelValue('lbl_register')"
+          [ControllerName]="ControllerName"
+          icon="pi pi-user"
+          [outlined]="false"
+          [severity]="'primary'"
+          [class]="''"
+          styleClass="w-10rem mx-auto"
+        ></app-custom-save-btn>
     </div>
     <input hidden formControlName="userName">
     <div class="w-full md:w-2">

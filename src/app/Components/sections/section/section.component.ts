@@ -11,11 +11,13 @@ import { CustomEditBtnComponent } from '../../customComponents/customEditBtn/cus
 import { CustomDeleteBtnComponent } from '../../customComponents/customDeleteBtn/custom-delete-btn/custom-delete-btn.component';
 import { CustomNewBtnComponent } from "../../customComponents/customNewBtn/custom-new-btn/custom-new-btn.component";
 import { Title } from '@angular/platform-browser';
+import { CustomPaginatorFilterSearchComponent } from "../../customComponents/customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
+import { CustomSearchFilterInputComponent } from "../../customComponents/customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
 
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [ImportsModule, CustomDialogComponent, CustomConfirmDialogComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomNewBtnComponent],
+  imports: [ImportsModule, CustomDialogComponent, CustomConfirmDialogComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomNewBtnComponent, CustomPaginatorFilterSearchComponent, CustomSearchFilterInputComponent],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
@@ -30,6 +32,7 @@ export class SectionComponent implements OnInit {
   sectionsDialog: boolean = false;
   @ViewChild('sectionCustomDialog') sectionCustomDialog!: CustomDialogComponent;
   @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
+  @ViewChild('paginatorRef') paginatorRef!: CustomPaginatorFilterSearchComponent;
 
   constructor(private sectionsServ: SectionsService, localizeServ: LocalizeService, private titleService: Title) {
     this._localizeServe = localizeServ;
@@ -47,14 +50,15 @@ export class SectionComponent implements OnInit {
       this.totalRecords = data.count;
     }, (error) => { });
   }
-  onPageChange(event: any) {
+  onPageChange() {
     let pageIndex: number = 0;
-    if (event.first == 0) pageIndex = event.first + 1;
-    else
-      pageIndex = (event.first / event.rows) + 1;
-    this.getSectionsData(pageIndex, event.rows, this.txtSearch, null);
+    let sectionPaginator = this.paginatorRef.paginatorRef;
 
-    console.log(event.rows);
+    if (sectionPaginator.first == 0) pageIndex = sectionPaginator.first + 1;
+    else
+      pageIndex = (sectionPaginator.first / sectionPaginator.rows) + 1;
+    this.getSectionsData(pageIndex, sectionPaginator.rows, this.txtSearch, null);
+    
   }
 
   openNew() {

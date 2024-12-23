@@ -17,14 +17,13 @@
                 <p-button [outlined]="true" icon="pi pi-filter-slash"
                 class="mr-2"
                     [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dt.reset()" />
-                <p-iconField iconPosition="left">
-                    <p-inputIcon>
-                        <i class="pi pi-search"></i>
-                    </p-inputIcon>
-                    <input pInputText type="text" [(ngModel)]="txtSearch"
-                        (input)="getSectionsData(1 , 10 , txtSearch , null)"
-                        [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-                </p-iconField>
+
+                <app-custom-search-filter-input #txtCustomtxtSearchSextions
+                [ControllerName]="ControllerName"
+                [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                [txtSerach]="txtSearch" (onSearchFilterInput)="getSectionsData(1 , 10 , txtCustomtxtSearchSextions.txtSerach , null)">
+
+            </app-custom-search-filter-input>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -54,11 +53,12 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="summary">
-            <div class="flex align-items-center justify-content-between">
-                <p-paginator dropdownAppendTo="body" [showCurrentPageReport]="true"
-                    currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} "
-                    dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10"
-                    [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
+            <div class="flex align-items-center justify-content-between">          
+                    <app-custom-paginator-filter-search [ControllerName]="ControllerName" 
+                    (onPageChange)="onPageChange()"
+                     dropdownAppendTo="body" [showCurrentPageReport]="true" 
+                     currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRef [rows]="10" [totalRecords]="totalRecords"
+                      [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
             </div>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -93,7 +93,7 @@ styleClass="p-fluid" >
     </ng-template>
 </p-dialog> -->
 
-    <app-custom-dialog #sectionCustomDialog [visible]="sectionsDialog" [width]="'50vw'" (onClose)="hideDialog()"
+    <app-custom-dialog #sectionCustomDialog [ControllerName]="ControllerName" [visible]="sectionsDialog" [width]="'50vw'" (onClose)="hideDialog()"
         [onSave]="onSave" [onEdit]="onEdit">
 
         <!-- Pass dynamic content to the dialog using ng-template -->

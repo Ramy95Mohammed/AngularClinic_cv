@@ -7,10 +7,11 @@ import { MessageService } from 'primeng/api';
 import {Title} from "@angular/platform-browser";
 import { SharedDataService } from '../../../services/sharedData/shared-data.service';
 import { Dropdown } from 'primeng/dropdown';
+import { CustomSaveBtnComponent } from "../../customComponents/customSaveBtn/custom-save-btn/custom-save-btn.component";
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ImportsModule],
+  imports: [ImportsModule, CustomSaveBtnComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -20,11 +21,10 @@ export class RegisterComponent implements OnInit ,AfterViewInit {
  registerForm:FormGroup;
  dir:string | undefined="";
  userPolicyData:any[]=[];
+ ControllerName:string='Account';
  constructor(private _localizeServ:LocalizeService ,private _accountService:AccountService,private messageService: MessageService,private titleService:Title , private sharedDataServ:SharedDataService){
   this.localizeServ = _localizeServ;
-  this.registerForm =  this.intializeForm();
-
- 
+  this.registerForm =  this.intializeForm(); 
 }
   ngAfterViewInit(): void {
     

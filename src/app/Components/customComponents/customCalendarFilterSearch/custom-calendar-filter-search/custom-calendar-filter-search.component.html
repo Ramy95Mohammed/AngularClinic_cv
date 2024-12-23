@@ -1,0 +1,17 @@
+<p-floatLabel  [class]="'w-100'"  dir="ltr">
+    <p-calendar 
+    [(ngModel)]="value"
+    [ngModelOptions]="{standalone: true}"
+    (onSelect)="onSelectValue()"
+    (onClearClick)="onSelectValue()"
+    styleClass="w-100"
+    [dateFormat]="dateFormat"
+        [iconDisplay]="iconDisplay" 
+        [showIcon]="showIcon"  
+        [showButtonBar]="showButtonBar"
+        [inputId]="inputId" /> 
+<label  [for]="inputId" >{{labelPlaceholder}}</label>
+</p-floatLabel>
+
+
+<app-custom-confirm-dialog  #confirmDialog></app-custom-confirm-dialog>
