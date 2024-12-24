@@ -44,9 +44,9 @@
                 <td class="text-center">
                     <div dir="ltr">
                         <app-custom-edit-btn [ControllerName]="ControllerName"
-                            (onBtnEditClick)="editProduct()"></app-custom-edit-btn>
+                            (onBtnEditClick)="getSectionForEdit(section.keyId)"></app-custom-edit-btn>
                         <app-custom-delete-btn [ControllerName]="ControllerName"
-                            (onBtnDeleteClick)="deleteProduct()"></app-custom-delete-btn>
+                            (onBtnDeleteClick)="showConfirmDialog(section.keyId)"></app-custom-delete-btn>
 
                     </div>
                 </td>
@@ -55,7 +55,7 @@
         <ng-template pTemplate="summary">
             <div class="flex align-items-center justify-content-between">          
                     <app-custom-paginator-filter-search [ControllerName]="ControllerName" 
-                    (onPageChange)="onPageChange()"
+                    (onPageChange)="getPaginatedData()"
                      dropdownAppendTo="body" [showCurrentPageReport]="true" 
                      currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRef [rows]="10" [totalRecords]="totalRecords"
                       [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
@@ -69,40 +69,30 @@
     </p-table>
 
 
-
-    <!-- <p-dialog 
-#sectionsP_Dialog
-[(visible)]="sectionsDialog" 
-[style]="{ width: '450px' }" 
-[modal]="true" 
-styleClass="p-fluid" >
-<ng-template pTemplate="content">
-</ng-template>
-
-    <ng-template pTemplate="footer">
-        <p-button 
-            [label]="_localizeServe.getLabelValue('lbl_cancel')"
-            icon="pi pi-times" 
-            [text]="true" 
-            (onClick)="hideDialog()"  />
-        <p-button
-        [label]="_localizeServe.getLabelValue('lbl_save')"
-            icon="pi pi-check" 
-            [text]="true" 
-             />
-    </ng-template>
-</p-dialog> -->
-
-    <app-custom-dialog #sectionCustomDialog [ControllerName]="ControllerName" [visible]="sectionsDialog" [width]="'50vw'" (onClose)="hideDialog()"
-        [onSave]="onSave" [onEdit]="onEdit">
+    <form [formGroup]="sectionForm">
+        
+    <app-custom-dialog #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" height="230px" [visible]="sectionsDialog" [width]="'25vw'" (onClose)="hideDialog()"
+      (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()"
+        >
 
         <!-- Pass dynamic content to the dialog using ng-template -->
         <ng-template #dialogContent>
-            <p>Here is some dynamic content for the dialog.</p>
+            <div class="mt-4">
+                <input hidden class="w-100" formControlName="keyId"  type="text" pInputText />
+            <p-floatLabel >
+                <input class="w-100" formControlName="name" id="sectionName"  type="text" pInputText />
+                <label for="sectionName" dir="ltr" class="w-100">{{_localizeServe.getLabelValue('lbl_sectionName')}}</label>
+             </p-floatLabel>
+             <p *ngIf="sectionForm.get('name')?.getError('required') && sectionForm.get('name')?.touched"
+             class="text-danger mx-1">*</p>
+          <p *ngIf="sectionForm.get('name')?.getError('pattern') && sectionForm.get('name')?.valueChanges"
+             class="text-danger mx-1">*</p>
+            </div>
         </ng-template>
 
     </app-custom-dialog>
+</form>
 
-    <app-custom-confirm-dialog #customDeleteDialog (onConfirm)="test()"></app-custom-confirm-dialog>
+    <app-custom-confirm-dialog #customDeleteDialog (onConfirm)="onDelete()"></app-custom-confirm-dialog>
 
 </div>

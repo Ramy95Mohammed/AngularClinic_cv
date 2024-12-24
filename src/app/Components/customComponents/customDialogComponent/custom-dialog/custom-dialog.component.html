@@ -1,7 +1,8 @@
 <p-dialog 
   [(visible)]="visible"
   [header]="header"
-  [style]="{ width: width  }"
+  [style]="{ width: width , height:height }" 
+  [maximizable]="maximizable" 
   [modal]="modal"
   [styleClass]="styleClass"
   (onHide)="resetDialog()"
@@ -32,7 +33,8 @@
       [label]="_localizeServe.getLabelValue('lbl_save')"
       icon="pi pi-check" 
       [text]="true" 
-      (onClick)="handleSave()" ></app-custom-save-btn>
+      (onBtnSaveClick)="handleSave()"
+       ></app-custom-save-btn>
 
       <app-custom-edit-btn
       [ControllerName]="ControllerName"
@@ -40,7 +42,8 @@
       [label]="_localizeServe.getLabelValue('lbl_edit')"
       icon="pi pi-check" 
       [text]="true" 
-      (onClick)="handleEdit()"></app-custom-edit-btn>
+      (onBtnEditClick)="handleEdit()"
+        ></app-custom-edit-btn>
     </ng-container>
 
   </ng-template>

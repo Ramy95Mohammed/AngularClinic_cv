@@ -6,7 +6,7 @@
         <div class="card">
             <p-toolbar styleClass="mb-4 gap-2">
                 <ng-template pTemplate="left">
-                    <app-custom-new-btn severity="success" [ControllerName]="ControllerName"
+                    <app-custom-new-btn [ControllerName] = "ControllerName" severity="success" [ControllerName]="ControllerName"
                         [label]="_localizeServe.getLabelValue('lbl_new')" icon="pi pi-plus"
                         (onBtnNewClick)="emitBtnNewClickEvent()"></app-custom-new-btn>
                     <app-custom-search-btn [ControllerName]="ControllerName"
@@ -237,8 +237,8 @@
 </div>
 
 <!--Search Dialog form Permissions Master -->
-<app-custom-dialog #permissionsCustomDialog [visible]="permissionsDialog" [width]="'50vw'" (onClose)="hideDialog()"
-    [onSave]="onSave" [onEdit]="onEdit">
+<app-custom-dialog #permissionsCustomDialog [visible]="permissionsDialog" [height]="'auto'" [width]="'50vw'" (onClose)="hideDialog()"
+    (onBtnSaveClick)="onSave()"  (onBtnEditClick)="onEdit()" >
 
     <ng-template #dialogContent>
         <p-table #dt [value]="permissionsMaster" [rowHover]="true" [scrollable]="true" scrollHeight="600px"

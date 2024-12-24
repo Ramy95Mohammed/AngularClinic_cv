@@ -13,6 +13,7 @@ import { CustomNewBtnComponent } from "../../customComponents/customNewBtn/custo
 import { Title } from '@angular/platform-browser';
 import { CustomPaginatorFilterSearchComponent } from "../../customComponents/customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
 import { CustomSearchFilterInputComponent } from "../../customComponents/customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-section',
@@ -30,12 +31,16 @@ export class SectionComponent implements OnInit {
   txtSearch: string = ""
   totalRecords: number = 10;
   sectionsDialog: boolean = false;
+  sectionKeyId:number | null = null;
   @ViewChild('sectionCustomDialog') sectionCustomDialog!: CustomDialogComponent;
   @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
   @ViewChild('paginatorRef') paginatorRef!: CustomPaginatorFilterSearchComponent;
+  sectionForm: FormGroup;
 
-  constructor(private sectionsServ: SectionsService, localizeServ: LocalizeService, private titleService: Title) {
+  constructor(private sectionsServ: SectionsService, localizeServ: LocalizeService, private titleService: Title,
+    private messageService: MessageService) {
     this._localizeServe = localizeServ;
+    this.sectionForm = this.initsectionForm(null);
   }
   ngOnInit(): void {
     let title = this._localizeServe.getLabelValue('lbl_showSections');
@@ -50,7 +55,15 @@ export class SectionComponent implements OnInit {
       this.totalRecords = data.count;
     }, (error) => { });
   }
-  onPageChange() {
+
+
+  initsectionForm(section: any): FormGroup {
+    return new FormGroup({
+      keyId: new FormControl(section?.keyId ?? 0, Validators.required),
+      name: new FormControl(section?.name ?? '', [Validators.required, Validators.pattern("^(?!\\s+$).+")])
+    })
+  }
+  getPaginatedData() {
     let pageIndex: number = 0;
     let sectionPaginator = this.paginatorRef.paginatorRef;
 
@@ -58,42 +71,91 @@ export class SectionComponent implements OnInit {
     else
       pageIndex = (sectionPaginator.first / sectionPaginator.rows) + 1;
     this.getSectionsData(pageIndex, sectionPaginator.rows, this.txtSearch, null);
-    
+
   }
 
   openNew() {
-    this.sectionCustomDialog.saveOrEdit = true;
-    this.sectionCustomDialog.header = this._localizeServe.getLabelValue('lbl_addSection');
-    this.sectionsDialog = true;
+    this.sectionForm = this.initsectionForm(null);
+    this.showDialog('lbl_addSection' , true);
   }
 
   hideDialog() {
     this.sectionsDialog = false;
   }
 
-  deleteProduct() {
-
+  showConfirmDialog(keyId:number) {
+    this.sectionKeyId = keyId;
     this.customDeleteDialog.showDialog('lbl_sureToDelete', 'lbl_confirm', 'lbl_yes', 'lbl_no');
-
   }
-  editProduct() {
-    this.sectionCustomDialog.header = this._localizeServe.getLabelValue('lbl_editSection');
-    this.sectionCustomDialog.saveOrEdit = false;
-    this.sectionsDialog = true;
+
+
+    showDialog(dialogHeader:string , saveOrEdit:boolean = true)
+    {
+      this.sectionCustomDialog.header =this._localizeServe.getLabelValue(dialogHeader);
+      this.sectionCustomDialog.saveOrEdit = saveOrEdit;
+      this.sectionsDialog = true;
+    }
+
+  getSectionForEdit(keyId:number) {
+
+   this.sectionsServ.getSectionById(keyId).subscribe((res)=>{
+    this.sectionForm = this.initsectionForm(res);
+    this.showDialog('lbl_editSection' , false);
+   });
+    
   }
 
   // Define the method that should be executed when "Save" is clicked
   onSave(): void {
-    console.log('Save button clicked from Parent! Save');
-    // Add any additional logic for Save here
+    if (this.sectionForm.valid) {
+     this.sectionsServ.saveNewSection(this.sectionForm.value).subscribe((res)=>{
+      this.messageService.add({
+        severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
+        , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
+      });
+
+      this.hideDialog();
+      this.sectionForm = this.initsectionForm(null);
+      this.getPaginatedData();
+     });
+    }
+    else {
+        this.sectionForm.markAllAsTouched();
+    }
   }
 
   onEdit(): void {
-    console.log('Save button clicked from Parent! Edit');
-    // Add any additional logic for Save here
+    if (this.sectionForm.valid) {
+      this.sectionsServ.editSection(this.sectionForm.value).subscribe((res)=>{
+       this.messageService.add({
+         severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
+         , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
+       });
+ 
+       this.hideDialog();
+       this.sectionForm = this.initsectionForm(null);
+       this.getPaginatedData();
+      });
+     }
+     else {
+         this.sectionForm.markAllAsTouched();
+     }
   }
-  test() {
-    console.log('Delete from parent');
+  onDelete() {
+    if(this.sectionKeyId != null)
+    {
+    this.sectionsServ.deleteSection(this.sectionKeyId).subscribe((res)=>{
+      this.messageService.add({
+        severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
+        , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
+      });
+
+      this.hideDialog();
+      this.sectionForm = this.initsectionForm(null);
+      this.sectionKeyId = null;
+      this.getPaginatedData();
+     });
   }
+}
 
 }
