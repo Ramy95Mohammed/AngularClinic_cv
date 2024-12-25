@@ -1,0 +1,103 @@
+<form>
+
+    <p-card [header]="_localizeServe.getLabelValue('lbl_enterpriseInfo')"
+        class="d-flex justify-content-center align-items-center">
+
+        <div class="row">
+            <div class="col-12 mb-4">
+                <p-toolbar styleClass="mb-2">
+                    <ng-template pTemplate="left">
+                        <app-custom-new-btn [ControllerName]="ControllerName" severity="success"
+                            icon="pi pi-plus"></app-custom-new-btn>
+                        <app-custom-save-btn [ControllerName]="ControllerName"></app-custom-save-btn>
+
+                        <app-custom-print-btn [ControllerName]="ControllerName"></app-custom-print-btn>
+                    </ng-template>
+
+                    <ng-template pTemplate="right">
+
+                    </ng-template>
+                </p-toolbar>
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-9">
+                <div class="row">
+                    <div class="col-md-6 mb-5">
+                        <input hidden type="text" pInputText />
+                        <p-floatLabel>
+                            <input class="w-100" id="enterpriseName" type="text" pInputText />
+                            <label for="enterpriseName" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_enterpriseName')}}</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="col-md-6 mb-5">
+                        <p-floatLabel>
+                            <input class="w-100" id="enterpriseForeignName" type="text" pInputText />
+                            <label for="enterpriseForeignName" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_enterpriseForeignName')}}</label>
+                        </p-floatLabel>
+                    </div>
+
+                    <div class="col-md-6 mb-5">
+                        <p-floatLabel>
+                            <input class="w-100"  id="phone" pInputText pKeyFilter="int" />
+                            <label for="phone" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_phone')}}</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="col-md-6 mb-5">
+                        <p-floatLabel>
+                            <input class="w-100" pKeyFilter="int" id="groundTel" pInputText />
+                            <label for="groundTel" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_groundTel')}}</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="col-md-6 mb-5">
+                        <p-floatLabel>
+                            <input class="w-100" pKeyFilter="email" id="email" pInputText />
+                            <label for="email" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_email')}}</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="col-md-6 mb-5">
+                        <p-floatLabel>
+                            <input class="w-100" type="text" id="address" pInputText />
+                            <label for="address" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_address')}}</label>
+                        </p-floatLabel>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-3">
+                <div class="row">
+                    <div class="col-12 pt-0">
+                        <p-fieldset id="enterpriseInfoFieldset"
+                            [legend]="_localizeServe.getLabelValue('lbl_enterpriseLogo')">
+                            <p-fileUpload dir="ltr"
+                                [chooseLabel]="_localizeServe.getLabelValue('lbl_choose')"
+                                [cancelLabel]="_localizeServe.getLabelValue('lbl_cancel')"
+                                [invalidFileSizeMessageSummary]="_localizeServe.getLabelValue('lbl_invalidFileSize')"
+                                [invalidFileSizeMessageDetail]="_localizeServe.getLabelValue('lbl_maximumUpload')+' 29.296875 KB'"
+                                name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                                (onUpload)="onUpload($event)" cancelStyleClass="px-30 mb-2" chooseStyleClass="w-50 mb-2"
+                                [showUploadButton]="false" [multiple]="false" accept="image/*" maxFileSize="30000">
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="uploadedFiles.length">
+                                        <li *ngFor="let file of uploadedFiles">
+                                            {{ file.name }} - {{ file.size }} bytes
+                                        </li>
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload>
+                        </p-fieldset>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </p-card>
+</form>

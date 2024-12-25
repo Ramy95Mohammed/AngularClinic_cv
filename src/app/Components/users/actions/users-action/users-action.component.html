@@ -1,7 +1,7 @@
-<div class="card" >
-    <p-toolbar styleClass="mb-4 gap-2" >
+<div class="" >
+    <p-toolbar styleClass="mb-2" >
         <ng-template pTemplate="left">            
-            <app-custom-new-btn [ControllerName]="ControllerName" severity="success" [label]= "_localizeServe.getLabelValue('lbl_new')"  (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn>
+            <app-custom-new-btn [ControllerName]="ControllerName" severity="success"   (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn>
             <app-custom-delete-btn [ControllerName]="ControllerName" (onBtnDeleteClick)="showConfirmDialog()"></app-custom-delete-btn>
                  <app-custom-print-btn [ControllerName]="ControllerName" (onBtnPrintClick)="printUsersActionData()"></app-custom-print-btn>
                     <div class="flex align-items-center gap-1 mx-2  cursor-pointer" >
@@ -142,7 +142,7 @@
                 <td class="text-center"><input [disabled]="true"  type="text" pInputText [(ngModel)]="action.displayName" /></td>                
                 <td class="text-center"><p-calendar [disabled]="true" [showIcon]="true" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true" dateFormat="hh:mm:ss a" [(ngModel)]="action.formattedUpdatedTime"></p-calendar>
                   </td> 
-                <td class="text-center"><p-calendar   [disabled]="true" [showIcon]="true"  dateFormat="yy-mm-dd"  [(ngModel)]="action.formattedUpdatedDate" /></td>
+                <td class="text-center"><p-calendar   [disabled]="true" [showIcon]="true"   dateFormat="yy-mm-dd"  [(ngModel)]="action.formattedUpdatedDate" /></td>
                 <td class="text-center">  <p-dropdown  
                     [options]="userActionsProcessTypesData"
                     optionLabel="value" 

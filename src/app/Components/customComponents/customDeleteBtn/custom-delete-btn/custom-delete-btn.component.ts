@@ -3,11 +3,12 @@ import { ButtonModule } from 'primeng/button';
 import { CheckUserPermissionService } from '../../../../services/users/permissions/check-user-permission.service';
 import { CustomConfirmDialogComponent } from '../../customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component';
 import { LocalizeService } from '../../../../services/localize/localize.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-custom-delete-btn',
   standalone: true,
-  imports: [ButtonModule, CustomConfirmDialogComponent],
+  imports: [ButtonModule, CustomConfirmDialogComponent,TooltipModule],
   templateUrl: './custom-delete-btn.component.html',
   styleUrl: './custom-delete-btn.component.scss'
 })
@@ -15,8 +16,10 @@ export class CustomDeleteBtnComponent {
   @Output() onBtnDeleteClick: EventEmitter<any> = new EventEmitter();
   @Input() ControllerName:string = '';
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
-  constructor(private checkUserPermissionServ:CheckUserPermissionService)
+  _localzieServ:LocalizeService;
+  constructor(private checkUserPermissionServ:CheckUserPermissionService , localizeServ:LocalizeService)
   {
+    this._localzieServ = localizeServ;
   }
   onDelete()
   { 

@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './Components/Home/home/home.component';
 import { RegisterComponent } from './Components/account/register/register.component';
 import { LoginComponent } from './Components/account/login/login.component';
-import { SectionComponent } from './Components/sections/section/section.component';
 
 import { SpecifyPermissionsComponent } from './Components/users/permissions/specify-permissions/specify-permissions.component';
 import { authGuard } from './auth.guard';
@@ -10,6 +9,8 @@ import { passGuard } from './pass.guard';
 import { UsersActionComponent } from './Components/users/actions/users-action/users-action.component';
 import { NoPermissionComponent } from './Components/noPermissionComponent/no-permission/no-permission.component';
 import { LicencePermissionComponent } from './Components/licencePermission/licence-permission/licence-permission.component';
+import { SectionComponent } from './Components/MainData/sections/section/section.component';
+import { EnterpriseInfoComponent } from './Components/MainData/EnterpriseInfo/enterprise-info/enterprise-info.component';
 
 export const routes: Routes = [
     {path:"" , pathMatch:"full" , component:HomeComponent},
@@ -30,6 +31,11 @@ export const routes: Routes = [
     {path:"app-section" , canActivate:[authGuard], component:SectionComponent,
     data: { animation: 'app-section',
     controller:'Sections'
+}},
+
+    {path:"app-enterprise-info" , canActivate:[authGuard], component:EnterpriseInfoComponent,
+    data: { animation: 'app-enterprise-info',
+    controller:'EnterpriseInfo'
 }},
     {path:"app-specify-permissions" , canActivate:[authGuard], component:SpecifyPermissionsComponent,
     data: { animation: 'app-specify-permissions',

@@ -6,7 +6,9 @@ class="mr-2"
 [text]="text" 
 [outlined]="outlined" 
 [severity]="severity"
-(onClick)="onEdit()" />
+(onClick)="onEdit()"
+[pTooltip]="_localzieServ.getLabelValue('lbl_edit')"
+/>
 
 
 <app-custom-confirm-dialog  #confirmDialog></app-custom-confirm-dialog>

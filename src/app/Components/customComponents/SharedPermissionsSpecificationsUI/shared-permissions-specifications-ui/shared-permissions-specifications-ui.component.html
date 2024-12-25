@@ -3,18 +3,19 @@
     <div class="col-12 mb-2">
 
 
-        <div class="card">
-            <p-toolbar styleClass="mb-4 gap-2">
+        <div class="">
+            <p-toolbar styleClass="mb-2 ">
                 <ng-template pTemplate="left">
                     <app-custom-new-btn [ControllerName] = "ControllerName" severity="success" [ControllerName]="ControllerName"
-                        [label]="_localizeServe.getLabelValue('lbl_new')" icon="pi pi-plus"
+                        icon="pi pi-plus"
                         (onBtnNewClick)="emitBtnNewClickEvent()"></app-custom-new-btn>
-                    <app-custom-search-btn [ControllerName]="ControllerName"
-                        (onBtnSearchClick)="showDialogPermissions()"></app-custom-search-btn>
+                 
                     <app-custom-save-btn [ControllerName]="ControllerName" [hidden]="!hideBtnEdit"
                         (onBtnSaveClick)="saveNewPermissionMasterWithDetails()"></app-custom-save-btn>
                     <app-custom-edit-btn [ControllerName]="ControllerName" [hidden]="hideBtnEdit"
                         (onBtnEditClick)="editPermissionMasterAndDetails()"></app-custom-edit-btn>
+                        <app-custom-search-btn [ControllerName]="ControllerName"
+                        (onBtnSearchClick)="showDialogPermissions()"></app-custom-search-btn>
                     <app-custom-print-btn [ControllerName]="ControllerName"
                         (onBtnPrintClick)="printPermissionsWithDetails()"></app-custom-print-btn>
                 </ng-template>

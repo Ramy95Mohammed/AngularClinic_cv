@@ -64,7 +64,11 @@ export class NavBarComponent implements OnInit {
         label: 'lbl_mainData',
         icon: 'fa-solid fa-list-check',
         items: [
-
+          {
+            label: 'lbl_enterpriseInfo',
+            icon: 'fa-solid fa-house-medical-circle-exclamation',
+            route: 'app-enterprise-info'
+          },
           {
             label: 'lbl_sections',
             icon: 'pi pi-th-large',

@@ -51,7 +51,11 @@ html {
     height: calc(100vh - 70px);
     margin-top: 70px;
 }
-
+.px-30
+{
+    padding-left: 30px;
+    padding-right: 30px;
+}
 body {
     overflow: hidden;
     background-color: var(--panel-bg);
@@ -173,8 +177,13 @@ p-confirmDialog .p-confirm-dialog-accept {
     margin-right: 5px;
 }
 
-p-toolbar .p-toolbar{
-    margin-bottom: 0 !important;
-    gap: 0 !important;
-    border-radius: 0;
+// p-toolbar .p-toolbar{
+//     margin-bottom: 0 !important;
+//     gap: 0 !important;
+//     border-radius: 0;
+// }
+#enterpriseInfoFieldset .p-fieldset-legend-text{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: medium;
 }

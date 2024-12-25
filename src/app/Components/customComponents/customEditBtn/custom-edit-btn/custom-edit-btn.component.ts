@@ -2,17 +2,22 @@ import { Component, EventEmitter, Input, Output, ViewChild, input } from '@angul
 import { Button, ButtonModule } from 'primeng/button';
 import { CheckUserPermissionService } from '../../../../services/users/permissions/check-user-permission.service';
 import { CustomConfirmDialogComponent } from '../../customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component';
+import { LocalizeService } from '../../../../services/localize/localize.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-custom-edit-btn',
   standalone: true,
-  imports: [ButtonModule, CustomConfirmDialogComponent],
+  imports: [ButtonModule, CustomConfirmDialogComponent,TooltipModule],
   templateUrl: './custom-edit-btn.component.html',
   styleUrl: './custom-edit-btn.component.scss'
 })
 export class CustomEditBtnComponent {
-  constructor(private checkUserPermissionServ:CheckUserPermissionService)
-  {}
+  _localzieServ:LocalizeService;
+  constructor(private checkUserPermissionServ:CheckUserPermissionService , localizeServ:LocalizeService)
+  {
+    this._localzieServ = localizeServ;
+  }
   @Output() onBtnEditClick: EventEmitter<any> = new EventEmitter();
   @Input() icon:string = 'pi pi-pencil';
   @Input() label:string = '';

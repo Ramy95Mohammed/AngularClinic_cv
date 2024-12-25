@@ -2,22 +2,23 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { ButtonModule } from 'primeng/button';
 import { CheckUserPermissionService } from '../../../../services/users/permissions/check-user-permission.service';
 import { CustomConfirmDialogComponent } from "../../customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component";
-
+import { TooltipModule } from 'primeng/tooltip';
+import { LocalizeService } from '../../../../services/localize/localize.service';
 @Component({
   selector: 'app-custom-save-btn',
   standalone: true,
-  imports: [ButtonModule, CustomConfirmDialogComponent],
+  imports: [ButtonModule, CustomConfirmDialogComponent,TooltipModule],
   templateUrl: './custom-save-btn.component.html',
   styleUrl: './custom-save-btn.component.scss'
 })
 export class CustomSaveBtnComponent {
 
 
-  constructor(private checkUserPermissionServ:CheckUserPermissionService)
+  _localzieServ:LocalizeService;
+  constructor(private checkUserPermissionServ:CheckUserPermissionService , localizeServ:LocalizeService)
   {
-    
+    this._localzieServ = localizeServ;
   }
-
   @Output() onBtnSaveClick: EventEmitter<any> = new EventEmitter();
   @Input() icon:string = 'pi pi-save';
   @Input() label:string = '';

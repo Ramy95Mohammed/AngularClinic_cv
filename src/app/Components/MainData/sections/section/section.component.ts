@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ImportsModule } from '../../../app/imports';
-import { SectionsService } from '../../../services/sections/sections.service';
-import { LocalizeService } from '../../../services/localize/localize.service';
+import { ImportsModule } from '../../../../app/imports';
+import { SectionsService } from '../../../../services/sections/sections.service';
+import { LocalizeService } from '../../../../services/localize/localize.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Dialog } from 'primeng/dialog';
-import { CustomDialogComponent } from '../../customComponents/customDialogComponent/custom-dialog/custom-dialog.component';
-import { CustomConfirmDialogComponent } from "../../customComponents/customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component";
-import { CustomEditBtnComponent } from '../../customComponents/customEditBtn/custom-edit-btn/custom-edit-btn.component';
-import { CustomDeleteBtnComponent } from '../../customComponents/customDeleteBtn/custom-delete-btn/custom-delete-btn.component';
-import { CustomNewBtnComponent } from "../../customComponents/customNewBtn/custom-new-btn/custom-new-btn.component";
+import { CustomDialogComponent } from '../../../customComponents/customDialogComponent/custom-dialog/custom-dialog.component';
+import { CustomConfirmDialogComponent } from "../../../customComponents/customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component";
+import { CustomEditBtnComponent } from '../../../customComponents/customEditBtn/custom-edit-btn/custom-edit-btn.component';
+import { CustomDeleteBtnComponent } from '../../../customComponents/customDeleteBtn/custom-delete-btn/custom-delete-btn.component';
+import { CustomNewBtnComponent } from "../../../customComponents/customNewBtn/custom-new-btn/custom-new-btn.component";
 import { Title } from '@angular/platform-browser';
-import { CustomPaginatorFilterSearchComponent } from "../../customComponents/customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
-import { CustomSearchFilterInputComponent } from "../../customComponents/customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
+import { CustomPaginatorFilterSearchComponent } from "../../../customComponents/customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
+import { CustomSearchFilterInputComponent } from "../../../customComponents/customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -107,7 +107,7 @@ export class SectionComponent implements OnInit {
 
   // Define the method that should be executed when "Save" is clicked
   onSave(): void {
-    if (this.sectionForm.valid) {
+    if (this.sectionForm.valid) {      
      this.sectionsServ.saveNewSection(this.sectionForm.value).subscribe((res)=>{
       this.messageService.add({
         severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
