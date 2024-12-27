@@ -251,14 +251,23 @@
                             [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dt.reset()" />
                     </div>
                     <div class="col-md-4 mb-4 mt-2">
-                        <p-iconField iconPosition="left">
+                        <!-- <p-iconField iconPosition="left">
                             <p-inputIcon>
                                 <i class="pi pi-search"></i>
                             </p-inputIcon>
                             <input pInputText class="w-100" type="text" [(ngModel)]="txtSearchForPermissionsMaster"
                                 (input)="getPermissiosnMasterData(1 , 10 , txtSearchForPermissionsMaster , null)"
                                 [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-                        </p-iconField>
+                        </p-iconField> -->
+
+                        <app-custom-search-filter-input #txtCustomtxtSearchPermissionsMaster
+                        [ControllerName]="ControllerName"
+                        [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                        [txtSerach]="txtSearchForPermissionsMaster" (onSearchFilterInput)="getPermissiosnMasterData(1 , 10 , txtCustomtxtSearchPermissionsMaster.txtSerach , null)">
+        
+                    </app-custom-search-filter-input>
+
+                     
                     </div>
                 </div>
             </ng-template>
@@ -296,10 +305,16 @@
             </ng-template>
             <ng-template pTemplate="summary">
                 <div class="flex align-items-center justify-content-between">
-                    <p-paginator dropdownAppendTo="body" [showCurrentPageReport]="true"
+                    <!-- <p-paginator dropdownAppendTo="body" [showCurrentPageReport]="true"
                         currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} "
                         dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10"
-                        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator>
+                        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator> -->
+
+                        <app-custom-paginator-filter-search [ControllerName]="ControllerName" 
+                        (onPageChange)="onPageChange($event)"
+                         dropdownAppendTo="body" [showCurrentPageReport]="true" 
+                         currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRef [rows]="10" [totalRecords]="totalRecords"
+                          [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
                 </div>
             </ng-template>
             <ng-template pTemplate="emptymessage">

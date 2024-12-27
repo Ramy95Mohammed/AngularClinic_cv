@@ -18,6 +18,7 @@ import { SlideBarComponent } from './Components/slideBar/slide-bar/slide-bar.com
 import { Sidebar } from 'primeng/sidebar';
 import { CsrfService } from './services/sharedData/csrf.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { AccountService } from './services/account/account.service';
 
 
 @Component({
@@ -44,10 +45,13 @@ export class AppComponent implements OnInit{
   @ViewChild(SlideBarComponent) sideBarComponent!: SlideBarComponent;
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
-  }
-constructor(private themeSerivce:ThemeService , private localizeServ:LocalizeService ,private csrfService: CsrfService)
-{
+  } 
 
+  _accountServ:AccountService;
+constructor(private themeSerivce:ThemeService , private localizeServ:LocalizeService ,private csrfService: CsrfService , accountServ:AccountService
+  ,private _appSideBar:SlideBarComponent)
+{
+   this._accountServ = accountServ;   
 }
 ngOnInit(): void {
    this.changeTheme('luna-blue'); 

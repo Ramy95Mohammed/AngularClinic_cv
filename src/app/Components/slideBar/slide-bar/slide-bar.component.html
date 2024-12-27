@@ -1,7 +1,7 @@
 
 
 
-<p-sidebar #sidebarRef [(visible)]="sidebarVisible" [position]="dir=='rtl'?'right':'left'" [modal]="false" class="mt-5  d-md-block d-xs-none d-sm-none" (onHide)="makeBodyContentsFullScree()"
+<p-sidebar #sidebarRef  id="appSidebar" [(visible)]="sidebarVisible" [position]="dir=='rtl'?'right':'left'" [modal]="false" class="mt-5  d-md-block d-xs-none d-sm-none" (onHide)="makeBodyContentsFullScree()"
 [showCloseIcon]="true" autoZIndex="true" >
     <ng-template pTemplate="headless">
         <div class="flex flex-column h-full">
@@ -243,10 +243,10 @@
     </ng-template>
 </p-sidebar>
 
- <p-button 
+ <!-- <p-button 
     type="button"  
     class="mr-2 mt-5  position-fixed d-md-block d-xs-none d-sm-none z-1000"
     (onClick)="showSlideBar()" 
     [icon]="dir=='rtl'?'pi pi-arrow-left':'pi pi-arrow-right'" 
    
-    />
+    /> -->

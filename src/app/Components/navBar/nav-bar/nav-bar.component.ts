@@ -166,4 +166,9 @@ export class NavBarComponent implements OnInit {
       this.router.navigate([currentUrl]);
     });
   }
+  showSlideBar()
+  {    
+   // this._appSideBar.showSlideBar();
+   this._appComponent.sideBarComponent.showSlideBar();
+  }
 }

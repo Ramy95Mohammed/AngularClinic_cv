@@ -75,6 +75,12 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+
+//   #appSidebar {
+//   transition: width 0.3s ease-in-out;
+//   transform: translateX(absolute);/* Initially hide the sidebar off-screen */
+// }
+
 .max-height-dialog {
     margin-top: 70px !important;
     max-height: calc(100vh - 70px);

@@ -1,5 +1,5 @@
 <div id="navBarCard px-0">
-  <app-nav-bar></app-nav-bar>
+  <app-nav-bar [dir]="dir" *ngIf="_accountServ.getToken() != null"></app-nav-bar>
 </div>
 <!-- <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '90px' }"></p-progressBar> -->
 <!-- <div style="height: 40px;"></div> -->
@@ -8,7 +8,7 @@
 
 
 <p-card [dir]="dir" id="mainLayout" class="vh-100 " styleClass="vh-100 no-border-rauis">
-  <app-slide-bar  [dir]="dir"></app-slide-bar> 
+  <app-slide-bar *ngIf="_accountServ.getToken() != null" [dir]="dir"></app-slide-bar> 
   <p-toast  *ngIf="dir == 'rtl'" position="bottom-right" />
   <p-toast *ngIf="dir == 'ltr'" position="bottom-left" />
   <div class="row flex-row-reverse ">

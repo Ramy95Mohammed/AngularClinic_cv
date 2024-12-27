@@ -31,7 +31,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       'lbl_reportBackColor':lbl_reportBackColor,
       'lbl_subReportHeaderBackColor':lbl_subReportHeaderBackColor,
       'lbl_textColorForReport':lbl_textColorForReport,
-      'Content-Type': 'application/json' // Add CSRF token to the headers
+      //'Content-Type': 'application/json' // Add CSRF token to the headers
     } 
    } );
    

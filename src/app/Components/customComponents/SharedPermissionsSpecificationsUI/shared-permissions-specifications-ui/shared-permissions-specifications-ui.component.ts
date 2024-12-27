@@ -19,12 +19,13 @@ import { Table } from 'primeng/table';
 import { CustomPrintBtnComponent } from "../../customPrintBtn/custom-print-btn/custom-print-btn.component";
 import { CustomSearchFilterInputComponent } from "../../customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
 import { CustomSearchFilterDropDownComponent } from '../../customSearchFilterDropDown/custom-search-filter-drop-down/custom-search-filter-drop-down.component';
+import { CustomPaginatorFilterSearchComponent } from "../../customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
 
 @Component({
   selector: 'app-shared-permissions-specifications-ui',
   standalone: true,
   imports: [ImportsModule, CustomDialogComponent, CustomSearchBtnComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomConfirmDialogComponent, CustomSaveBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomSearchFilterInputComponent,
-  CustomSearchFilterDropDownComponent],
+    CustomSearchFilterDropDownComponent, CustomPaginatorFilterSearchComponent],
   templateUrl: './shared-permissions-specifications-ui.component.html',
   styleUrl: './shared-permissions-specifications-ui.component.scss'
 })
