@@ -14,6 +14,8 @@ import { FileSelectEvent, FileUpload } from 'primeng/fileupload';
 import { CustomDeleteBtnComponent } from "../../../customComponents/customDeleteBtn/custom-delete-btn/custom-delete-btn.component";
 import { CustomConfirmDialogComponent } from "../../../customComponents/customConfirmDialogComponent/custom-confirm-dialog/custom-confirm-dialog.component";
 import e from 'express';
+import { PrintService } from '../../../../services/printingservice/print.service';
+import { environment } from '../../../../../environments/environment.development';
 @Component({
   selector: 'app-enterprise-info',
   standalone: true,
@@ -31,7 +33,7 @@ export class EnterpriseInfoComponent implements OnInit {
   imageLogofileNameToDelete: string | null = null;
   @ViewChild('confirmDialog') confirmDialog!: CustomConfirmDialogComponent;
   constructor(localizeServ: LocalizeService, private titleService: Title,
-    private messageService: MessageService, private enterpriseInfoServ: EnterpriseInfoService) {
+    private messageService: MessageService, private enterpriseInfoServ: EnterpriseInfoService, private _printServ: PrintService) {
     this._localizeServe = localizeServ;
 
     this.enterPriseInfoForm = this.initEnterPriseInfoForm(null);
@@ -67,7 +69,7 @@ export class EnterpriseInfoComponent implements OnInit {
       if (res != null) {
         this.enterPriseInfoForm = this.initEnterPriseInfoForm(res);
 
-        
+
         this.downloadedFiles = [];
         if (res.imageLogoPath != undefined) {
           let underscoreIndex = res.imageLogoPath.indexOf('_');
@@ -79,7 +81,7 @@ export class EnterpriseInfoComponent implements OnInit {
           };
           this.downloadedFiles.push(newFile);
         }
-        
+
       }
     });
   }
@@ -158,7 +160,21 @@ export class EnterpriseInfoComponent implements OnInit {
     });
   }
 
+  printEnterPriseData() {
+    if (this.enterPriseInfoForm.valid) {
+      const formData = new FormData();
 
+      this.appendFormData(formData);
+      const httpOptions = {
+        headers: new HttpHeaders()
+        // No Content-Type header is needed when sending FormData
+      };
+      this._printServ.generateReportWithBodyByFormData('EnterpriseInfo/print',formData,httpOptions.headers,this._localizeServe.getLabelValue('lbl_printEnterpriseData'));
+    } else {
+      console.log('form value is error');
+      this.enterPriseInfoForm.markAllAsTouched();
+    }
+  }
 
 
 }

@@ -25,7 +25,7 @@ import { AccountService } from './services/account/account.service';
   selector: 'app-root',
   standalone: true,
   imports: [ImportsModule, NavBarComponent, SlideBarComponent],
-  providers:[MessageService],
+  providers:[MessageService , SlideBarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss' ,
   animations: [

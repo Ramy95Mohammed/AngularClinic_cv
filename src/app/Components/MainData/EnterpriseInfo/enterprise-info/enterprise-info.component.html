@@ -7,12 +7,12 @@
             <div class="col-12 mb-4">
                 <p-toolbar styleClass="mb-2">
                     <ng-template pTemplate="left">
-                        <app-custom-new-btn [ControllerName]="ControllerName" severity="success"
-                            icon="pi pi-plus"></app-custom-new-btn>
+                        <!-- <app-custom-new-btn  [ControllerName]="ControllerName" severity="success"
+                            icon="pi pi-plus"></app-custom-new-btn> -->
                         <app-custom-save-btn (onBtnSaveClick)="onSave()"
                             [ControllerName]="ControllerName"></app-custom-save-btn>
 
-                        <app-custom-print-btn [ControllerName]="ControllerName"></app-custom-print-btn>
+                        <app-custom-print-btn (onBtnPrintClick)="printEnterPriseData()" [ControllerName]="ControllerName"></app-custom-print-btn>
                     </ng-template>
 
                     <ng-template pTemplate="right">

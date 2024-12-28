@@ -216,13 +216,13 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     InputIconModule,
     AutoFocusModule,
     
+    
   ],
   exports: [
     AvatarModule,
     AvatarGroupModule,
     AnimateOnScrollModule,
-    FormsModule,
-    HttpClientModule,
+    FormsModule,    
     ReactiveFormsModule,
     AccordionModule,
     AutoCompleteModule,

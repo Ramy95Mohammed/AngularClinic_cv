@@ -27,4 +27,6 @@ export class EnterpriseInfoService {
       body: JSON.stringify({ fileName: fileName })  // Sending the path as a JSON object
     });
   }
+
+ 
 }
