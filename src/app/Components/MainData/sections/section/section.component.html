@@ -4,6 +4,18 @@
             <app-custom-new-btn [ControllerName]="ControllerName" severity="success"
                 icon="pi pi-plus"
                 (onBtnNewClick)="openNew()"></app-custom-new-btn>
+                <app-custom-print-btn [ControllerName]="ControllerName"
+                (onBtnPrintClick)="printSectionsData()"></app-custom-print-btn>
+                <div class="flex align-items-center gap-1 mx-2  cursor-pointer" >
+                        
+                    <label for="printAll" pInputText  class="cursor-pointer border-0 bg-transparent">{{_localizeServe.getLabelValue('lbl_printAll')}}</label>
+                
+                <p-checkbox 
+                name="printAll"                                     
+                [binary]="true"
+                [(ngModel)]="printAll"                    
+                inputId="printAll" />
+                </div>
         </ng-template>
 
         <ng-template pTemplate="right">
@@ -14,10 +26,12 @@
         [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
             <div class="flex justify-content-between">
-                <p-button [outlined]="true" icon="pi pi-filter-slash"
-                class="mr-2"
-                    [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dt.reset()" />
-
+              
+                    <app-custom-clear-btn [ControllerName]="ControllerName"
+                    [outlined]="true" icon="pi pi-filter-slash"
+                    [label]="_localizeServe.getLabelValue('lbl_clear')"
+                    (onBtnClearClick)="dt.reset();txtCustomtxtSearchSextions.txtSerach='';getPaginatedData();"
+                    ></app-custom-clear-btn>
                 <app-custom-search-filter-input #txtCustomtxtSearchSextions
                 [ControllerName]="ControllerName"
                 [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"

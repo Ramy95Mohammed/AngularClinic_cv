@@ -49,9 +49,28 @@ export class PrintService {
         (error) => {
           console.error('Error generating report:', error);
         }
-      );
+      );      
+  }
 
-      
+  
+  generateReportWithBodyWithHeaders(RoutingUrl:string , value:any, rptHeaderTitle:string , headers:{}) {
+    const url = environment.apiUrl+RoutingUrl;
+
+    // Fetch the report as a blob
+    this._httpClinet
+      .post(url,value, { responseType: 'blob' , headers:headers } )
+      .subscribe(
+        (response: Blob) => {
+          // Create a URL for the blob
+          const fileURL = URL.createObjectURL(response);
+
+          // Open the PDF in a new window/tab
+          this.openInNewWindow(fileURL,rptHeaderTitle);
+        },
+        (error) => {
+          console.error('Error generating report:', error);
+        }
+      );      
   }
 
 

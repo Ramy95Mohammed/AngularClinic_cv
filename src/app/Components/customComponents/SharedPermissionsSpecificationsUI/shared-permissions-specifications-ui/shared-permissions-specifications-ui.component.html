@@ -30,9 +30,13 @@
                 <ng-template pTemplate="caption">
                     <div class="row">
                         <div class="col-md-2 mb-4 mt-2">
-                            <p-button [outlined]="true" icon="pi pi-filter-slash"
-                            class="mr-2"
-                                [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dtPermissions.reset()" />
+
+                                <app-custom-clear-btn [ControllerName]="ControllerName"
+                            [outlined]="true" icon="pi pi-filter-slash"
+                            [label]="_localizeServe.getLabelValue('lbl_clear')"
+                            (onBtnClearClick)="dtPermissions.reset();txtCustomtxtSearchSherdPermissions.txtSerach='';pagesCategoriesDropDown.value = null;
+                            getByFiltering();"
+                            ></app-custom-clear-btn>
 
                         </div>
                         <div class="col-md-4 mb-4 mt-2">
@@ -117,7 +121,7 @@
                 </ng-template>
                 <ng-template pTemplate="summary">
                     <div class="flex align-items-center justify-content-between">
-                        <!-- <p-paginator    dropdownAppendTo="body" [showCurrentPageReport]="true"  currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} " dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator> -->
+                        
                     </div>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -139,9 +143,14 @@
                 [showCurrentPageReport]="true" [globalFilterFields]="['displayName', 'userPolicyName']">
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between">
-                        <p-button [outlined]="true" icon="pi pi-filter-slash"
+                    
+
+
+                            <app-custom-clear-btn [ControllerName]="ControllerName"
+                            [outlined]="true" icon="pi pi-filter-slash"
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
-                            (onClick)="dtUsersWithoutPermissions.reset()" />
+                            (onBtnClearClick)="dtUsersWithoutPermissions.reset();txtCustomSearchUsersWithoutPermissions.txtSerach='';filterGlobalUsersWithoutPermissions();"
+                            ></app-custom-clear-btn>
                         <app-custom-search-filter-input #txtCustomSearchUsersWithoutPermissions
                             [ControllerName]="ControllerName"
                             [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
@@ -190,9 +199,13 @@
                 [globalFilterFields]="['displayName', 'userPolicyName']">
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between">
-                        <p-button [outlined]="true" icon="pi pi-filter-slash"
+                      
+
+                            <app-custom-clear-btn [ControllerName]="ControllerName"
+                            [outlined]="true" icon="pi pi-filter-slash"
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
-                            (onClick)="dtUsersWithoutPermissions.reset()" />
+                            (onBtnClearClick)="dtHavePermssions.reset();txtCustomSearchUsersHavePermission.txtSerach='';filterGlobalUsersHavePermissions();"
+                            ></app-custom-clear-btn>
                         <app-custom-search-filter-input #txtCustomSearchUsersHavePermission
                             [ControllerName]="ControllerName"
                             [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
@@ -247,18 +260,16 @@
             <ng-template pTemplate="caption">
                 <div class="row">
                     <div class="col-md-2 mb-4 mt-2">
-                        <p-button [outlined]="true" icon="pi pi-filter-slash"
-                            [label]="_localizeServe.getLabelValue('lbl_clear')" (onClick)="dt.reset()" />
+                      
+
+                            <app-custom-clear-btn [ControllerName]="ControllerName"
+                            [outlined]="true" icon="pi pi-filter-slash"
+                            [label]="_localizeServe.getLabelValue('lbl_clear')"
+                            (onBtnClearClick)="dt.reset();clearPermissiosnMasterFilters()"
+                            ></app-custom-clear-btn>
                     </div>
                     <div class="col-md-4 mb-4 mt-2">
-                        <!-- <p-iconField iconPosition="left">
-                            <p-inputIcon>
-                                <i class="pi pi-search"></i>
-                            </p-inputIcon>
-                            <input pInputText class="w-100" type="text" [(ngModel)]="txtSearchForPermissionsMaster"
-                                (input)="getPermissiosnMasterData(1 , 10 , txtSearchForPermissionsMaster , null)"
-                                [placeholder]="_localizeServe.getLabelValue('lbl_search')" />
-                        </p-iconField> -->
+                     
 
                         <app-custom-search-filter-input #txtCustomtxtSearchPermissionsMaster
                         [ControllerName]="ControllerName"
@@ -305,15 +316,12 @@
             </ng-template>
             <ng-template pTemplate="summary">
                 <div class="flex align-items-center justify-content-between">
-                    <!-- <p-paginator dropdownAppendTo="body" [showCurrentPageReport]="true"
-                        currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}} "
-                        dir="ltr" #paginatorRef (onPageChange)="onPageChange($event)" [rows]="10"
-                        [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 20, 30,40,50]"></p-paginator> -->
+                 
 
                         <app-custom-paginator-filter-search [ControllerName]="ControllerName" 
                         (onPageChange)="onPageChange($event)"
                          dropdownAppendTo="body" [showCurrentPageReport]="true" 
-                         currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRef [rows]="10" [totalRecords]="totalRecords"
+                         currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRefPermissionsMaster [rows]="10" [totalRecords]="totalRecords"
                           [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
                 </div>
             </ng-template>

@@ -1,7 +1,7 @@
 <div class="" >
     <p-toolbar styleClass="mb-2" >
         <ng-template pTemplate="left">            
-            <app-custom-new-btn [ControllerName]="ControllerName" severity="success"   (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn>
+            <!-- <app-custom-new-btn [ControllerName]="ControllerName" severity="success"   (onBtnNewClick)="clearSearchData();"  icon="pi pi-plus"  ></app-custom-new-btn> -->
             <app-custom-delete-btn [ControllerName]="ControllerName" (onBtnDeleteClick)="showConfirmDialog()"></app-custom-delete-btn>
                  <app-custom-print-btn [ControllerName]="ControllerName" (onBtnPrintClick)="printUsersActionData()"></app-custom-print-btn>
                     <div class="flex align-items-center gap-1 mx-2  cursor-pointer" >
@@ -35,7 +35,10 @@
     <ng-template pTemplate="caption">
         <div class="row" >
             <div class="col-md-2 mb-4 mt-2">
-                <p-button [outlined]="true"  class="mr-2" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  (onClick)="dtActions.reset()" />
+                <!-- <p-button [outlined]="true"  class="mr-2" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  /> -->
+                <app-custom-clear-btn [ControllerName]="ControllerName" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"
+                [outlined]="true" (onBtnClearClick)="clearSearchData()"
+                ></app-custom-clear-btn>
             </div>
             <div class="col-md-2 mb-4 mt-2">
         

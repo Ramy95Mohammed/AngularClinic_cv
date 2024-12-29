@@ -1,0 +1,14 @@
+<p-button 
+[icon]="icon" 
+class="mr-2" 
+[rounded]="rounded" 
+[label]="label" 
+[text]="text" 
+[outlined]="outlined" 
+[severity]="severity"
+[pTooltip]="_localzieServ.getLabelValue('lbl_clear')"
+(onClick)="onClear()" />
+
+
+
+<app-custom-confirm-dialog  #confirmDialog></app-custom-confirm-dialog> 

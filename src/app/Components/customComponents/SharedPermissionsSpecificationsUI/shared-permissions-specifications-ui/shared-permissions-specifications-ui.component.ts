@@ -20,12 +20,13 @@ import { CustomPrintBtnComponent } from "../../customPrintBtn/custom-print-btn/c
 import { CustomSearchFilterInputComponent } from "../../customSearchFilterInput/custom-search-filter-input/custom-search-filter-input.component";
 import { CustomSearchFilterDropDownComponent } from '../../customSearchFilterDropDown/custom-search-filter-drop-down/custom-search-filter-drop-down.component';
 import { CustomPaginatorFilterSearchComponent } from "../../customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
+import { CustomClearBtnComponent } from "../../customClearBtn/custom-clear-btn/custom-clear-btn.component";
 
 @Component({
   selector: 'app-shared-permissions-specifications-ui',
   standalone: true,
   imports: [ImportsModule, CustomDialogComponent, CustomSearchBtnComponent, CustomEditBtnComponent, CustomDeleteBtnComponent, CustomConfirmDialogComponent, CustomSaveBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomSearchFilterInputComponent,
-    CustomSearchFilterDropDownComponent, CustomPaginatorFilterSearchComponent],
+    CustomSearchFilterDropDownComponent, CustomPaginatorFilterSearchComponent, CustomClearBtnComponent],
   templateUrl: './shared-permissions-specifications-ui.component.html',
   styleUrl: './shared-permissions-specifications-ui.component.scss'
 })
@@ -47,10 +48,12 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
   @ViewChild('dtUsersWithoutPermissions') dtUsersWithoutPermissions!: Table
   @ViewChild('dtHavePermssions') dtHavePermssions!: Table
   @ViewChild('permissionsCustomDialog') permissionsCustomDialog!: CustomDialogComponent
+  @ViewChild('paginatorRefPermissionsMaster') paginatorRefPermissionsMaster!: CustomPaginatorFilterSearchComponent
   @ViewChild('paginatorRef') paginatorRef!: Paginator
   @ViewChild('txtCustomtxtSearchSherdPermissions') txtCustomtxtSearchSherdPermissions!:CustomSearchFilterInputComponent;
   @ViewChild('txtCustomSearchUsersWithoutPermissions') txtCustomSearchUsersWithoutPermissions!:CustomSearchFilterInputComponent;
   @ViewChild('txtCustomSearchUsersHavePermission') txtCustomSearchUsersHavePermission!:CustomSearchFilterInputComponent;
+  @ViewChild('txtCustomtxtSearchPermissionsMaster') txtCustomtxtSearchPermissionsMaster!:CustomSearchFilterInputComponent;
   hideBtnEdit: boolean = true;
   @Input() ControllerName: string = 'PermissionsSpecification';
   @Input() emitBtnNewClickEvent: () => void = () => {
@@ -104,7 +107,11 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
     this.customDeleteDialog.showDialog('lbl_permissionMasterAndDetailsWillDeleted', 'lbl_confirm', 'lbl_Ok', 'lbl_cancel');
 
   }
-
+  clearPermissiosnMasterFilters()
+  {
+    this.txtCustomtxtSearchPermissionsMaster.txtSerach = '' ;
+    this.getDataWithPaginator(this.paginatorRefPermissionsMaster.paginatorRef); 
+  }
   hideDialog() {
     this.permissionsDialog = false;
   }

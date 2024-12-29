@@ -18,11 +18,13 @@ import { CustomSearchFilterInputComponent } from "../../../customComponents/cust
 import { CustomPaginatorFilterSearchComponent } from "../../../customComponents/customPaginatorFilterSearch/custom-paginator-filter-search/custom-paginator-filter-search.component";
 import { CustomSearchFilterDropDownComponent } from "../../../customComponents/customSearchFilterDropDown/custom-search-filter-drop-down/custom-search-filter-drop-down.component";
 import { CustomCalendarFilterSearchComponent } from "../../../customComponents/customCalendarFilterSearch/custom-calendar-filter-search/custom-calendar-filter-search.component";
+import { CustomClearBtnComponent } from "../../../customComponents/customClearBtn/custom-clear-btn/custom-clear-btn.component";
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-users-action',
   standalone: true,
-  imports: [ImportsModule, CustomDeleteBtnComponent, CustomNewBtnComponent, CustomPrintBtnComponent, CustomConfirmDialogComponent, CustomSearchFilterInputComponent, CustomPaginatorFilterSearchComponent, CustomSearchFilterDropDownComponent, CustomCalendarFilterSearchComponent],
+  imports: [ImportsModule, CustomDeleteBtnComponent, CustomPrintBtnComponent, CustomConfirmDialogComponent, CustomSearchFilterInputComponent, CustomPaginatorFilterSearchComponent, CustomSearchFilterDropDownComponent, CustomCalendarFilterSearchComponent, CustomClearBtnComponent],
   templateUrl: './users-action.component.html',
   styleUrl: './users-action.component.scss'
 })
@@ -43,6 +45,7 @@ export class UsersActionComponent implements OnInit{
   @ViewChild('txtCustomSearch') txtCustomSearch!:CustomSearchFilterInputComponent;
   @ViewChild('dateFromForUserActionUpdateDate') dateFromForUserActionUpdateDate!:CustomCalendarFilterSearchComponent;
   @ViewChild('dateToForUserActionUpdateDate') dateToForUserActionUpdateDate!:CustomCalendarFilterSearchComponent;
+  @ViewChild('dtActions') dtActions!:Table;
   constructor(localoizeServ:LocalizeService , private sharedServ:SharedDataService , private usersActionsServ:UsersActionsService,private messageService: MessageService,private titleService:Title ,private printServ:PrintService)
   {
    this._localizeServe = localoizeServ;
@@ -171,13 +174,13 @@ export class UsersActionComponent implements OnInit{
       });
     }
     clearSearchData()
-    {
-
-      this.txtSearch="";
+    {      
+      this.dtActions.reset()
+      this.txtCustomSearch.txtSerach="";
       this.actionProcessTypeDropDown.value = null;
       this.dateFromForUserActionUpdateDate.value = null;
       this.dateToForUserActionUpdateDate.value= null;
-     this.getDataOnParamsChanges()
+     this.getDataOnParamsChanges();
     }
 
     printUsersActionData()

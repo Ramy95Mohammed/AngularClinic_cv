@@ -2,8 +2,6 @@
 <div class="flex flex-column md:flex-row  h-100">
     <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5 ">
 
-
-
         <div class="d-flex flex-column flex-column-reverse">
             <p *ngIf="registerForm.get('userPolicy')?.getError('required') && registerForm.get('userPolicy')?.touched" class="text-danger mx-1">*</p>
 
@@ -102,6 +100,7 @@
           [class]="''"
           styleClass="w-10rem mx-auto"
         ></app-custom-save-btn>
+        
     </div>
     <input hidden formControlName="userName">
     <div class="w-full md:w-2">
