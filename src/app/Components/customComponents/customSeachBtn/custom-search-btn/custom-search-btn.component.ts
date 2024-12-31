@@ -24,7 +24,9 @@ export class CustomSearchBtnComponent {
   @Input() rounded:boolean = true;
   @Input() text:boolean = false;
   @Input() outlined:boolean = true;
+  @Input() btnClass:string = 'mr-2';
   @Input() ControllerName:string = '';
+
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   onSearch()
   {

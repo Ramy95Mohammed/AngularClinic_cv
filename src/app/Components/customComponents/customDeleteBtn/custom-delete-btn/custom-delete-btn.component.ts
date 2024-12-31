@@ -15,6 +15,8 @@ import { TooltipModule } from 'primeng/tooltip';
 export class CustomDeleteBtnComponent {
   @Output() onBtnDeleteClick: EventEmitter<any> = new EventEmitter();
   @Input() ControllerName:string = '';
+  @Input() rounded:boolean = true;
+  @Input() text:boolean = false;
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   _localzieServ:LocalizeService;
   constructor(private checkUserPermissionServ:CheckUserPermissionService , localizeServ:LocalizeService)

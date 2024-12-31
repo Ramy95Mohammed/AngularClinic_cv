@@ -147,8 +147,22 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
       s.isRowShown = (matchesUserControllerName || matchesPageCategoryName) && filterByCategory;
     });
   }
+  getActivityValue(activity: number): string {
+    if(activity == 0)
+      return this._localizeServe.getLabelValue('lbl_Inactive');
+    else if(activity == 1)
+    return this._localizeServe.getLabelValue('lbl_active');
+  return '';
+  }
+  getSeverity(status: number): any {
+    switch (status) {
+      case 1:
+        return 'success';
 
-
+      case 0:
+        return 'danger';
+    }
+  }
   showDialogPermissions() {
     this.getPermissiosnMasterData(1, 10, this.txtSearchForPermissionsMaster, null);
     this.permissionsDialog = true;

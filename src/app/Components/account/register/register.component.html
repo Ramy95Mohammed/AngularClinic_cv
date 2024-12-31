@@ -1,124 +1,379 @@
 <form [formGroup]="registerForm">
-<div class="flex flex-column md:flex-row  h-100">
-    <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5 ">
+    <div class="flex flex-column md:flex-row  h-100 mt-3">
+        <app-custom-search-btn class="px-2" [btnClass]="''" (onBtnSearchClick)="showDialogAndGetData() "
+            [outlined]="false" [severity]="'primary'" [label]="localizeServ.getLabelValue('lbl_usersList')"
+            [ControllerName]="ControllerName"></app-custom-search-btn>
+        <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5 ">
 
-        <div class="d-flex flex-column flex-column-reverse">
-            <p *ngIf="registerForm.get('userPolicy')?.getError('required') && registerForm.get('userPolicy')?.touched" class="text-danger mx-1">*</p>
+            <div class="d-flex flex-column flex-column-reverse ">
+                <p *ngIf="registerForm.get('userPolicy')?.getError('required') && registerForm.get('userPolicy')?.touched"
+                    class="text-danger mx-1">*</p>
 
-        <div class="flex flex-wrap justify-content-center align-items-center gap-2" style="width: 250px;">
-            <p-inputGroup > 
-                <p-inputGroupAddon>
-                    <i class="pi pi-discord"></i>
-                </p-inputGroupAddon>
-                    <p-floatLabel  [class]="'w-100'"  dir="ltr">
-                            <p-dropdown   
-                           #userPolicyDropdown
-                               Class="w-100"
-                              formControlName="userPolicy"
-                                [options]="userPolicyData"
-                               
-                                [showClear]="true"
-                                optionLabel="value" 
-                                optionValue="key"
-                                inputId="userPolicy-label"
-                                [placeholder]="localizeServ.getLabelValue('lbl_choose')"  />
-                        <label  for="userPolicy-label" >{{localizeServ.getLabelValue('lbl_userPolicy')}}</label>
-                    </p-floatLabel>
-            </p-inputGroup>
-           
+                <div class="flex flex-wrap justify-content-center align-items-center gap-2" style="width: 250px;">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <i class="pi pi-discord"></i>
+                        </p-inputGroupAddon>
+                        <p-floatLabel [class]="'w-100'" dir="ltr">
+                            <p-dropdown #userPolicyDropdown Class="w-100" formControlName="userPolicy"
+                                [options]="userPolicyData" [showClear]="true" optionLabel="value" optionValue="key"
+                                inputId="userPolicy-label" [placeholder]="localizeServ.getLabelValue('lbl_choose')" />
+                            <label for="userPolicy-label">{{localizeServ.getLabelValue('lbl_userPolicy')}}</label>
+                        </p-floatLabel>
+                    </p-inputGroup>
+
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-column-reverse">
+                <p *ngIf="registerForm.get('displayName')?.getError('required') && registerForm.get('displayName')?.touched"
+                    class="text-danger mx-1">*</p>
+                <p *ngIf="registerForm.get('displayName')?.getError('pattern') && registerForm.get('displayName')?.valueChanges"
+                    class="text-danger mx-1">*</p>
+
+                <div class="flex flex-wrap justify-content-center align-items-center gap-2" style="width: 250px;">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <i class="pi pi-user"></i>
+                        </p-inputGroupAddon>
+                        <input formControlName="displayName" pInputText
+                            [placeholder]="localizeServ.getLabelValue('lbl_userName')" />
+                    </p-inputGroup>
+
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-column-reverse">
+
+                <p *ngIf="registerForm.get('email')?.getError('required') && registerForm.get('email')?.touched"
+                    class="text-danger mx-1">*</p>
+                <p *ngIf="registerForm.get('email')?.getError('email') && registerForm.get('email')?.valueChanges"
+                    class="text-danger mx-1">{{localizeServ.getLabelValue('lbl_emailInvalid')}}</p>
+
+                <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <i class="pi pi-at"></i>
+                        </p-inputGroupAddon>
+                        <input formControlName="email" type="email" pInputText
+                            [placeholder]="localizeServ.getLabelValue('lbl_email')" />
+
+                    </p-inputGroup>
+
+                </div>
+
+            </div>
+
+            <div class="d-flex flex-column flex-column-reverse">
+                <p *ngIf="registerForm.get('password')?.getError('required') && registerForm.get('password')?.touched"
+                    class="text-danger mx-1 ">*</p>
+
+
+                <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;">
+                    <p-inputGroup>
+                        <p-inputGroupAddon>
+                            <i class="pi pi-circle-fill"></i>
+                        </p-inputGroupAddon>
+                        <!-- <input type="password" pInputText [placeholder]="localizeServ.getLabelValue('lbl_password')"/> -->
+                        <p-password [autocomplete]="''" formControlName="password" [feedback]="true" styleClass="w-100"
+                            [placeholder]="localizeServ.getLabelValue('lbl_password')" [toggleMask]="true" />
+                    </p-inputGroup>
+                </div>
+            </div>
+            <p *ngIf="registerForm.get('password')?.getError('pattern') && registerForm.get('password')?.valueChanges"
+                class="text-danger mx-1 w-50">{{localizeServ.getLabelValue('lbl_passworInvalid')}}
+                <br>
+                The password must be at least 8 characters long but no more than 10 characters long
+                <br>
+                The password must contain at least one digit (0-9)
+                <br>
+                The password must contain at least one lowercase letter (a-z)
+                <br>
+                The password must contain at least one uppercase letter (A-Z)
+                <br>
+                At Least One Special Character
+                <br>
+                No Spaces
+            </p>
+
+            <app-custom-save-btn (onBtnSaveClick)="registerUser()" [label]="localizeServ.getLabelValue('lbl_register')"
+                [ControllerName]="ControllerName" icon="pi pi-user" [outlined]="false" [severity]="'primary'"
+                [class]="''" styleClass="w-10rem mx-auto"></app-custom-save-btn>
+
+        </div>
+        <input hidden formControlName="userName">
+        <div class="w-full md:w-2">
+            <p-divider layout="vertical" styleClass="hidden md:flex">
+                <b></b>
+            </p-divider>
+            <p-divider layout="horizontal" styleClass="flex md:hidden" [align]="'center'">
+                <b></b>
+            </p-divider>
+        </div>
+        <div class="w-full md:w-5 flex align-items-center justify-content-center py-5">
+            <p-card header="PRIME CLINIC" subheader="Clinic Name" [style]="{ width: '360px' }">
+                <ng-template pTemplate="header">
+                    <img alt="Prime Logo" src="/assets/images/PrimeLogo.png" />
+                </ng-template>
+            </p-card>
         </div>
     </div>
 
-        <div class="d-flex flex-column flex-column-reverse">
-            <p *ngIf="registerForm.get('displayName')?.getError('required') && registerForm.get('displayName')?.touched" class="text-danger mx-1">*</p>
-            <p *ngIf="registerForm.get('displayName')?.getError('pattern') && registerForm.get('displayName')?.valueChanges" class="text-danger mx-1">*</p>
+</form>
+<form #userForm="ngForm">
+    <!--Users List-->
 
-        <div class="flex flex-wrap justify-content-center align-items-center gap-2" style="width: 250px;">
-            <p-inputGroup>
-                <p-inputGroupAddon>
-                    <i class="pi pi-user"></i>
-                </p-inputGroupAddon>
-                <input  formControlName="displayName" pInputText [placeholder]="localizeServ.getLabelValue('lbl_userName')" />
-            </p-inputGroup>
-           
-        </div>
-    </div>
-
-        <div class="d-flex flex-column flex-column-reverse"> 
+    <app-custom-dialog #usersListCustomDialog [visible]="usersListDialogVisibility" [contentStyle]="{'overflow-y': 'hidden'}" [height]="'auto'" [width]="'50vw'"
+        (onClose)="usersListDialogVisibility = false;">
             
-            <p *ngIf="registerForm.get('email')?.getError('required') && registerForm.get('email')?.touched" class="text-danger mx-1">*</p>
-            <p *ngIf="registerForm.get('email')?.getError('email') && registerForm.get('email')?.valueChanges" class="text-danger mx-1" >{{localizeServ.getLabelValue('lbl_emailInvalid')}}</p>
+        <ng-template #dialogContent>
 
-        <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;">
-            <p-inputGroup >
-                <p-inputGroupAddon >
-                    <i class="pi pi-at"></i>
-                </p-inputGroupAddon>
-                <input formControlName="email"  type="email" pInputText [placeholder]="localizeServ.getLabelValue('lbl_email')" />
-               
-            </p-inputGroup>
-           
-        </div>
-       
-    </div>
 
-    <div class="d-flex flex-column flex-column-reverse">
-        <p *ngIf="registerForm.get('password')?.getError('required') && registerForm.get('password')?.touched" class="text-danger mx-1 " >*</p>
-       
+<!-- 
+            <p-toolbar styleClass="mb-2">
+                <ng-template pTemplate="left">
 
-        <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;" >
-            <p-inputGroup >
-                <p-inputGroupAddon >
-                    <i class="pi pi-circle-fill"></i>
-                </p-inputGroupAddon>
-                <!-- <input type="password" pInputText [placeholder]="localizeServ.getLabelValue('lbl_password')"/> -->
-                <p-password  [autocomplete]="''" formControlName="password" [feedback]="true" styleClass="w-100" [placeholder]="localizeServ.getLabelValue('lbl_password')" [toggleMask]="true" />
-            </p-inputGroup>
-        </div>
-    </div>
-    <p *ngIf="registerForm.get('password')?.getError('pattern') && registerForm.get('password')?.valueChanges" class="text-danger mx-1 w-50" >{{localizeServ.getLabelValue('lbl_passworInvalid')}}
-        <br>
-        The password must be at least 8 characters long but no more than 10 characters long
-        <br>
-        The password must contain at least one digit (0-9)
-        <br>
-        The password must contain at least one lowercase letter (a-z)
-        <br>
-        The password must contain at least one uppercase letter (A-Z)
-        <br>
-        At Least One Special Character
-        <br>
-        No Spaces
-    </p>
+                    <app-custom-edit-btn [ControllerName]="ControllerName"
+                    (onBtnEditClick)="editUsersList()"
+                    >
+                    </app-custom-edit-btn>
+                </ng-template>
 
-        <app-custom-save-btn (onBtnSaveClick)="registerUser()"
-          [label]="localizeServ.getLabelValue('lbl_register')"
-          [ControllerName]="ControllerName"
-          icon="pi pi-user"
-          [outlined]="false"
-          [severity]="'primary'"
-          [class]="''"
-          styleClass="w-10rem mx-auto"
-        ></app-custom-save-btn>
-        
-    </div>
-    <input hidden formControlName="userName">
-    <div class="w-full md:w-2">
-        <p-divider layout="vertical" styleClass="hidden md:flex">
-            <b></b>
-        </p-divider>
-        <p-divider layout="horizontal" styleClass="flex md:hidden" [align]="'center'">
-            <b></b>
-        </p-divider>
-    </div>
-    <div class="w-full md:w-5 flex align-items-center justify-content-center py-5">
-        <p-card header="PRIME CLINIC" subheader="Clinic Name" [style]="{ width: '360px' }">
-            <ng-template pTemplate="header">
-                <img alt="Prime Logo" src="/assets/images/PrimeLogo.png" />
-            </ng-template>
-        </p-card>
-    </div>
-</div>
+                <ng-template pTemplate="right">
 
+                </ng-template>
+            </p-toolbar> -->
+
+            <p-table #userListDt  [rowHover]="true" [scrollable]="true" scrollHeight="30vh"
+                [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true" [value]="usersList" dataKey="id"
+                editMode="row">
+
+                <ng-template pTemplate="caption">
+                    <div class="row mt-3">
+                     
+                        <div class="col-md-2 mb-2">
+                            <app-custom-clear-btn btnClass="mx-0 px-2" [ControllerName]="ControllerName" [outlined]="true"
+                                icon="pi pi-filter-slash" [label]="localizeServ.getLabelValue('lbl_clear')"
+                                (onBtnClearClick)="userListDt.reset();clearSearchFiltersAndGetUsersListData();"></app-custom-clear-btn>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <app-custom-search-filter-input #txtCustomtxtSearchUsersList
+                                [ControllerName]="ControllerName"
+                                [txtPlaceHolder]="localizeServ.getLabelValue('lbl_search')"
+                                [txtSerach]="txtSearchUsersList" (onSearchFilterInput)="getPaginatedData()">
+
+                            </app-custom-search-filter-input>
+                        </div>
+
+                        <div class="col-md-3 mb-2">
+                            <app-custom-search-filter-drop-down [ControllerName]="ControllerName"
+                                #drpUserTypeSearchFilter [dropDownData]="appUserTypeData" [optionLabel]="'value'"
+                                [optionValue]="'key'" [showClear]="true"
+                                [placeholder]="localizeServ.getLabelValue('lbl_choose')"
+                                [labelPlaceholder]="localizeServ.getLabelValue('lbl_userType')" [inputId]="'userType'"
+                                (onDropDownValueChanged)="setDrpUserPolicyDataAndGetUsersListData()">
+
+                            </app-custom-search-filter-drop-down>
+                        </div>
+
+                        <div class="col-md-3 mb-2">
+                            <app-custom-search-filter-drop-down [ControllerName]="ControllerName"
+                                #drpUserPolicySearchFilter [optionLabel]="'value'" [optionValue]="'key'"
+                                [showClear]="true" [placeholder]="localizeServ.getLabelValue('lbl_choose')"
+                                [labelPlaceholder]="localizeServ.getLabelValue('lbl_userPolicy')"
+                                [inputId]="'userPolicy'" (onDropDownValueChanged)="getPaginatedData()">
+
+                            </app-custom-search-filter-drop-down>
+                        </div>
+
+
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+
+                    <tr>
+                        <th style="width:20%" class="text-center">{{localizeServ.getLabelValue('lbl_userName')}}</th>
+                        <th style="width:20%" class="text-center">{{localizeServ.getLabelValue('lbl_email')}}</th>
+                        <th style="width:20%" class="text-center">{{localizeServ.getLabelValue('lbl_userType')}}</th>
+                        <th style="width:20%" class="text-center">{{localizeServ.getLabelValue('lbl_userPolicy')}}</th>
+                        <th style="width:20%" class="text-center">{{localizeServ.getLabelValue('lbl_isActive')}}</th>
+                        <th style="width:20%" class="text-center">{{localizeServ.getLabelValue('lbl_operations')}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user let-editing="editing" let-ri="rowIndex">
+                    <tr [pEditableRow]="user" *ngIf="!user.isDeleted">
+                        <td class="text-center">
+                            <p-cellEditor>
+                                <ng-template  pTemplate="input">
+                                    <div *ngIf="user.appUserType == 0">
+                                    <div *ngIf="displayName.invalid && (displayName.touched  || displayName.valueChanges)"
+                                        class="p-error float-start">
+                                        <div *ngIf="displayName.errors?.['required']">*</div>
+                                        <div *ngIf="displayName.errors?.['pattern']">*</div>
+                                    </div>
+                                    <input  pInputText type="text" #displayName="ngModel"
+                                        [ngModelOptions]="{standalone: true}" [(ngModel)]="user.displayName" required
+                                        pattern="^(?!\s+$).+"
+                                        [class.invalid]="displayName.invalid && displayName.touched"
+                                        [class.valid]="displayName.valid" />
+                                    </div>
+                                    <div *ngIf="user.appUserType == 1">
+                                    {{user.displayName}}
+                                    </div>
+
+                                </ng-template>
+                                
+                                
+                                
+                                <ng-template pTemplate="output">
+                                    {{user.displayName}}
+                                </ng-template>
+                            </p-cellEditor>
+
+                        </td>
+                        <td class="text-center">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    {{user.email}}
+                                    <!-- <input 
+                                    pInputText type="text" 
+                                    [(ngModel)]="user.email" 
+                                    [disabled]="true"
+                                    [ngModelOptions]="{standalone: true}"
+                                    required /> -->
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{user.email}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="text-center">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    {{getAppUserTypeValue(user.appUserType)}}
+                                    <!-- <p-dropdown 
+                                    [options]="appUserTypeData" 
+                                    appendTo="body" 
+                                    optionLabel="value" optionValue="key"
+                                    [(ngModel)]="user.appUserType" 
+                                    [ngModelOptions]="{standalone: true}"
+                                    [style]="{'width':'100%'}" /> -->
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{getAppUserTypeValue(user.appUserType)}}
+
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="text-center">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+
+                                    @if(user.appUserType == 0)
+                                    {
+                                    <p-dropdown [options]="userPolicyData" appendTo="body" optionLabel="value"
+                                        optionValue="key" [(ngModel)]="user.userPolicy"
+                                        [ngModelOptions]="{standalone: true}" [style]="{'width':'100%'}" />
+                                    }
+                                    @if(user.appUserType == 1)
+                                    {
+                                    {{getUserPolicyValue(user.userPolicy)}}
+                                    }
+
+
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{getUserPolicyValue(user.userPolicy)}}
+
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="text-center">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-dropdown [options]="activityStatusData" optionLabel="value" optionValue="key"
+                                        appendTo="body" [(ngModel)]="user.isActive"
+                                        [ngModelOptions]="{standalone: true}" [style]="{'width':'100%'}" />
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <p-tag [value]="getActivityValue(user.isActive)"
+                                        [severity]="getSeverity(user.isActive)" />
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td class="text-center">
+                            <div class="flex align-items-center justify-content-center gap-2">
+                                <!-- <p-button *ngIf="!editing" [rounded]="true" [text]="true" severity="success"
+                                    pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(user)"
+                                    [pTooltip]="localizeServ.getLabelValue('lbl_openEdit')"
+                                    >
+                                </p-button> -->
+
+                                <app-custom-edit-btn
+                            *ngIf="!editing" 
+                            severity="success"
+                             [ControllerName]="ControllerName"
+                             
+                            icon="pi pi-pencil" 
+                            (onBtnEditClick)="onRowEditInit(user)"
+                            [rounded]="true"
+                            >
+
+                            </app-custom-edit-btn>
+
+
+                                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                    icon="pi pi-check" (click)="onRowEditSave(user)"
+                                    class="p-button-rounded p-button-text p-button-success mr-2"
+                                    [pTooltip]="localizeServ.getLabelValue('lbl_submitEdit')"
+                                    >
+                                </button>
+                                <!-- <app-custom-edit-btn [ControllerName]="ControllerName"
+                            (onBtnEditClick)="onRowEditSave(user)"
+                            *ngIf="editing" 
+                            pButton pRipple
+                            pInitEditableRow
+                            [rounded]="true" [text]="true"
+                            icon="pi pi-check" 
+                            [class]="'p-button-rounded p-button-text p-button-success mr-2 no-border-button'"
+                            ></app-custom-edit-btn> -->
+                                <p-button *ngIf="editing" [rounded]="true" [text]="true" pCancelEditableRow
+                                    icon="pi pi-times" (click)="onRowEditCancel(user, ri)"
+                                    class="p-button-rounded p-button-text p-button-danger"
+                                    [pTooltip]="localizeServ.getLabelValue('lbl_cancelEdit')"
+                                    >
+                                </p-button>
+                                <app-custom-delete-btn [rounded]="true" [text]="true"
+                                    [ControllerName]="ControllerName"
+                                    (onBtnDeleteClick)="setUserToDeleteAndShowDialog(user.id)"
+                                    ></app-custom-delete-btn>
+                            </div>
+
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                        <app-custom-paginator-filter-search [ControllerName]="ControllerName"
+                            (onPageChange)="getPaginatedData()" dropdownAppendTo="body" [showCurrentPageReport]="true"
+                            currentPageReportTemplate="{{localizeServ.getLabelValue('lbl_show')}} {first} {{localizeServ.getLabelValue('lbl_to')}} {last} {{localizeServ.getLabelValue('lbl_of')}} {totalRecords} {{localizeServ.getLabelValue('lbl_entries')}}"
+                            #paginatorRef [rows]="10" [totalRecords]="totalRecords"
+                            [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">{{localizeServ.getLabelValue('lbl_noData')}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>
+        <ng-template #dialogFooter>
+
+        </ng-template>
+    </app-custom-dialog>
+     <app-custom-confirm-dialog (onConfirm)="deleteUser()" #confirmDialog ></app-custom-confirm-dialog>
 
 </form>

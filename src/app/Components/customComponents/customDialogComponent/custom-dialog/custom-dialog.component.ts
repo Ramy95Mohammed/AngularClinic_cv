@@ -23,10 +23,11 @@ export class CustomDialogComponent {
   @Input() height:string ='450px';
   @Input() modal: boolean = true; // Whether the dialog is modal or not
   @Input() styleClass: string = 'p-fluid max-height-dialog'; // Custom style classes
+  @Input() contentStyle = {}; 
   @Input() saveOrEdit: boolean = true; //true for save  
   @Input() ControllerName: string = '';
   @Input() maximizable: boolean = true; 
-
+  @Input() resizable: boolean = true; 
   @Output() onBtnSaveClick: EventEmitter<any> = new EventEmitter();
   @Output() onBtnEditClick: EventEmitter<any> = new EventEmitter();
 

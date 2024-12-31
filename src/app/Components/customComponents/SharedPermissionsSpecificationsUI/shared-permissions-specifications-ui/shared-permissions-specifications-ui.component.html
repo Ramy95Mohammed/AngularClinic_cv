@@ -29,10 +29,10 @@
                 [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                     <div class="row">
-                        <div class="col-md-2 mb-4 mt-2">
+                        <div class="col-md-1 offset-1 mb-4 mt-2">
 
                                 <app-custom-clear-btn [ControllerName]="ControllerName"
-                            [outlined]="true" icon="pi pi-filter-slash"
+                            [outlined]="true" btnClass="mx-0" [btnStyleClass]="'w-100'" icon="pi pi-filter-slash"
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
                             (onBtnClearClick)="dtPermissions.reset();txtCustomtxtSearchSherdPermissions.txtSerach='';pagesCategoriesDropDown.value = null;
                             getByFiltering();"
@@ -166,6 +166,9 @@
                             {{_localizeServe.getLabelValue('lbl_userName')}} <p-sortIcon field="displayName" /></th>
                         <th pSortableColumn="userPolicyName" class="text-center">
                             {{_localizeServe.getLabelValue('lbl_userPolicy')}}<p-sortIcon field="userPolicyName" /></th>
+                            <th class="text-center">
+                                {{_localizeServe.getLabelValue('lbl_userState')}}
+                            </th>
                         <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
                     </tr>
                 </ng-template>
@@ -173,6 +176,10 @@
                     <tr>
                         <td class="text-center">{{userPer.displayName}}</td>
                         <td class="text-center">{{userPer.userPolicyName}}</td>
+                        <td class="text-center">
+                             <p-tag [value]="getActivityValue(userPer.isActive)"
+                                        [severity]="getSeverity(userPer.isActive)" />
+                        </td>
                         <td class="text-center">
                             <div dir="ltr">
                                 <p-button icon="pi pi-plus" class="mr-2" [rounded]="true" [outlined]="true"
@@ -221,6 +228,10 @@
                             {{_localizeServe.getLabelValue('lbl_userName')}} <p-sortIcon field="displayName" /></th>
                         <th pSortableColumn="userPolicyName" class="text-center">
                             {{_localizeServe.getLabelValue('lbl_userPolicy')}}<p-sortIcon field="userPolicyName" /></th>
+                            <th class="text-center">
+                                {{_localizeServe.getLabelValue('lbl_userState')}}
+                            </th>
+                            
                         <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
                     </tr>
                 </ng-template>
@@ -228,6 +239,10 @@
                     <tr>
                         <td class="text-center">{{userPer.displayName}}</td>
                         <td class="text-center">{{userPer.userPolicyName}}</td>
+                        <td class="text-center">
+                            <p-tag [value]="getActivityValue(userPer.isActive)"
+                                       [severity]="getSeverity(userPer.isActive)" />
+                       </td>
                         <td class="text-center">
                             <div dir="ltr">
                                 <app-custom-delete-btn [ControllerName]="ControllerName"

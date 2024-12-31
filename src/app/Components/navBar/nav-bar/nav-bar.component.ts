@@ -70,6 +70,11 @@ export class NavBarComponent implements OnInit {
             route: 'app-enterprise-info'
           },
           {
+            label: 'lbl_priceList',
+            icon: 'fa-solid fa-money-check',
+            route: 'app-price-list'
+          },
+          {
             label: 'lbl_sections',
             icon: 'pi pi-th-large',
             items: [

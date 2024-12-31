@@ -1,11 +1,12 @@
 <p-button 
 [icon]="icon" 
-class="mr-2" 
+[class]="btnClass" 
 [rounded]="rounded" 
 [label]="label" 
 [text]="text" 
 [outlined]="outlined" 
 [severity]="severity"
+[styleClass]="btnStyleClass"
 [pTooltip]="_localzieServ.getLabelValue('lbl_clear')"
 (onClick)="onClear()" />
 

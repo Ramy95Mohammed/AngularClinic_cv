@@ -27,6 +27,8 @@ export class CustomClearBtnComponent {
   @Input() text:boolean = false;
   @Input() outlined:boolean = true;
   @Input() ControllerName:string = '';
+  @Input() btnClass:string = 'mr-2';
+  @Input() btnStyleClass:string = '';
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
 
   onClear()

@@ -22,4 +22,12 @@ export class SharedDataService {
   {
     return this.httpClient.get(environment.apiUrl+"SharedData/userActionsProcessTypesData");
   }
+  getActivityStatusData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl+"SharedData/activityStatusData");
+  }
+  getAppUserTypeData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl+"SharedData/appUserTypeData");
+  }
 }

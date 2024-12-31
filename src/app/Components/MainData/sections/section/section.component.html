@@ -1,4 +1,4 @@
-<div class="">
+<div class="mt-3">
     <p-toolbar styleClass="mb-2">
         <ng-template pTemplate="left">
             <app-custom-new-btn [ControllerName]="ControllerName" severity="success"
@@ -57,10 +57,10 @@
                 <td class="text-center">{{section.formattedUpdatedDate}}</td>
                 <td class="text-center">
                     <div dir="ltr">
-                        <app-custom-edit-btn [ControllerName]="ControllerName"
-                            (onBtnEditClick)="getSectionForEdit(section.keyId)"></app-custom-edit-btn>
                         <app-custom-delete-btn [ControllerName]="ControllerName"
                             (onBtnDeleteClick)="showConfirmDialog(section.keyId)"></app-custom-delete-btn>
+                        <app-custom-edit-btn [ControllerName]="ControllerName"
+                            (onBtnEditClick)="getSectionForEdit(section.keyId)"></app-custom-edit-btn>
 
                     </div>
                 </td>
@@ -85,7 +85,7 @@
 
     <form [formGroup]="sectionForm">
         
-    <app-custom-dialog #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" height="230px" [visible]="sectionsDialog" [width]="'25vw'" (onClose)="hideDialog()"
+    <app-custom-dialog #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" [resizable]="false" height="230px" [visible]="sectionsDialog" [width]="'25vw'" (onClose)="hideDialog()"
       (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()"
         >
 

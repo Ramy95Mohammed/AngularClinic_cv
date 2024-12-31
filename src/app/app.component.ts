@@ -54,7 +54,7 @@ constructor(private themeSerivce:ThemeService , private localizeServ:LocalizeSer
    this._accountServ = accountServ;   
 }
 ngOnInit(): void {
-   this.changeTheme('lara-dark-pink'); 
+   this.changeTheme('aura-dark-amber'); 
   this.getLocalizeData();
   //this.setCSRFConfig();
   this.setReportColors();
