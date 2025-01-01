@@ -18,6 +18,7 @@ export class CustomSaveBtnComponent {
   constructor(private checkUserPermissionServ:CheckUserPermissionService , localizeServ:LocalizeService)
   {
     this._localzieServ = localizeServ;
+    this.btnpTooltip = this._localzieServ .getLabelValue('lbl_save');
   }
   @Output() onBtnSaveClick: EventEmitter<any> = new EventEmitter();
   @Input() icon:string = 'pi pi-save';
@@ -28,6 +29,7 @@ export class CustomSaveBtnComponent {
   @Input() outlined:boolean = true;
   @Input() ControllerName:string = '';
   @Input() styleClass:string = '';
+  @Input() btnpTooltip:string =  '';
   @Input() class:string = 'mr-2';
   @ViewChild('confirmDialog') confirmDialog!:CustomConfirmDialogComponent;
   onSave()

@@ -11,7 +11,7 @@ import { NoPermissionComponent } from './Components/noPermissionComponent/no-per
 import { LicencePermissionComponent } from './Components/licencePermission/licence-permission/licence-permission.component';
 import { SectionComponent } from './Components/MainData/sections/section/section.component';
 import { EnterpriseInfoComponent } from './Components/MainData/EnterpriseInfo/enterprise-info/enterprise-info.component';
-import { PriceListComponent } from './Components/MainData/priceList/price-list/price-list.component';
+import { DoctorComponent } from './Components/MainData/doctors/doctor/doctor.component';
 
 export const routes: Routes = [
     {path:"" , pathMatch:"full" , component:HomeComponent},
@@ -50,9 +50,10 @@ export const routes: Routes = [
 },
 {path:"app-licence-permission" , canActivate:[authGuard], component:LicencePermissionComponent,
     data: { animation: 'app-licence-permission'}
-},
-{path:"app-price-list" , canActivate:[authGuard], component:PriceListComponent,
-    data: { animation: 'app-price-list' , controller:'PriceList'}
+}
+,
+{path:"app-doctor" , canActivate:[authGuard], component:DoctorComponent,
+    data: { animation: 'app-doctor' , controller:'Doctor'}
 }
 
 ];

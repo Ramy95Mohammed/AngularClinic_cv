@@ -12,7 +12,8 @@
                         <app-custom-save-btn (onBtnSaveClick)="onSave()"
                             [ControllerName]="ControllerName"></app-custom-save-btn>
 
-                        <app-custom-print-btn (onBtnPrintClick)="printEnterPriseData()" [ControllerName]="ControllerName"></app-custom-print-btn>
+                        <app-custom-print-btn (onBtnPrintClick)="printEnterPriseData()"
+                            [ControllerName]="ControllerName"></app-custom-print-btn>
                     </ng-template>
 
                     <ng-template pTemplate="right">
@@ -42,9 +43,9 @@
                                 class="w-100">{{_localizeServe.getLabelValue('lbl_enterpriseForeignName')}}</label>
                         </p-floatLabel>
                         <p *ngIf="enterPriseInfoForm.get('foreignName')?.getError('required') && enterPriseInfoForm.get('foreignName')?.touched"
-                        class="text-danger mx-1">*</p>
-                    <p *ngIf="enterPriseInfoForm.get('foreignName')?.getError('pattern') && enterPriseInfoForm.get('foreignName')?.valueChanges"
-                        class="text-danger mx-1">*</p>
+                            class="text-danger mx-1">*</p>
+                        <p *ngIf="enterPriseInfoForm.get('foreignName')?.getError('pattern') && enterPriseInfoForm.get('foreignName')?.valueChanges"
+                            class="text-danger mx-1">*</p>
                     </div>
 
                     <div class="col-md-6 mb-5">
@@ -54,9 +55,9 @@
                                 class="w-100">{{_localizeServe.getLabelValue('lbl_phone')}}</label>
                         </p-floatLabel>
                         <p *ngIf="enterPriseInfoForm.get('phone')?.getError('required') && enterPriseInfoForm.get('phone')?.touched"
-                        class="text-danger mx-1">*</p>
-                    <p *ngIf="enterPriseInfoForm.get('phone')?.getError('pattern') && enterPriseInfoForm.get('phone')?.valueChanges"
-                        class="text-danger mx-1">*</p>
+                            class="text-danger mx-1">*</p>
+                        <p *ngIf="enterPriseInfoForm.get('phone')?.getError('pattern') && enterPriseInfoForm.get('phone')?.valueChanges"
+                            class="text-danger mx-1">*</p>
                     </div>
                     <div class="col-md-6 mb-5">
                         <p-floatLabel>
@@ -66,9 +67,9 @@
                                 class="w-100">{{_localizeServe.getLabelValue('lbl_groundTel')}}</label>
                         </p-floatLabel>
                         <p *ngIf="enterPriseInfoForm.get('groundTel')?.getError('required') && enterPriseInfoForm.get('groundTel')?.touched"
-                        class="text-danger mx-1">*</p>
-                    <p *ngIf="enterPriseInfoForm.get('groundTel')?.getError('pattern') && enterPriseInfoForm.get('groundTel')?.valueChanges"
-                        class="text-danger mx-1">*</p>
+                            class="text-danger mx-1">*</p>
+                        <p *ngIf="enterPriseInfoForm.get('groundTel')?.getError('pattern') && enterPriseInfoForm.get('groundTel')?.valueChanges"
+                            class="text-danger mx-1">*</p>
                     </div>
                     <div class="col-md-6 mb-5">
                         <p-floatLabel>
@@ -77,20 +78,20 @@
                                 class="w-100">{{_localizeServe.getLabelValue('lbl_email')}}</label>
                         </p-floatLabel>
                         <p *ngIf="enterPriseInfoForm.get('email')?.getError('required') && enterPriseInfoForm.get('email')?.touched"
-                        class="text-danger mx-1">*</p>
-                    <p *ngIf="enterPriseInfoForm.get('email')?.getError('email') && enterPriseInfoForm.get('email')?.valueChanges"
-                        class="text-danger mx-1">{{_localizeServe.getLabelValue('lbl_emailInvalid')}}</p>
+                            class="text-danger mx-1">*</p>
+                        <p *ngIf="enterPriseInfoForm.get('email')?.getError('email') && enterPriseInfoForm.get('email')?.valueChanges"
+                            class="text-danger mx-1">{{_localizeServe.getLabelValue('lbl_emailInvalid')}}</p>
                     </div>
                     <div class="col-md-6 mb-5">
-                        <p-floatLabel >
+                        <p-floatLabel>
                             <input formControlName="address" class="w-100" type="text" id="address" pInputText />
                             <label for="address" dir="ltr"
                                 class="w-100">{{_localizeServe.getLabelValue('lbl_address')}}</label>
                         </p-floatLabel>
                         <p *ngIf="enterPriseInfoForm.get('address')?.getError('required') && enterPriseInfoForm.get('address')?.touched"
-                        class="text-danger mx-1">*</p>
-                    <p *ngIf="enterPriseInfoForm.get('address')?.getError('pattern') && enterPriseInfoForm.get('address')?.valueChanges"
-                        class="text-danger mx-1">*</p>
+                            class="text-danger mx-1">*</p>
+                        <p *ngIf="enterPriseInfoForm.get('address')?.getError('pattern') && enterPriseInfoForm.get('address')?.valueChanges"
+                            class="text-danger mx-1">*</p>
                     </div>
 
                 </div>
@@ -100,34 +101,38 @@
             <div class="col-md-12 col-lg-12 col-xl-3">
                 <div class="row">
                     <div class="col-12 pt-0">
-                        <p-fieldset id="enterpriseInfoFieldset"
-                        #ImageFile
+                        <p-fieldset id="enterpriseInfoFieldset" #ImageFile
                             [legend]="_localizeServe.getLabelValue('lbl_enterpriseLogo')">
-                            <p-fileUpload dir="ltr" 
-                                [chooseLabel]="_localizeServe.getLabelValue('lbl_choose')"
+                            <p-fileUpload dir="ltr" [chooseLabel]="_localizeServe.getLabelValue('lbl_choose')"
                                 [cancelLabel]="_localizeServe.getLabelValue('lbl_cancel')"
                                 [invalidFileSizeMessageSummary]="_localizeServe.getLabelValue('lbl_invalidFileSize')"
                                 [invalidFileSizeMessageDetail]="_localizeServe.getLabelValue('lbl_maximumUpload')+' 29.296875 KB'"
                                 (onSelect)="onSelectFile($event)" (onClear)="onClearFile()" (onRemove)="onClearFile()"
                                 cancelStyleClass="px-30 mb-2" chooseStyleClass="w-50 mb-2" [showUploadButton]="false"
-                                [multiple]="false" accept="image/*" maxFileSize="30000"
-                                >
+                                [multiple]="false" accept="image/*" maxFileSize="30000">
                                 <!-- <ng-template pTemplate="content"> -->
                                 <ng-template pTemplate="content">
                                     <ul *ngIf="downloadedFiles.length">
-                                        <li class="list-none text-center"><h4>{{_localizeServe.getLabelValue('lbl_downloadedFiles')}}</h4></li>
-                                        <li *ngFor="let file of downloadedFiles">
-                                            <img [src]="file.imageLogoPath" width="49.99" height="49.99"> 
-                                            {{ file.name }} 
-                                            <app-custom-delete-btn [ControllerName]="ControllerName"  (onBtnDeleteClick)="setPathOfLogoToDelete(file.originalPath)" class="mx-3" 
-                                            ></app-custom-delete-btn>
-                                            
+                                        <li class="list-none text-center">
+                                            <h4>{{_localizeServe.getLabelValue('lbl_downloadedFiles')}}</h4>
                                         </li>
-                                       
+                                        <li *ngFor="let file of downloadedFiles">
+                                            <p-image
+                                            [src]="file.imageLogoPath"
+                                                previewImageSizes="vh50"
+                                                alt="Logo" width="49.99"  height="49.99" [preview]="true" />
+                                            <!-- <img [src]="file.imageLogoPath" width="49.99" height="49.99"> -->
+                                            {{ file.name }}
+                                            <app-custom-delete-btn [ControllerName]="ControllerName"
+                                                (onBtnDeleteClick)="setPathOfLogoToDelete(file.originalPath)"
+                                                class="mx-3"></app-custom-delete-btn>
+
+                                        </li>
+
                                     </ul>
-                                </ng-template> 
-                             </p-fileUpload>
-                    
+                                </ng-template>
+                            </p-fileUpload>
+
                         </p-fieldset>
                     </div>
 
@@ -135,7 +140,8 @@
             </div>
 
         </div>
-  <app-custom-confirm-dialog #confirmDialog [ControllerName]="ControllerName" (onConfirm)="deleteLogoFile()"></app-custom-confirm-dialog>
+        <app-custom-confirm-dialog #confirmDialog [ControllerName]="ControllerName"
+            (onConfirm)="deleteLogoFile()"></app-custom-confirm-dialog>
     </p-card>
 
 

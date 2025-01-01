@@ -1,0 +1,234 @@
+<div class="mt-3">
+    <p-toolbar styleClass="mb-2">
+        <ng-template pTemplate="left">
+            <app-custom-new-btn (onBtnNewClick)="openNew()" [ControllerName]="ControllerName" severity="success"
+                icon="pi pi-plus"></app-custom-new-btn>
+            <app-custom-print-btn [ControllerName]="ControllerName"></app-custom-print-btn>
+            <div class="flex align-items-center gap-1 mx-2  cursor-pointer">
+
+                <label for="printAll" pInputText
+                    class="cursor-pointer border-0 bg-transparent">{{_localizeServe.getLabelValue('lbl_printAll')}}</label>
+
+                <p-checkbox name="printAll" [binary]="true" [(ngModel)]="printAll" inputId="printAll" />
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt [value]="doctors" [rowHover]="true" [scrollable]="true" scrollHeight="600px"
+        [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex justify-content-between">
+
+                <app-custom-clear-btn [ControllerName]="ControllerName" [outlined]="true" icon="pi pi-filter-slash"
+                    [label]="_localizeServe.getLabelValue('lbl_clear')"
+                    (onBtnClearClick)="dt.reset();txtCustomtxtSearchDoctors.txtSerach='';getPaginatedData();"></app-custom-clear-btn>
+                <app-custom-search-filter-input #txtCustomtxtSearchDoctors [ControllerName]="ControllerName"
+                    [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')" [txtSerach]="txtSearch">
+
+                </app-custom-search-filter-input>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="text-center">#</th>
+                <th pSortableColumn="name" class="text-center">{{_localizeServe.getLabelValue('lbl_doctorName')}}
+                    <p-sortIcon field="name" />
+                </th>
+                <th pSortableColumn="foreignName" class="text-center">
+                    {{_localizeServe.getLabelValue('lbl_doctorForeignName')}}
+                    <p-sortIcon field="foreignName" />
+                </th>
+                <th pSortableColumn="phone" class="text-center">{{_localizeServe.getLabelValue('lbl_phoneNumbers')}}
+                    <p-sortIcon field="phone" />
+                </th>
+                <th pSortableColumn="formattedUpdatedDate" class="text-center">
+                    {{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" /></th>
+                <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-doctor>
+            <tr>
+                <td class="text-center">{{doctor.keyId}}</td>
+                <td class="text-center">{{doctor.name}}</td>
+                <td class="text-center">{{doctor.foreignName}}</td>
+                <td class="text-center">{{doctor.phone}}</td>
+                <td class="text-center">{{doctor.formattedUpdatedDate}}</td>
+                <td class="text-center">
+                    <div dir="ltr">
+                        <app-custom-delete-btn [ControllerName]="ControllerName"
+                            (onBtnDeleteClick)="showConfirmDialog(doctor.keyId)"></app-custom-delete-btn>
+                        <app-custom-edit-btn [ControllerName]="ControllerName"
+                            (onBtnEditClick)="getDoctorForEdit(doctor.keyId)"></app-custom-edit-btn>
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                <app-custom-paginator-filter-search [ControllerName]="ControllerName"
+                    (onPageChange)="getPaginatedData()" dropdownAppendTo="body" [showCurrentPageReport]="true"
+                    currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}"
+                    #paginatorRef [rows]="10" [totalRecords]="totalRecords"
+                    [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+    <form>
+
+        <app-custom-dialog #doctorCustomDialog [ControllerName]="ControllerName" height="100vh" [visible]="doctorsDialog"
+            [width]="'100vw'"  (onClose)="doctorsDialog = false;" (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()">
+
+            <!-- Pass dynamic content to the dialog using ng-template -->
+            <ng-template #dialogContent>
+
+                <div class="row mt-4">
+                    <input hidden class="w-100" type="text" pInputText />
+                    <div class="col-md-6 mb-4">
+                        <p-floatLabel>
+                            <input class="w-100" id="doctorName" type="text" pInputText />
+                            <label for="doctorName" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_doctorName')}}</label>
+                        </p-floatLabel>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <p-floatLabel>
+                            <input class="w-100" id="doctorForeignName" type="text" pInputText />
+                            <label for="doctorForeignName" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_doctorForeignName')}}</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <p-floatLabel>
+                            <textarea id="phone-numbers" rows="5" cols="30" [value]="''" pInputTextarea>
+                        </textarea>
+                            <label for="phone-numbers" dir="ltr"
+                                class="w-100">{{_localizeServe.getLabelValue('lbl_phoneNumbers')}}</label>
+                        </p-floatLabel>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <p-table #doctorAppointmentsDt [value]="doctorAppointments" sortField="weekDay"
+                            sortMode="single" dataKey="weekDay" rowGroupMode="subheader" groupRowsBy="weekDay"
+                            [tableStyle]="{'min-width': '70rem'}">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th class="text-center" style="width:5%">{{_localizeServe.getLabelValue('lbl_day')}}</th>                                
+                                    <th class="text-center" style="width:5%">{{_localizeServe.getLabelValue('lbl_appointment')}}</th>
+                                    <th class="text-center" style="width:5%">{{_localizeServe.getLabelValue('lbl_isAvailable')}}</th>
+                                    <th class="text-center" style="width:5%">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="groupheader" let-doctorApp let-rowIndex="rowIndex"
+                                let-expanded="expanded">
+                                <tr>
+                                    <td class="text-center" >
+                                        <div class="row">
+
+                                            <div class="col-8">
+
+                                                {{getWeekDayName(doctorApp.weekDay)}}
+                                                <!-- <p-dropdown [disabled]="true" [options]="weekDays" appendTo="body"
+                                                    optionLabel="value" optionValue="key"
+                                                    [(ngModel)]="doctorApp.weekDay"
+                                                    [ngModelOptions]="{standalone: true}" [style]="{'width':'100%'}" /> -->
+                                            </div>
+                                            <div class="col-2">
+                                                <button [dir]="'ltr'" type="button" pButton pRipple
+                                                    [pRowToggler]="doctorApp"
+                                                    class="p-button-text p-button-rounded p-button-plain mr-2"
+                                                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-'+(_appComp.dir == 'ltr'?'right':'left')">
+                                                </button>
+                                            </div>
+                                            <div class="col-2">
+                                                <p-button icon="pi pi-plus" class="mx-2" [rounded]="true" [outlined]="true"
+                                                severity="secondary" [disabled]="!expanded" (onClick)="addTimeToWeekDay(doctorApp)" />
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    <td class="text-center" ></td>
+                                    <td class="text-center" >
+                                          
+                                        <p-selectButton 
+                                        styleClass="d-inline-flex"                                       
+                                        
+                                        [options]="availableStatusData" 
+                                        [(ngModel)]="doctorApp.availableStatus"
+                                        [ngModelOptions]="{standalone: true}"
+                                        optionLabel="value" 
+                                        optionValue="key" />
+                                    </td>
+                               
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="groupfooter" let-doctorApp>
+                                <tr class="p-rowgroup-footer">
+                                    <td class="text-center" ></td>
+                                    <td style="text-align: right">{{_localizeServe.getLabelValue('lbl_count') +': ' + calculateCustomerTotal( doctorApp  )}}</td>
+                                    <td class="text-center" ></td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="rowexpansion" let-doctorApp>
+
+                                
+                                <tr  *ngFor="let time of doctorApp.doctorAppointmentTimes; let i = index" [hidden]="time.isDeleted">
+                                    <td class="text-center" >
+                                       
+                                    </td>
+                                   
+                                   
+                                    <td class="text-center" >
+                                            <p-calendar 
+                                            required
+                                            [showIcon]="true" [showTime]="true" [hourFormat]="'12'" [timeOnly]="true"
+                                            dateFormat="hh:mm:ss a"
+                                            [(ngModel)]="doctorApp.doctorAppointmentTimes[i].appointment"
+                                            [ngModelOptions]="{standalone: true}"></p-calendar>
+
+                                          
+                                          
+                                     
+                                    </td>
+                                    <td  >
+                                        <p-selectButton
+                                           
+                                        [styleClass]="'d-inline-flex'+ (_appComp.dir=='rtl'? ' float-start':' float-end')"                                     
+                                        
+                                        [options]="availableStatusData" 
+                                        [(ngModel)]="doctorApp.doctorAppointmentTimes[i].availableStatus"
+                                        [ngModelOptions]="{standalone: true}"
+                                        optionLabel="value" 
+                                        optionValue="key" />
+                                    </td>
+                                    <td class="text-center" >
+                                        <app-custom-delete-btn (onBtnDeleteClick)="time.isDeleted = true;" [ControllerName]="ControllerName"></app-custom-delete-btn>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+
+
+
+            </ng-template>
+
+        </app-custom-dialog>
+    </form>
+
+    <app-custom-confirm-dialog #customDeleteDialog (onConfirm)="onDelete()"></app-custom-confirm-dialog>
+
+</div>

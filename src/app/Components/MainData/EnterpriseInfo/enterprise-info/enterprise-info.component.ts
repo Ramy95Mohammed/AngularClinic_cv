@@ -19,7 +19,7 @@ import { environment } from '../../../../../environments/environment.development
 @Component({
   selector: 'app-enterprise-info',
   standalone: true,
-  imports: [ImportsModule, CustomNewBtnComponent, CustomSaveBtnComponent, CustomPrintBtnComponent, KeyFilterModule, CustomDeleteBtnComponent, CustomConfirmDialogComponent],
+  imports: [ImportsModule, CustomSaveBtnComponent, CustomPrintBtnComponent, KeyFilterModule, CustomDeleteBtnComponent, CustomConfirmDialogComponent],
   templateUrl: './enterprise-info.component.html',
   styleUrl: './enterprise-info.component.scss'
 })

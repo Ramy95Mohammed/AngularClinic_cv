@@ -73,7 +73,9 @@ changeTheme(theme:string)
     
       this.localizeServ.getLocalizeData().subscribe((data)=>{
         this.localizeServ.localizeData = data.localizedStrings;
-        this.dir =userLang === 'ar-EG' ? 'rtl' : 'ltr';        
+        this.dir =userLang === 'ar-EG' ? 'rtl' : 'ltr';       
+        
+
       });
 
   } catch (error) {

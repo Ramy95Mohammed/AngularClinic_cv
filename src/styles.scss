@@ -79,6 +79,10 @@ body {
 //   transition: width 0.3s ease-in-out;
 //   transform: translateX(absolute);/* Initially hide the sidebar off-screen */
 // }
+.select-button-container {
+  display: inline-flex; /* or inline-block */
+  gap: 8px;  /* Optional, space between buttons */
+}
 
 .max-height-dialog {
     margin-top: 70px !important;

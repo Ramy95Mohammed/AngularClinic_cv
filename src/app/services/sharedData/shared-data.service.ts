@@ -30,4 +30,12 @@ export class SharedDataService {
   {
     return this.httpClient.get(environment.apiUrl+"SharedData/appUserTypeData");
   }
+  getweekDaysData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl+"SharedData/weekDaysData");
+  }
+  getAvailableStatusData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl+"SharedData/availableStatus");
+  }
 }

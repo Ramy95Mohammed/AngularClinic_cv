@@ -96,7 +96,7 @@
                 No Spaces
             </p>
 
-            <app-custom-save-btn (onBtnSaveClick)="registerUser()" [label]="localizeServ.getLabelValue('lbl_register')"
+            <app-custom-save-btn [btnpTooltip]="localizeServ.getLabelValue('lbl_register')" (onBtnSaveClick)="registerUser()" [label]="localizeServ.getLabelValue('lbl_register')"
                 [ControllerName]="ControllerName" icon="pi pi-user" [outlined]="false" [severity]="'primary'"
                 [class]="''" styleClass="w-10rem mx-auto"></app-custom-save-btn>
 
