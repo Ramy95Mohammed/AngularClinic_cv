@@ -13,13 +13,22 @@ html {
 .hand-cursor {
     cursor: pointer;
 }
-
+.p-image-mask{
+    z-index: 2000 !important;
+}
+.disabled-element{
+    pointer-events: none; /* Prevents interaction */
+  opacity: 0.5; /* Changes the appearance to show it's disabled */
+}
 .z-2000 {
     z-index: 2000;
 }
 
 .z-1000 {
     z-index: 1000;
+}
+.z-1400 {
+    z-index: 1150;
 }
 
 .mr-5 {
@@ -83,11 +92,14 @@ body {
   display: inline-flex; /* or inline-block */
   gap: 8px;  /* Optional, space between buttons */
 }
-
-.max-height-dialog {
-    margin-top: 70px !important;
-    max-height: calc(100vh - 70px);
+.p-tabview-nav-link{
+    text-decoration: none;
 }
+
+// .max-height-dialog {
+//     margin-top: 70px !important;
+//     max-height: calc(100vh - 70px);
+// }
 
 #mainLayout .p-card-body {
     padding: 10px;

@@ -30,8 +30,7 @@ export class CustomConfirmDialogComponent {
          acceptVisible:showAcceptLabel,
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            //check user permissions
-           console.log('delete from child');
+            //check user permissions           
            // this.messageService.add({ severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success'), detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully'), life: 3000 });
             this.onConfirm.emit();
         }

@@ -96,11 +96,11 @@
             <p-floatLabel >
                 <input class="w-100" formControlName="name" id="sectionName"  type="text" pInputText />
                 <label for="sectionName" dir="ltr" class="w-100">{{_localizeServe.getLabelValue('lbl_sectionName')}}</label>
+                <p *ngIf="(sectionForm.get('name')?.getError('required') || sectionForm.get('name')?.getError('pattern')
+                            )&& (sectionForm.get('name')?.touched  )"
+                           class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
              </p-floatLabel>
-             <p *ngIf="sectionForm.get('name')?.getError('required') && sectionForm.get('name')?.touched"
-             class="text-danger mx-1">*</p>
-          <p *ngIf="sectionForm.get('name')?.getError('pattern') && sectionForm.get('name')?.valueChanges"
-             class="text-danger mx-1">*</p>
+            
             </div>
         </ng-template>
 

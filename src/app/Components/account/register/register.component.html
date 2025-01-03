@@ -7,7 +7,7 @@
 
             <div class="d-flex flex-column flex-column-reverse ">
                 <p *ngIf="registerForm.get('userPolicy')?.getError('required') && registerForm.get('userPolicy')?.touched"
-                    class="text-danger mx-1">*</p>
+                    class="text-danger mx-1">{{localizeServ.getLabelValue('lbl_requiredField')}}</p>
 
                 <div class="flex flex-wrap justify-content-center align-items-center gap-2" style="width: 250px;">
                     <p-inputGroup>
@@ -27,9 +27,9 @@
 
             <div class="d-flex flex-column flex-column-reverse">
                 <p *ngIf="registerForm.get('displayName')?.getError('required') && registerForm.get('displayName')?.touched"
-                    class="text-danger mx-1">*</p>
+                    class="text-danger mx-1">{{localizeServ.getLabelValue('lbl_requiredField')}}</p>
                 <p *ngIf="registerForm.get('displayName')?.getError('pattern') && registerForm.get('displayName')?.valueChanges"
-                    class="text-danger mx-1">*</p>
+                    class="text-danger mx-1">{{localizeServ.getLabelValue('lbl_requiredField')}}</p>
 
                 <div class="flex flex-wrap justify-content-center align-items-center gap-2" style="width: 250px;">
                     <p-inputGroup>
@@ -46,7 +46,7 @@
             <div class="d-flex flex-column flex-column-reverse">
 
                 <p *ngIf="registerForm.get('email')?.getError('required') && registerForm.get('email')?.touched"
-                    class="text-danger mx-1">*</p>
+                    class="text-danger mx-1">{{localizeServ.getLabelValue('lbl_requiredField')}}</p>
                 <p *ngIf="registerForm.get('email')?.getError('email') && registerForm.get('email')?.valueChanges"
                     class="text-danger mx-1">{{localizeServ.getLabelValue('lbl_emailInvalid')}}</p>
 
@@ -66,7 +66,7 @@
 
             <div class="d-flex flex-column flex-column-reverse">
                 <p *ngIf="registerForm.get('password')?.getError('required') && registerForm.get('password')?.touched"
-                    class="text-danger mx-1 ">*</p>
+                    class="text-danger mx-1 ">{{localizeServ.getLabelValue('lbl_requiredField')}}</p>
 
 
                 <div class="flex flex-wrap justify-content-center align-items-center gap-2 " style="width: 250px;">
@@ -208,8 +208,8 @@
                                     <div *ngIf="user.appUserType == 0">
                                     <div *ngIf="displayName.invalid && (displayName.touched  || displayName.valueChanges)"
                                         class="p-error float-start">
-                                        <div *ngIf="displayName.errors?.['required']">*</div>
-                                        <div *ngIf="displayName.errors?.['pattern']">*</div>
+                                        <div *ngIf="displayName.errors?.['required']">{{localizeServ.getLabelValue('lbl_requiredField')}}</div>
+                                        <div *ngIf="displayName.errors?.['pattern']">{{localizeServ.getLabelValue('lbl_requiredField')}}</div>
                                     </div>
                                     <input  pInputText type="text" #displayName="ngModel"
                                         [ngModelOptions]="{standalone: true}" [(ngModel)]="user.displayName" required

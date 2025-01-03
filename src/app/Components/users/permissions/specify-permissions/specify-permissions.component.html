@@ -8,9 +8,9 @@
             <label for="profileName" dir="ltr" class="w-100">{{_localizeServ.getLabelValue('lbl_name')}}</label>
          </p-floatLabel>
          <p *ngIf="permssionsSpecForm.get('profileName')?.getError('required') && permssionsSpecForm.get('profileName')?.touched"
-            class="text-danger mx-1">*</p>
+            class="text-danger mx-1">{{_localizeServ.getLabelValue('lbl_requiredField')}}</p>
          <p *ngIf="permssionsSpecForm.get('profileName')?.getError('pattern') && permssionsSpecForm.get('profileName')?.valueChanges"
-            class="text-danger mx-1">*</p>
+            class="text-danger mx-1">{{_localizeServ.getLabelValue('lbl_requiredField')}}</p>
       </div>
 
       <div class="col-12">
