@@ -38,4 +38,8 @@ export class SharedDataService {
   {
     return this.httpClient.get(environment.apiUrl+"SharedData/availableStatus");
   }
+  getTypeOfMedicalExaminationData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl+"SharedData/typeOfMedicalExaminationData");
+  }
 }

@@ -85,11 +85,6 @@
     </p-table>
 
 
-
-
-
-
-
         <app-custom-dialog  #doctorCustomDialog [contentStyle]="{'overflow-y': 'auto'}" [ControllerName]="ControllerName"
             height="100%" [visible]="doctorsDialog" [width]="'100%'" (onClose)="doctorsDialog = false;"
             (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()">
@@ -97,56 +92,63 @@
             <!-- Pass dynamic content to the dialog using ng-template -->
             <ng-template #dialogContent>
                 <div class="row mt-4">
-                    <input hidden class="w-100" formControlName="keyId" type="text" pInputText />
-                    <div class="col-md-6 mb-4">
-                        <p-floatLabel>
-                           
-                            <input class="w-100" id="doctorName" 
-                           formControlName="name"
-                            type="text" pInputText />
-                     
-                            <label for="doctorName" dir="ltr"
-                                class="w-100">{{_localizeServe.getLabelValue('lbl_doctorName')}}
-                            </label>
-                            <p *ngIf="(doctorForm.get('name')?.getError('required') || doctorForm.get('name')?.getError('pattern')
-                            )&& (doctorForm.get('name')?.touched  )"
-                           class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
-                      
-                           
-                        </p-floatLabel>
-                    </div>
 
-                    <div class="col-md-6 mb-4">
-                        <p-floatLabel>
-                            
-                         
-                            <input class="w-100" id="doctorForeignName" 
-                            formControlName="foreignName"
-                            type="text" pInputText />
-                           
-                            <label for="doctorForeignName" dir="ltr"
-                                class="w-100">{{_localizeServe.getLabelValue('lbl_doctorForeignName')}}
-                              </label>
-                              <p *ngIf="(doctorForm.get('foreignName')?.getError('required') || doctorForm.get('foreignName')?.getError('pattern')
-                              )&& (doctorForm.get('foreignName')?.touched  )"
-                             class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                    <div class="col-md-5  mb-4">
+                        <div class="row">
                         
-                        </p-floatLabel>
-                    </div>
-                    <div class="col-12 mb-4">
-                        <i class="fa-solid fa-circle-info mb-2"
-                            [pTooltip]="_localizeServe.getLabelValue('lbl_writePhonesInMultiLine')"></i>
-                        <p-floatLabel>
-                            <textarea id="doctorPhones" rows="5" cols="30" formControlName="phone" pInputTextarea  >
-                        </textarea>
-                            <label for="doctorPhones" dir="ltr"
-                                class="w-100 mx-2">{{_localizeServe.getLabelValue('lbl_phoneNumbers')}}</label>
-                                <p *ngIf="(doctorForm.get('phone')?.getError('required') || doctorForm.get('phone')?.getError('pattern')
-                                )&& (doctorForm.get('phone')?.touched  )"
+                        <input hidden class="w-100" formControlName="keyId" type="text" pInputText />
+                        <div class="col-md-8 mb-4">
+                            <p-floatLabel>
+                               
+                                <input class="w-100" id="doctorName" 
+                               formControlName="name"
+                                type="text" pInputText />
+                         
+                                <label for="doctorName" dir="ltr"
+                                    class="w-100">{{_localizeServe.getLabelValue('lbl_doctorName')}}
+                                </label>
+                                <p *ngIf="(doctorForm.get('name')?.getError('required') || doctorForm.get('name')?.getError('pattern')
+                                )&& (doctorForm.get('name')?.touched  )"
                                class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
-                        </p-floatLabel>
+                          
+                               
+                            </p-floatLabel>
+                        </div>
+    
+                        <div class="col-md-8 mb-4">
+                            <p-floatLabel>
+                                
+                             
+                                <input class="w-100" id="doctorForeignName" 
+                                formControlName="foreignName"
+                                type="text" pInputText />
+                               
+                                <label for="doctorForeignName" dir="ltr"
+                                    class="w-100">{{_localizeServe.getLabelValue('lbl_doctorForeignName')}}
+                                  </label>
+                                  <p *ngIf="(doctorForm.get('foreignName')?.getError('required') || doctorForm.get('foreignName')?.getError('pattern')
+                                  )&& (doctorForm.get('foreignName')?.touched  )"
+                                 class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                            
+                            </p-floatLabel>
+                        </div>
+                        <div class="col-md-8 mb-4">
+                            <i class="fa-solid fa-circle-info mb-2"
+                                [pTooltip]="_localizeServe.getLabelValue('lbl_writePhonesInMultiLine')"></i>
+                            <p-floatLabel>
+                                <textarea id="doctorPhones" rows="5" cols="30" formControlName="phone" pInputTextarea  >
+                            </textarea>
+                                <label for="doctorPhones" dir="ltr"
+                                    class="w-100 mx-2">{{_localizeServe.getLabelValue('lbl_phoneNumbers')}}</label>
+                                    <p *ngIf="(doctorForm.get('phone')?.getError('required') || doctorForm.get('phone')?.getError('pattern')
+                                    )&& (doctorForm.get('phone')?.touched  )"
+                                   class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                            </p-floatLabel>
+                        </div>
                     </div>
-                    <div class="col-12 mb-4">
+                    </div>
+                  
+                    <div class="col-md-7 mb-4">
 
                         <div class="flex mb-2 gap-2 justify-content-end" dir="ltr">
                             <p-button (onClick)="activeIndex = 0" rounded="true" styleClass="w-2rem h-2rem p-0"
@@ -168,7 +170,7 @@
                                     </div>
                                 </ng-template>
                                 <p-table  [dir]="_appComp.dir" #doctorAppointmentsDt [scrollable]="true"
-                                    scrollHeight="40vh" [value]="getDoctorAppointmentsFormControls" sortField="value.weekDay"
+                                    scrollHeight="80vh" [value]="getDoctorAppointmentsFormControls" sortField="value.weekDay"
                                     sortMode="single" dataKey="value.weekDay" rowGroupMode="subheader" groupRowsBy="value.weekDay"
                                     [tableStyle]="{'min-width': '70rem'}" >
 
@@ -178,12 +180,13 @@
                                         <tr>
                                             <th class="text-center" style="width:5%">
                                                 {{_localizeServe.getLabelValue('lbl_day')}}</th>
+                                                <th class="text-center" style="width:5%">
+                                                    {{_localizeServe.getLabelValue('lbl_isAvailable')}}</th>
                                             <th class="text-center" style="width:5%">
-                                                {{_localizeServe.getLabelValue('lbl_appointment')}}</th>
+                                                </th>
+                                           
                                             <th class="text-center" style="width:5%">
-                                                {{_localizeServe.getLabelValue('lbl_isAvailable')}}</th>
-                                            <th class="text-center" style="width:5%">
-                                                {{_localizeServe.getLabelValue('lbl_operations')}}</th>
+                                                </th>
                                         </tr>
                                     </ng-template>
                                     <ng-template pTemplate="groupheader" let-doctorApp 
@@ -222,38 +225,103 @@
                                                 </div>
 
                                             </td>
-                                            <td class="text-center"></td>
                                             <td class="text-center">
 
                                                 <p-selectButton styleClass="d-inline-flex"
+                                                [allowEmpty]="false"
                                                 formControlName="availableStatus"
                                                     [options]="availableStatusData"
                                                    optionLabel="value"
                                                     optionValue="key" />
                                             </td>
 
+                                            <td class="text-center"></td>
+                                        
 
                                         </tr>
                                         
                                     </ng-template>
-                                    <!-- <ng-template pTemplate="groupfooter" let-doctorApp>
+                                    <ng-template pTemplate="groupfooter" let-doctorApp>
                                         <tr class="p-rowgroup-footer">
                                             <td class="text-center"></td>
                                             <td style="text-align: right">{{_localizeServe.getLabelValue('lbl_count')
                                                 +': ' +  doctorApp.get('doctorAppointmentTimes').controls.length }}</td>
                                             <td class="text-center"></td>
                                         </tr>
-                                    </ng-template> -->
-                                    <ng-template  pTemplate="rowexpansion" let-doctorApp let-rowIndex="rowIndex">
+                                    </ng-template>
+                                    <ng-template  pTemplate="rowexpansion" let-doctorApp let-editing="editing">
 
-                                          
-                                        <tr   *ngFor="let time of doctorApp.get('doctorAppointmentTimes').controls;let i = index"  [formGroup]="time">
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="p-3">
+                                                    <p-table [scrollable]="true"
+                                                    scrollHeight="20vh" [value]="doctorApp.get('doctorAppointmentTimes').controls" dataKey="id">
+                                                        <ng-template pTemplate="header">
+                                                            <tr>
+                                                                <th class="text-center" style="width:5%">
+                                                                   </th>
+                                                                <th class="text-center" style="width:5%">
+                                                                    {{_localizeServe.getLabelValue('lbl_appointment')}}</th>
+                                                                <th class="text-center" style="width:5%">
+                                                                    {{_localizeServe.getLabelValue('lbl_isAvailable')}}</th>
+                                                                <th class="text-center" style="width:5%">
+                                                                    {{_localizeServe.getLabelValue('lbl_operations')}}</th>
+                                                            </tr>
+                                                        </ng-template>
+                                                        <ng-template pTemplate="body" let-time  let-rowIndex="rowIndex">
+                                                            <tr     [formGroup]="time">
+                                                                <td class="text-center">
+                    
+                                                                </td>
+                    
+                    
+                                                                <td class="text-center" >
+                                                                    <p-calendar required [showIcon]="true" [showTime]="true"
+                                                                        [hourFormat]="'12'" [timeOnly]="true" dateFormat="hh:mm:ss a"
+                                                                        appendTo="body"
+                                                                        formControlName="appointment"/>
+                                                                    
+                                                                        <p *ngIf="(time.get('appointment')?.getError('required') || time.get('appointment')?.getError('pattern')
+                                                                        )&& (time.get('appointment')?.touched  )"
+                                                                       class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                    
+                    
+                    
+                                                                </td>
+                                                                <td class="text-center" > 
+                                                                    <p-selectButton
+                                                                        [allowEmpty]="false"
+                                                                        [styleClass]="'d-inline-flex'"
+                                                                        [options]="availableStatusData"
+                                                                        formControlName="availableStatus"
+                                                                        optionLabel="value"
+                                                                        optionValue="key" />
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <app-custom-delete-btn (onBtnDeleteClick)="showDoctorAppointmentTimeDialog(doctorApp , rowIndex)"
+                                                                        [ControllerName]="ControllerName"></app-custom-delete-btn>
+                                                                </td>
+                                                            </tr>
+                                                        </ng-template>
+                                                        <!-- <ng-template pTemplate="emptymessage">
+                                                            <tr class="p-rowgroup-footer">
+                                                                
+                                                                <td colspan="4" style="text-align: right">{{_localizeServe.getLabelValue('lbl_count')
+                                                                    +': ' +  doctorApp.get('doctorAppointmentTimes').controls.length }}</td>
+                                                                
+                                                            </tr>
+                                                        </ng-template> -->
+                                                    </p-table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr   *ngFor="let time of doctorApp.get('doctorAppointmentTimes').controls;let i = index"  [formGroup]="time">
                                             <td class="text-center">
 
                                             </td>
 
 
-                                            <td class="text-center">
+                                            <td class="text-center" [pEditableColumn]="time.appointment" pEditableColumnField="appointment">
                                                 <p-calendar required [showIcon]="true" [showTime]="true"
                                                     [hourFormat]="'12'" [timeOnly]="true" dateFormat="hh:mm:ss a"
                                                     formControlName="appointment"/>
@@ -267,6 +335,7 @@
                                             </td>
                                             <td>
                                                 <p-selectButton
+                                                    [allowEmpty]="false"
                                                     [styleClass]="'d-inline-flex'+ (_appComp.dir=='rtl'? ' float-start':' float-end')"
                                                     [options]="availableStatusData"
                                                     formControlName="availableStatus"
@@ -277,7 +346,7 @@
                                                 <app-custom-delete-btn (onBtnDeleteClick)="showDoctorAppointmentTimeDialog(doctorApp ,rowIndex  ,i )"
                                                     [ControllerName]="ControllerName"></app-custom-delete-btn>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     
                                     </ng-template>
                                 </p-table>
@@ -294,11 +363,12 @@
                                         </span>
                                     </div>
                                 </ng-template>
-                                <p-table [dir]="_appComp.dir" #doctorsPriceListDt [value]="getDoctrorPriceFormControl"
+                                <p-table  [dir]="_appComp.dir" #doctorsPriceListDt [value]="getDoctrorPriceFormControl"
                                     [rowHover]="true" [scrollable]="true" scrollHeight="40vh"
+                                    dataKey="value.keyId"
                                     [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
 
-                                    <ng-template pTemplate="header">
+                                    <ng-template pTemplate="header" >
                                         <tr>
                                             <th class="text-center">#</th>
                                             <th class="text-center">
@@ -306,49 +376,111 @@
                                                 
                                             </th>
                                             <th class="text-center">
-                                                {{_localizeServe.getLabelValue('lbl_additionDate')}}</th>
+                                                {{_localizeServe.getLabelValue('lbl_examinationType')}}
+                                            </th>
+                                            <th class="text-center">
+                                                {{_localizeServe.getLabelValue('lbl_notes')}}
+                                            </th>
+                                            <th class="text-center">
+                                                {{_localizeServe.getLabelValue('lbl_additionDate')}}
+                                            </th>
+                                           
                                             <th class="text-center">
                                                 <p-button icon="pi pi-plus" class="mx-2" [rounded]="true"
                                                  (onClick)="addNewPrice()"   [outlined]="true" severity="secondary" />
                                             </th>
                                         </tr>
                                     </ng-template>
-                                    <ng-template pTemplate="body" let-price  >
+                                    <ng-template  pTemplate="body"  let-price let-editing="editing" let-rowIndex="rowIndex">
                                         <tr [formGroup]="price">
                                             <td class="text-center">{{price.keyId}}</td>
-                                            <td class="text-center">
-
-                                                <p-inputNumber 
-                                                buttonLayout="horizontal" 
-                                                spinnerMode="horizontal" 
-                                                decrementButtonClass="p-button-danger"
-                                                incrementButtonClass="p-button-success"
-                                                incrementButtonIcon="pi pi-plus" 
-                                                decrementButtonIcon="pi pi-minus" 
-                                               formControlName="price"
-                                                [showButtons]="true"
-                                                   mode="currency" currency="USD" />
+                                            <td class="text-center" [pEditableColumn]="price.price"  pEditableColumnField="price">
+                                                <p-cellEditor>
+                                                    <ng-template pTemplate="input">
+                                                        <p-inputNumber 
+                                                        buttonLayout="horizontal" 
+                                                        spinnerMode="horizontal" 
+                                                        decrementButtonClass="p-button-danger"
+                                                        incrementButtonClass="p-button-success"
+                                                        incrementButtonIcon="pi pi-plus" 
+                                                        decrementButtonIcon="pi pi-minus" 
+                                                       formControlName="price"
+                                                       [allowEmpty]="false"
+                                                       inputStyleClass="text-center"
+                                                       min="1"
+                                                        [showButtons]="true"
+                                                           mode="currency" currency="USD" />
+        
+                                                           <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
+                                                           )&& (price.get('price')?.touched  )"
+                                                          class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="output">
+                                                        {{ price.get('price').value }}
+                                                    </ng-template>
+                                                </p-cellEditor>
+                                        
                                                 
+                                            </td>
+                                            <td class="text-center" [pEditableColumn]="price.typeOfMedicalExamination"  pEditableColumnField="typeOfMedicalExamination">
+
+                                                <p-cellEditor>
+                                                    <ng-template pTemplate="input">
+                                                        <p-dropdown [options]="typeOfMedicalExaminationData" appendTo="body"
+                                                
+                                                        optionLabel="value" optionValue="key"
+                                                        [placeholder]="_localizeServe.getLabelValue('lbl_choose')"
+                                                        formControlName="typeOfMedicalExamination"
+                                                         [style]="{'width':'100%'}" />
+                                                         <p *ngIf="(price.get('typeOfMedicalExamination')?.getError('required') )&& (price.get('typeOfMedicalExamination')?.touched  )"
+                                                              class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="output">
+                                                        <div class="h5">{{ getTypeOfMedicalExaminationValue(price.get('typeOfMedicalExamination').value)  }}</div>
+                                                        <p *ngIf="(price.get('typeOfMedicalExamination')?.getError('required') )&& (price.get('typeOfMedicalExamination')?.touched  )"
+                                                        class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                                                        
+                                                    </ng-template>
+                                                </p-cellEditor>
+                                               
+                                            </td>
+                                            <td class="text-center" [pEditableColumn]="price.notes"  pEditableColumnField="notes">
+
+                                                <p-cellEditor>
+                                                    <ng-template pTemplate="input">
+                                                        <textarea id="priceNotes" style="resize: none;" rows="5" cols="15" formControlName="notes" pInputTextarea  >
+                                                        </textarea>
+                                                    </ng-template>
+                                                    <ng-template pTemplate="output">
+                                                        <div class="h5">
+                                                            {{ price.get('notes').value ==''?'-': price.get('notes').value }}
+                                                        </div>
+                                                    </ng-template>
+                                                </p-cellEditor>
+                                               
                                             </td>
                                             <td class="text-center">{{price.formattedUpdatedDate}}</td>
                                             <td class="text-center">
-                                                <div dir="ltr">
+                                                
                                                     <app-custom-delete-btn [ControllerName]="ControllerName"
-                                                        (onBtnDeleteClick)="showConfirmDialog(price.keyId)"></app-custom-delete-btn>
-                                                    <app-custom-edit-btn
-                                                        [ControllerName]="ControllerName"></app-custom-edit-btn>
+                                                        (onBtnDeleteClick)="showPricesConfirmDialog(rowIndex)"></app-custom-delete-btn>
+                                                   
 
-                                                </div>
+                                                
                                             </td>
                                         </tr>
                                     </ng-template>
 
                                     <ng-template pTemplate="emptymessage">
                                         <tr>
-                                            <td colspan="4">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+                                            <td colspan="6">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
                                         </tr>
                                     </ng-template>
                                 </p-table>
+
+
+                              
+                                
                             </p-tabPanel>
 
                         </p-tabView>
@@ -372,5 +504,6 @@
 
     <app-custom-confirm-dialog #customDeleteDialog (onConfirm)="onDelete()"></app-custom-confirm-dialog>
     <app-custom-confirm-dialog #customDoctorAppointmentDialog (onConfirm)="deleteDoctorAppointmentTime()"></app-custom-confirm-dialog>
+    <app-custom-confirm-dialog #customDoctorPricesDialog (onConfirm)="deletePriceFromPricesFormArray()"></app-custom-confirm-dialog>
 </div>
 </form>

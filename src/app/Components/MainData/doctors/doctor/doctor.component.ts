@@ -17,6 +17,7 @@ import { SharedDataService } from '../../../../services/sharedData/shared-data.s
 import { Table } from 'primeng/table';
 import { AppComponent } from '../../../../app.component';
 import { AbstractControl, FormArray, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { DoctorService } from '../../../../services/mainData/doctors/doctor.service';
 
 @Component({
   selector: 'app-doctor',
@@ -41,21 +42,25 @@ export class DoctorComponent implements OnInit {
   activeIndex: number = 0;
   doctorAppToDelete: any | null = null;
   doctorAppIndexToDelete: number | null = null;
+  doctorPriceRowIndexToDelete: number | null = null;
   doctor: any;
   submitted = false;
-  doctorAppointmentTimeIndexToDelete: number | null = null;
   @ViewChild('doctorCustomDialog') doctorCustomDialog!: CustomDialogComponent;
+  @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
   @ViewChild('customDoctorAppointmentDialog') customDoctorAppointmentDialog!: CustomConfirmDialogComponent;
+  @ViewChild('customDoctorPricesDialog') customDoctorPricesDialog!: CustomConfirmDialogComponent;
   @ViewChild('doctorAppointmentsDt') doctorAppointmentsDt!: Table;
   doctorForm:FormGroup;
   doctorPriceFormArray:FormArray;
    doctorAppointmentsFormArray:FormArray;
-   //doctorAppointmentTimesFormArray:FormArray;
+   //products:any[]=[];
+
+   typeOfMedicalExaminationData:any[]=[];
   _appComp: AppComponent;
   expandedRows = {};
 weekDayControl:any;
   constructor(localizeServ: LocalizeService, private messageService: MessageService, private titleService: Title, private _printServ: PrintService, private sharedDataServ: SharedDataService,
-    private changeDetectorRef: ChangeDetectorRef, appComp: AppComponent) {
+    private changeDetectorRef: ChangeDetectorRef, appComp: AppComponent , private _doctorServ:DoctorService) {
     this._localizeServe = localizeServ;
     this._appComp = appComp;
 
@@ -79,9 +84,26 @@ weekDayControl:any;
     
     this.getAvailableStatusData();
     this.getWeekDaysData();
-    
-  }
+    this.getTypeOfMedicalExaminationData();
 
+    // this.products.push(
+    //   {
+    //     id: '1000',
+    //     code: 'f230fh0g3',
+    //     name: 'Bamboo Watch',
+    //     description: 'Product Description',
+    //     image: 'bamboo-watch.jpg',
+    //     price: 65,
+    //     category: 'Accessories',
+    //     quantity: 24,
+    //     inventoryStatus: 'INSTOCK',
+    //     rating: 5
+    // }
+    // );
+  }
+   
+
+   //#region InitDoctorForms
   initDoctorForm(doc:any):FormGroup
   {
     return new FormGroup({
@@ -94,17 +116,7 @@ weekDayControl:any;
     });
   }
 
-  initDoctor(doc: any) {
-    this.doctor = {
-      keyId: doc?.keyId ?? 0,
-      name: doc?.name ?? null,
-      foreignName: doc?.foreignName ?? null,
-      phone: doc?.phone ?? null,
-      doctorPriceLists: [],
-      doctorAppointments: []
-    };
-  }
-  
+
   inintDoctorPriceFormArr():FormArray<any>
   {
     return this.doctorForm.get('doctorPriceLists') as FormArray;
@@ -120,7 +132,9 @@ weekDayControl:any;
       return new FormGroup({
         keyId:new FormControl(price?.keyId??0 , Validators.required),
         price:new FormControl(price?.price??1 , Validators.required),
-        doctorId:new FormControl(price?.doctorId??0 , Validators.required)
+        doctorId:new FormControl(price?.doctorId??0 , Validators.required),
+        typeOfMedicalExamination: new FormControl(price?.typeOfMedicalExamination , Validators.required),        
+        notes:new FormControl(price?.notes??''),      
     })
   }
 
@@ -156,10 +170,46 @@ initdoctorAppointmentTimesFormArr():FormArray<any>
   {
    return new FormGroup({
       keyId: new FormControl(time?.keyId??0 , Validators.required),
-      appointment:new FormControl(time?.appointment??null ,[Validators.required, Validators.pattern("^(?!\\s+$).+")]),
-      availableStatus:new FormControl(time?.availableStatus??0),        
+      appointment:new FormControl(time?.appointment??new Date() ,[Validators.required, Validators.pattern("^(?!\\s+$).+")]),
+      availableStatus:new FormControl(time?.availableStatus??0),                
     })
   }
+
+  // inintDoctorAppointmentTimesFromGroup(time: any): FormGroup {
+  //   // Convert the appointment field to the required hh:mm:ss a format
+  //   let formattedAppointment: string;
+  
+  //   if (time?.appointment) {
+  //     // If the appointment is a valid Date string or Date object, format it
+  //     const date = new Date(time.appointment);
+  //     const hours = date.getHours();
+  //     const minutes = date.getMinutes();
+  //     const seconds = date.getSeconds();
+  //     const ampm = hours >= 12 ? 'PM' : 'AM';
+      
+  //     // Convert hours to 12-hour format
+  //     const formattedHour = (hours % 12 || 12).toString().padStart(2, '0');
+  //     const formattedMinute = minutes.toString().padStart(2, '0');
+  //     const formattedSecond = seconds.toString().padStart(2, '0');
+      
+  //     // Construct the formatted appointment time
+  //     formattedAppointment = `${formattedHour}:${formattedMinute}:${formattedSecond} ${ampm}`;
+  //   } else {
+  //     // Default value if appointment is not provided
+  //     formattedAppointment = new Date().toLocaleTimeString();
+  //   }
+  
+  //   return new FormGroup({
+  //     keyId: new FormControl(time?.keyId ?? 0, Validators.required),
+  //     appointment: new FormControl(formattedAppointment, [Validators.required, Validators.pattern("^(?!\\s+$).+")]),
+  //     availableStatus: new FormControl(time?.availableStatus ?? 0),
+  //   });
+  // }
+
+  //#endregion
+
+
+
   openNew() {
     //    this.sectionForm = this.initsectionForm(null);
 
@@ -177,7 +227,12 @@ initdoctorAppointmentTimesFormArr():FormArray<any>
       this.weekDays = res;
     });
   }
-
+  getTypeOfMedicalExaminationData()
+  {
+    this.sharedDataServ.getTypeOfMedicalExaminationData().subscribe((res)=>{
+      this.typeOfMedicalExaminationData = res;
+    });
+  }
   setDoctorAppointmentsData(doctorApp: any) {
     this.weekDays.forEach(d => {
 
@@ -254,40 +309,62 @@ initdoctorAppointmentTimesFormArr():FormArray<any>
 
   }
   onSave() {
-    if(!this.doctorForm.valid)
-    this.doctorForm.markAllAsTouched();
+    if(this.doctorForm.valid)
+    {
+       this._doctorServ.saveDoctorData(this.doctorForm.value).subscribe((res)=>{
+        this.messageService.add({
+          severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
+          , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
+        });
+       });
+    }
+    else
+    {
+      this.doctorForm.markAllAsTouched();
+          this.customDeleteDialog.showDialog('lbl_someEntriesAreMissingOrIncorrect', 'lbl_warning', 'lbl_Ok', 'lbl_Ok' ,false);
+    }
    }
   onEdit() { }
   onDelete() { }
-  showDoctorAppointmentTimeDialog(doctorApp: any, rowIndex: number, i: number) {
+  showDoctorAppointmentTimeDialog(doctorApp: any, rowIndex: number) {
     this.doctorAppToDelete = doctorApp;
     this.doctorAppIndexToDelete = rowIndex;
-    this.doctorAppointmentTimeIndexToDelete = i;
+    
     this.customDoctorAppointmentDialog.showDialog('lbl_sureToDelete', 'lbl_confirm', 'lbl_yes', 'lbl_no');
   }
   deleteDoctorAppointmentTime() {
   
-    if (this.doctorAppToDelete != null && this.doctorAppIndexToDelete != null && this.doctorAppointmentTimeIndexToDelete != null) {
+    if (this.doctorAppToDelete != null && this.doctorAppIndexToDelete != null) {
 
       if(     this.doctorAppToDelete?.get('doctorAppointmentTimes') != null)
       {
-        let doctorAppointmentTimesArr: FormArray =     this.doctorAppToDelete?.get('doctorAppointmentTimes') as FormArray ;
+        let doctorAppointmentTimesArr: FormArray = this.doctorAppToDelete?.get('doctorAppointmentTimes') as FormArray ;
   
-        doctorAppointmentTimesArr.removeAt( this.doctorAppointmentTimeIndexToDelete!);
+        doctorAppointmentTimesArr.removeAt( this.doctorAppIndexToDelete!);
       }
 
       // (this.doctorAppointments.at(this.doctorAppIndexToDelete)?.doctorAppointmentTimes as any[]).splice(this.doctorAppointmentTimeIndexToDelete, 1);
       this.doctorAppToDelete = null;
       this.doctorAppIndexToDelete = null;
-      this.doctorAppointmentTimeIndexToDelete = null;
+      
       
     }
   }
-  test(form: NgForm) {
-    //this.submitted = true;
-  this.markFormAsTouched(form);
-    //console.log(form.valid);
+
+  showPricesConfirmDialog(rowIndex:number)
+  {
+    this.doctorPriceRowIndexToDelete = rowIndex; 
+    this.customDoctorPricesDialog.showDialog('lbl_sureToDelete', 'lbl_confirm', 'lbl_yes', 'lbl_no');   
   }
+  deletePriceFromPricesFormArray()
+  {
+    if(this.doctorPriceRowIndexToDelete != null)
+    {
+      this.doctorPriceFormArray.removeAt(this.doctorPriceRowIndexToDelete);
+      this.doctorPriceRowIndexToDelete = null;
+    }
+  }
+
   markFormAsTouched(form: NgForm) {
     // Mark master section fields as touched
 
@@ -305,7 +382,38 @@ initdoctorAppointmentTimesFormArr():FormArray<any>
     //   // price?.markAsTouched();
     //});
   }
+getTypeOfMedicalExaminationValue(key:number)
+{
+  return this.typeOfMedicalExaminationData.find(t=>t.key == key)?.value??this._localizeServe.getLabelValue('lbl_choose');
+}
+getAppointmentTimeFormat(time:FormGroup)
+{
+  // Get the time value
+const appointmentTime = time.get('appointment')?.value;
 
+if (appointmentTime) {
+    
+    const date = new Date(appointmentTime);
 
-  
+    
+    const formattedTime = new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true, 
+    }).format(date);
+
+   return formattedTime;  
+}
+return null;
+}
+  getAvailableStatusValue(key:number)
+  {
+    return  this.availableStatusData.find(a=>a.key == key).value??'';
+  }
+
+  getWeekDaysValue(key:number)
+  {
+    return  this.weekDays.find(a=>a.key == key).value??'';
+  }
 }
