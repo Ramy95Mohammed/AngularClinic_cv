@@ -45,6 +45,9 @@ export class DoctorComponent implements OnInit {
   doctorPriceRowIndexToDelete: number | null = null;
   doctor: any;
   submitted = false;
+  genderData:any[]=[];
+  academicDegreeData:any[]=[];
+  
   @ViewChild('doctorCustomDialog') doctorCustomDialog!: CustomDialogComponent;
   @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
   @ViewChild('customDoctorAppointmentDialog') customDoctorAppointmentDialog!: CustomConfirmDialogComponent;
@@ -53,7 +56,7 @@ export class DoctorComponent implements OnInit {
   doctorForm:FormGroup;
   doctorPriceFormArray:FormArray;
    doctorAppointmentsFormArray:FormArray;
-   //products:any[]=[];
+   
 
    typeOfMedicalExaminationData:any[]=[];
   _appComp: AppComponent;
@@ -64,8 +67,7 @@ weekDayControl:any;
     this._localizeServe = localizeServ;
     this._appComp = appComp;
 
-    //  this.styleCls='d-inline-flex ';
-    //  this.styleCls+= _appComp.dir=='ltr'? ' float-start':' float-end';   
+   
     
     this.doctorForm = this.initDoctorForm(null);
 
@@ -80,37 +82,74 @@ weekDayControl:any;
     let title = this._localizeServe.getLabelValue('lbl_doctors');
     if (title != '')
       this.titleService.setTitle(title);
-    //this.initDoctor(null);
+
     
     this.getAvailableStatusData();
     this.getWeekDaysData();
     this.getTypeOfMedicalExaminationData();
-
-    // this.products.push(
-    //   {
-    //     id: '1000',
-    //     code: 'f230fh0g3',
-    //     name: 'Bamboo Watch',
-    //     description: 'Product Description',
-    //     image: 'bamboo-watch.jpg',
-    //     price: 65,
-    //     category: 'Accessories',
-    //     quantity: 24,
-    //     inventoryStatus: 'INSTOCK',
-    //     rating: 5
-    // }
-    // );
+    this.getGendersData();
+    this.sharedDataServ.setSectionsData();
+    this.getAcademicDegree();
   }
-   
+   get getSectionsData(){
+    return this.sharedDataServ.sectionsData;
+   }
 
+   getGendersData()
+  {
+    
+    this.sharedDataServ.getGenderData().subscribe((res)=>{
+     this.genderData = res;
+    })        
+  }
+  getAcademicDegree()
+  {
+    this.sharedDataServ.getAcademicDegreeData().subscribe((res)=>{
+      this.academicDegreeData = res;
+    });
+  }
    //#region InitDoctorForms
   initDoctorForm(doc:any):FormGroup
   {
     return new FormGroup({
+       //Personal Data
       keyId: new FormControl(doc?.keyId ?? 0  , Validators.required),
       name:new FormControl(doc?.name ?? '' ,[Validators.required, Validators.pattern("^(?!\\s+$).+")] ),
       foreignName:new FormControl(doc?.foreignName ?? '' ,[Validators.required, Validators.pattern("^(?!\\s+$).+")] ),
-      phone:new FormControl(doc?.phone ?? '' ,[Validators.required]) ,
+      phone:new FormControl(doc?.phone ?? '' ,[Validators.required, Validators.pattern("^(?!\\s+$).+")] ) ,
+      gender:new FormControl(doc?.gender , Validators.required),
+      birthDate:new FormControl(doc?.birthDate??new Date(1980,1) , Validators.required),
+      passportNumber:new FormControl(doc?.passportNumber??''),
+      email:new FormControl(doc?.email??'' ),
+      address:new FormControl(doc?.address??''),
+          //Academic and professional qualifications.     
+      academicDegree:new FormControl(doc?.academicDegree , Validators.required),
+      sectionId:new FormControl(doc?.sectionId , Validators.required),
+      subspecialty:new FormControl(doc?.subspecialty??''),
+      university:new FormControl(doc?.university??'' , [Validators.required, Validators.pattern("^(?!\\s+$).+")] ),     
+      graduationYear:new FormControl(doc?.graduationYear, Validators.required),
+      medicalLicensing:new FormControl(doc?.medicalLicensing??''),
+      //the language
+      languagesSpokenByTheDoctor:new FormControl(doc?.languagesSpokenByTheDoctor??''),
+      //Professional experience
+      previousExperience:new FormControl(doc?.previousExperience??''),
+      numberOfYearsOfExperience:new FormControl(doc?.numberOfYearsOfExperience??''),
+      specialMedicalSkills:new FormControl(doc?.specialMedicalSkills??''),
+      //Specialized equipment and devices
+      equipmentAndDevicesSubspecialties:new FormControl(doc?.equipmentAndDevicesSubspecialties??''),
+      medicalInstrumentsOrDevices:new FormControl(doc?.medicalInstrumentsOrDevices??''),
+      //Current work information
+      currentCliniOrHospital:new FormControl(doc?.currentCliniOrHospital??''),
+      jobTitle:new FormControl(doc?.jobTitle??''),
+      numberOfWeeklyWorkingHours:new FormControl(doc?.numberOfWeeklyWorkingHours??''),
+      workingDays:new FormControl(doc?.workingDays??''),
+      workingHours:new FormControl(doc?.workingHours??''),
+      currentLocationOfWork:new FormControl(doc?.currentLocationOfWork??''),
+      //Medical Insurance Information
+      availableMedicalInsurance:new FormControl(doc?.availableMedicalInsurance??''),
+      insuranceCardNumber:new FormControl(doc?.insuranceCardNumber??''),
+
+
       doctorPriceLists:new FormArray([]),
       doctorAppointments:new FormArray([])
     });
@@ -213,7 +252,7 @@ initdoctorAppointmentTimesFormArr():FormArray<any>
   openNew() {
     //    this.sectionForm = this.initsectionForm(null);
 
-    this.doctorsPriceList = [];
+    this.doctorPriceFormArray.clear();
   
     this.doctorPriceFormArray.push(this.initDoctorPriceFormGroup(null));
     this.doctorAppointmentsFormArray.clear();
