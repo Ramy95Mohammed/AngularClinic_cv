@@ -4,6 +4,7 @@
             <ng-template pTemplate="left">
                 <app-custom-new-btn (onBtnNewClick)="openNew()" [ControllerName]="ControllerName" severity="success"
                     icon="pi pi-plus"></app-custom-new-btn>
+
                 <app-custom-print-btn [ControllerName]="ControllerName"></app-custom-print-btn>
                 <div class="flex align-items-center gap-1 mx-2  cursor-pointer">
 
@@ -19,7 +20,7 @@
 
             </ng-template>
         </p-toolbar>
-        <p-table #dt [value]="doctors" [rowHover]="true" [scrollable]="true" scrollHeight="600px"
+        <p-table #dt [value]="doctorsData" [rowHover]="true" [scrollable]="true" scrollHeight="600px"
             [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between">
@@ -28,7 +29,8 @@
                         [label]="_localizeServe.getLabelValue('lbl_clear')"
                         (onBtnClearClick)="dt.reset();txtCustomtxtSearchDoctors.txtSerach='';getPaginatedData();"></app-custom-clear-btn>
                     <app-custom-search-filter-input #txtCustomtxtSearchDoctors [ControllerName]="ControllerName"
-                        [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')" [txtSerach]="txtSearch">
+                        (onSearchFilterInput)="getPaginatedData()"
+                        [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')" [txtSerach]="doctorsTxtSearch">
 
                     </app-custom-search-filter-input>
                 </div>
@@ -45,6 +47,11 @@
                     </th>
                     <th pSortableColumn="phone" class="text-center">{{_localizeServe.getLabelValue('lbl_phoneNumbers')}}
                         <p-sortIcon field="phone" />
+                    <th pSortableColumn="email" class="text-center">{{_localizeServe.getLabelValue('lbl_email')}}
+                        <p-sortIcon field="email" />
+                    <th pSortableColumn="section.name" class="text-center">
+                        {{_localizeServe.getLabelValue('lbl_section')}}
+                        <p-sortIcon field="section.name" />
                     </th>
                     <th pSortableColumn="formattedUpdatedDate" class="text-center">
                         {{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" />
@@ -58,6 +65,8 @@
                     <td class="text-center">{{doctor.name}}</td>
                     <td class="text-center">{{doctor.foreignName}}</td>
                     <td class="text-center">{{doctor.phone}}</td>
+                    <td class="text-center">{{doctor.email}}</td>
+                    <td class="text-center">{{doctor.section?.name}}</td>
                     <td class="text-center">{{doctor.formattedUpdatedDate}}</td>
                     <td class="text-center">
                         <div dir="ltr">
@@ -81,7 +90,7 @@
             </ng-template>
             <ng-template pTemplate="emptymessage">
                 <tr>
-                    <td colspan="6">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+                    <td colspan="8">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
                 </tr>
             </ng-template>
         </p-table>
@@ -346,8 +355,9 @@
                             <p-tabPanel>
                                 <ng-template pTemplate="header">
                                     <div class="flex align-items-center gap-2">
-                                        <i class="fa-solid fa-2x fa-briefcase"
+                                        <i class="fa-solid fa-2x fa-user-doctor"
                                             [ngStyle]="{color: 'var(--text-color)'}"></i>
+
                                         <span class="font-bold  white-space-nowrap m-0"
                                             [ngStyle]="{color: 'var(--text-color)'}">
                                             {{_localizeServe.getLabelValue('lbl_professionalExperience')}}
@@ -408,22 +418,20 @@
                                 <div class="row" [dir]="_appComp.dir">
                                     <div class="col-md-6 mb-5 mt-2">
                                         <p-floatLabel>
-                                        <input class="w-100" id="currentCliniOrHospital"
-                                            formControlName="currentCliniOrHospital" type="text"
-                                            pInputText />
+                                            <input class="w-100" id="currentCliniOrHospital"
+                                                formControlName="currentCliniOrHospital" type="text" pInputText />
 
-                                        <label for="currentCliniOrHospital" dir="ltr"
-                                            class="w-100">{{_localizeServe.getLabelValue('lbl_currentHospitalOrClinic')}}
-                                        </label>
-                                    </p-floatLabel>
+                                            <label for="currentCliniOrHospital" dir="ltr"
+                                                class="w-100">{{_localizeServe.getLabelValue('lbl_currentHospitalOrClinic')}}
+                                            </label>
+                                        </p-floatLabel>
                                     </div>
                                     <div class="col-md-6 mb-5 mt-2">
 
                                         <p-floatLabel>
-                                            <input class="w-100" id="jobTitle"
-                                                formControlName="jobTitle" type="text"
+                                            <input class="w-100" id="jobTitle" formControlName="jobTitle" type="text"
                                                 pInputText />
-    
+
                                             <label for="jobTitle" dir="ltr"
                                                 class="w-100">{{_localizeServe.getLabelValue('lbl_jobTitle')}}
                                             </label>
@@ -433,9 +441,8 @@
 
                                         <p-floatLabel>
                                             <input class="w-100" id="numberOfWeeklyWorkingHours"
-                                                formControlName="numberOfWeeklyWorkingHours" type="text"
-                                                pInputText />
-    
+                                                formControlName="numberOfWeeklyWorkingHours" type="text" pInputText />
+
                                             <label for="numberOfWeeklyWorkingHours" dir="ltr"
                                                 class="w-100">{{_localizeServe.getLabelValue('lbl_numberOfWeeklyWorkingHours')}}
                                             </label>
@@ -444,10 +451,9 @@
                                     <div class="col-md-6 mb-5">
 
                                         <p-floatLabel [pTooltip]="_localizeServe.getLabelValue('lbl_workingDaysInfo')">
-                                            <input class="w-100" id="workingDays"
-                                                formControlName="workingDays" type="text"
-                                                pInputText />
-    
+                                            <input class="w-100" id="workingDays" formControlName="workingDays"
+                                                type="text" pInputText />
+
                                             <label for="workingDays" dir="ltr"
                                                 class="w-100">{{_localizeServe.getLabelValue('lbl_workingDays')}}
                                             </label>
@@ -456,10 +462,9 @@
                                     <div class="col-md-6 mb-5">
 
                                         <p-floatLabel>
-                                            <input class="w-100" id="workingHours"
-                                                formControlName="workingHours" type="text"
-                                                pInputText />
-    
+                                            <input class="w-100" id="workingHours" formControlName="workingHours"
+                                                type="text" pInputText />
+
                                             <label for="workingHours" dir="ltr"
                                                 class="w-100">{{_localizeServe.getLabelValue('lbl_workingHours')}}
                                             </label>
@@ -467,11 +472,11 @@
                                     </div>
                                     <div class="col-md-6 mb-5">
 
-                                        <p-floatLabel [pTooltip]="_localizeServe.getLabelValue('lbl_currentLocationOfWorkInfo')">
+                                        <p-floatLabel
+                                            [pTooltip]="_localizeServe.getLabelValue('lbl_currentLocationOfWorkInfo')">
                                             <input class="w-100" id="currentLocationOfWork"
-                                                formControlName="currentLocationOfWork" type="text"
-                                                pInputText />
-    
+                                                formControlName="currentLocationOfWork" type="text" pInputText />
+
                                             <label for="currentLocationOfWork" dir="ltr"
                                                 class="w-100">{{_localizeServe.getLabelValue('lbl_currentLocationOfWork')}}
                                             </label>
@@ -634,9 +639,8 @@
 
 
                                             <td class="text-center">
-                                                <p-calendar required [showIcon]="true" [showTime]="true"
-                                                    [hourFormat]="'12'" [timeOnly]="true" dateFormat="hh:mm:ss a"
-                                                    appendTo="body" formControlName="appointment" />
+                                                <p-calendar required [showIcon]="true" [hourFormat]="'12'"
+                                                    [timeOnly]="true" appendTo="body" formControlName="appointment" />
 
                                                 <p *ngIf="(time.get('appointment')?.getError('required') || time.get('appointment')?.getError('pattern')
                                                                         )&& (time.get('appointment')?.touched  )"
@@ -744,7 +748,17 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-price let-editing="editing" let-rowIndex="rowIndex">
                         <tr [formGroup]="price">
-                            <td class="text-center">{{price.keyId}}</td>
+                            <td class="text-center" [pEditableColumn]="price.keyId" pEditableColumnField="keyId">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="output">
+                                        <div class="h5">
+                                            {{price.get('keyId').value}}
+                                        </div>
+                                    </ng-template>
+
+                                </p-cellEditor>
+                            </td>
+
                             <td class="text-center" [pEditableColumn]="price.price" pEditableColumnField="price">
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
@@ -761,7 +775,13 @@
                                             {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
                                     </ng-template>
                                     <ng-template pTemplate="output">
-                                        {{ price.get('price').value }}
+                                        <div class="h5">
+
+                                            {{' EGP '+ price.get('price').value }}
+                                        </div>
+                                        <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
+                                        )&& (price.get('price')?.touched  )" class="p-error float-start my-2">
+                                            {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
                                     </ng-template>
                                 </p-cellEditor>
 

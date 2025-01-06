@@ -21,13 +21,13 @@ html {
   opacity: 0.5; /* Changes the appearance to show it's disabled */
 }
 .z-2000 {
-    z-index: 2000;
+    z-index: 2000 !important;
 }
 
 .z-1000 {
     z-index: 1000;
 }
-.z-1400 {
+.z-1150 {
     z-index: 1150;
 }
 
@@ -162,6 +162,9 @@ p-sidebar * {
     background-color: var(--panel-bg);
     color: var(--text-color);
     box-shadow: var(--box-shadow);
+}
+.p-sidebar{
+    z-index: 1020 !important;
 }
 
 //   ::-webkit-scrollbar {

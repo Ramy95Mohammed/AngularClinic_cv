@@ -1,7 +1,7 @@
 
 
 
-<p-sidebar #sidebarRef  id="appSidebar" [(visible)]="sidebarVisible" [position]="dir=='rtl'?'right':'left'" [modal]="false" class="mt-5  d-md-block d-xs-none d-sm-none" (onHide)="makeBodyContentsFullScree()"
+<p-sidebar #sidebarRef  id="appSidebar"  [(visible)]="sidebarVisible" [position]="dir=='rtl'?'right':'left'" [modal]="false" class="mt-5  d-md-block d-xs-none d-sm-none" (onHide)="makeBodyContentsFullScree()"
 [showCloseIcon]="true" autoZIndex="true" >
     <ng-template pTemplate="headless">
         <div class="flex flex-column h-full">

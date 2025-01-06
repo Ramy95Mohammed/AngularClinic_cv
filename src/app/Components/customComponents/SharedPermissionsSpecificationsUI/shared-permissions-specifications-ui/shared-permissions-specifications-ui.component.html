@@ -29,10 +29,10 @@
                 [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                     <div class="row">
-                        <div class="col-md-1 offset-1 mb-4 mt-2">
+                        <div class="col-2  mb-4 mt-2">
 
                                 <app-custom-clear-btn [ControllerName]="ControllerName"
-                            [outlined]="true" btnClass="mx-0" [btnStyleClass]="'w-100'" icon="pi pi-filter-slash"
+                            [outlined]="true" btnClass="mx-0"  icon="pi pi-filter-slash"
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
                             (onBtnClearClick)="dtPermissions.reset();txtCustomtxtSearchSherdPermissions.txtSerach='';pagesCategoriesDropDown.value = null;
                             getByFiltering();"

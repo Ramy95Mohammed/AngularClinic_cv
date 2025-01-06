@@ -1,6 +1,6 @@
 
 
-<p-menubar [model]="items" class="fixed-top z-1400" dir="ltr">
+<p-menubar [model]="items" class="fixed-top"  dir="ltr">
     
     <ng-template pTemplate="start">
         <p-button 
@@ -39,7 +39,7 @@
             <path d="M11.4013 8.27235L8.00893 7.94938L10.2705 5.68861H12.5321L11.4013 8.27235Z" fill="var(--primary-color-text)" />
         </svg>
     </ng-template>
-    <ng-template pTemplate="item" let-item let-root="root">
+    <ng-template pTemplate="item"  let-item let-root="root">
         <span pRipple class="flex align-items-center p-menuitem-link" (click)="showLanguagePanel(item.label , $event)" [routerLink]="item.route">
             <span  [class]="item.icon"></span>
             <span  class="ml-2">{{localizeServ.getLabelValue(item.label)}}</span>

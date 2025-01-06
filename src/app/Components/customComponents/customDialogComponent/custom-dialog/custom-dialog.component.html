@@ -1,15 +1,14 @@
 <p-dialog 
   [(visible)]="visible"
+  #pDialog
   [header]="header"
   [style]="{ width: width , height:height }" 
   [maximizable]="maximizable" 
-  [modal]="modal"
+  [modal]="modal" 
   [styleClass]="styleClass"
   (onHide)="resetDialog()"
   [resizable]="resizable"
-  [contentStyle]="contentStyle"  
-  
-  >
+  [contentStyle]="contentStyle">
   
   <!-- Injected content goes here -->
   <ng-template pTemplate="content">

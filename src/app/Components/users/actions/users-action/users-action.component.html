@@ -34,12 +34,13 @@
     >
     <ng-template pTemplate="caption">
         <div class="row" >
-            <div class="col-md-1  offset-1 mb-4 mt-2">
-                <!-- <p-button [outlined]="true"  class="mr-2" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  /> -->
-                <app-custom-clear-btn [btnStyleClass]="'w-100'" btnClass="mx-0" [ControllerName]="ControllerName" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"
+            <div class="col-2 mb-4 mt-2">
+                <app-custom-clear-btn btnClass="mx-0  mt-2" [ControllerName]="ControllerName" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"
                 [outlined]="true" (onBtnClearClick)="clearSearchData()"
                 ></app-custom-clear-btn>
             </div>
+                <!-- <p-button [outlined]="true"  class="mr-2" icon="pi pi-filter-slash" [label]="_localizeServe.getLabelValue('lbl_clear')"  /> -->
+               
             <div class="col-md-2 mb-4 mt-2">
         
             <app-custom-search-filter-input #txtCustomSearch
