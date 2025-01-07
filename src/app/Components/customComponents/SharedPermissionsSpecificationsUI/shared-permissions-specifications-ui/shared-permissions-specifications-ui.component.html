@@ -273,17 +273,18 @@
         <p-table #dt [value]="permissionsMaster" [rowHover]="true" [scrollable]="true" scrollHeight="600px"
             [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
             <ng-template pTemplate="caption">
-                <div class="row">
-                    <div class="col-md-2 mb-4 mt-2">
+                <div class="d-flex justify-content-between">
+                    <div class="">
                       
 
                             <app-custom-clear-btn [ControllerName]="ControllerName"
                             [outlined]="true" icon="pi pi-filter-slash"
+                            
                             [label]="_localizeServe.getLabelValue('lbl_clear')"
                             (onBtnClearClick)="dt.reset();clearPermissiosnMasterFilters()"
                             ></app-custom-clear-btn>
                     </div>
-                    <div class="col-md-4 mb-4 mt-2">
+                    <div class="">
                      
 
                         <app-custom-search-filter-input #txtCustomtxtSearchPermissionsMaster

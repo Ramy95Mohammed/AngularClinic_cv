@@ -44,6 +44,7 @@ export class DoctorComponent implements OnInit {
   doctorAppToDelete: any | null = null;
   doctorAppIndexToDelete: number | null = null;
   doctorPriceRowIndexToDelete: number | null = null;
+  doctorKeyIdToDelete: number | null = null;
   doctor: any;
   submitted = false;
   genderData: any[] = [];
@@ -67,7 +68,7 @@ export class DoctorComponent implements OnInit {
   expandedRows = {};
   weekDayControl: any;
   constructor(localizeServ: LocalizeService, private messageService: MessageService, private titleService: Title, private _printServ: PrintService, private sharedDataServ: SharedDataService,
-    private changeDetectorRef: ChangeDetectorRef, appComp: AppComponent, private _doctorServ: DoctorService , private _helperServ:HelperService) {
+    private changeDetectorRef: ChangeDetectorRef, appComp: AppComponent, private _doctorServ: DoctorService , private _helperServ:HelperService,private printServ:PrintService) {
     this._localizeServe = localizeServ;
     this._appComp = appComp;
 
@@ -299,7 +300,9 @@ export class DoctorComponent implements OnInit {
       pageIndex = (sectionPaginator.first / sectionPaginator.rows) + 1;
     this.getDoctorsData(pageIndex, sectionPaginator.rows, this.txtCustomtxtSearchDoctors.txtSerach, null);
   }
-  showConfirmDialog(keyId: number) {
+  showConfirmDialogAndSetDoctorToDelete(keyId: number) {
+  this.doctorKeyIdToDelete = keyId;
+  this.customDeleteDialog.showDialog('lbl_sureToDelete', 'lbl_confirm', 'lbl_yes', 'lbl_no');
 
   }
   getDoctorForEdit(keyId: number) {
@@ -363,7 +366,19 @@ export class DoctorComponent implements OnInit {
     }
 
   }
-  onDelete() { }
+  onDelete() {
+
+    if(this.doctorKeyIdToDelete != null)
+    {
+      this._doctorServ.deleteDoctor(this.doctorKeyIdToDelete).subscribe((res)=>{
+        this.messageService.add({
+          severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
+          , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
+        });
+        this.getPaginatedData();
+      });
+    }
+   }
   showDoctorAppointmentTimeDialog(doctorApp: any, rowIndex: number) {
     this.doctorAppToDelete = doctorApp;
     this.doctorAppIndexToDelete = rowIndex;
@@ -410,5 +425,15 @@ export class DoctorComponent implements OnInit {
 
   getWeekDaysValue(key: number) {
     return this.weekDays.find(a => a.key == key).value ?? '';
+  }
+
+  printDoctorsData() {
+    let obj = {
+      data:this.doctorsData,
+      printAll:this.printAll
+
+    };
+    let jsonString = JSON.stringify(obj);    
+      this.printServ.generateReportWithBodyWithHeaders('Doctor/print', jsonString,this._localizeServe.getLabelValue('lbl_doctorsReport') , {"Content-Type": "application/json" });
   }
 }

@@ -40,6 +40,7 @@ export class SectionComponent implements OnInit {
   printAll:boolean = false;
   @ViewChild('sectionCustomDialog') sectionCustomDialog!: CustomDialogComponent;
   @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
+  @ViewChild('customMessageDialog') customMessageDialog!: CustomConfirmDialogComponent;
   @ViewChild('paginatorRef') paginatorRef!: CustomPaginatorFilterSearchComponent;
   sectionForm: FormGroup;
 
@@ -158,6 +159,12 @@ export class SectionComponent implements OnInit {
         this.sectionForm = this.initsectionForm(null);
         this.sectionKeyId = null;
         this.getPaginatedData();
+      },
+      (err)=>{
+                
+        if(err?.error?.errors?.entries((s :any)=> s == 'This Section Exists DoctrosTable')){
+          this.customMessageDialog.showDialog('lbl_thisRecordExistsInOtherTablesDeleteItFromOthersAndTryAgain', 'lbl_warning', 'lbl_Ok', 'lbl_Ok', false);
+        }
       });
     }
   }

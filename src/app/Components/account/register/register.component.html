@@ -151,9 +151,9 @@
                 <ng-template pTemplate="caption">
                     <div class="row mt-3">
                      
-                        <div class="col-md-2 mb-2">
-                            <app-custom-clear-btn btnClass="mx-0 px-2" [ControllerName]="ControllerName" [outlined]="true"
-                                icon="pi pi-filter-slash" [label]="localizeServ.getLabelValue('lbl_clear')"
+                        <div class="col-md-2  mb-2  py-0">
+                            <app-custom-clear-btn  [ControllerName]="ControllerName" [outlined]="true"
+                                icon="pi pi-filter-slash" btnClass="w-25" [label]="localizeServ.getLabelValue('lbl_clear')"
                                 (onBtnClearClick)="userListDt.reset();clearSearchFiltersAndGetUsersListData();"></app-custom-clear-btn>
                         </div>
                         <div class="col-md-3 mb-2">

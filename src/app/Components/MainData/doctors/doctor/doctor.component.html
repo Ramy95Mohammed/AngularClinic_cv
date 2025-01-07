@@ -5,7 +5,8 @@
                 <app-custom-new-btn (onBtnNewClick)="openNew()" [ControllerName]="ControllerName" severity="success"
                     icon="pi pi-plus"></app-custom-new-btn>
 
-                <app-custom-print-btn [ControllerName]="ControllerName"></app-custom-print-btn>
+                <app-custom-print-btn [ControllerName]="ControllerName"
+                (onBtnPrintClick)="printDoctorsData()"></app-custom-print-btn>
                 <div class="flex align-items-center gap-1 mx-2  cursor-pointer">
 
                     <label for="printAll" pInputText
@@ -71,7 +72,7 @@
                     <td class="text-center">
                         <div dir="ltr">
                             <app-custom-delete-btn [ControllerName]="ControllerName"
-                                (onBtnDeleteClick)="showConfirmDialog(doctor.keyId)"></app-custom-delete-btn>
+                                (onBtnDeleteClick)="showConfirmDialogAndSetDoctorToDelete(doctor.keyId)"></app-custom-delete-btn>
                             <app-custom-edit-btn [ControllerName]="ControllerName"
                                 (onBtnEditClick)="getDoctorForEdit(doctor.keyId)"></app-custom-edit-btn>
 

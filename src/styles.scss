@@ -167,6 +167,11 @@ p-sidebar * {
     z-index: 1020 !important;
 }
 
+.min-w-50
+{
+    min-width: 50px;
+}
+
 //   ::-webkit-scrollbar {
 //     width: 15px; /* Set scrollbar width */
 //     height: 12px; /* For horizontal scrollbar */

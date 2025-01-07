@@ -29,4 +29,8 @@ export class DoctorService {
   {
       return this._httpClient.put(environment.apiUrl+"Doctor" ,value  ,{ responseType: 'json' });
   }
+  deleteDoctor(keyId:number)
+  {
+    return this._httpClient.delete(environment.apiUrl+"Doctor/"+keyId);
+  }
 }

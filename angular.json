@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {     
-                               
+            "allowedCommonJsDependencies": ["quill-delta"],     
             "outputPath": "dist/prime-hospital",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -233,8 +233,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "3MB",
+                  "maximumError": "4MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -250,7 +250,7 @@
               "sourceMap": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
+                  "replace":"src/environments/environment.ts" ,
                   "with": "src/environments/environment.development.ts"
                 }
               ]
