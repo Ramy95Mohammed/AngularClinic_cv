@@ -79,7 +79,7 @@ export class EnterpriseInfoComponent implements OnInit {
             name: actualFileName,
             originalPath: res.originalPath
           };
-          this.downloadedFiles.push(newFile);
+          this.downloadedFiles.push(newFile);          
         }
 
       }
@@ -130,11 +130,11 @@ export class EnterpriseInfoComponent implements OnInit {
       };
 
       this.enterpriseInfoServ.saveEnterpriseInfoData(formData, httpOptions).subscribe((res) => {
+        this.getEnterpriseInfoData();
         this.messageService.add({
           severity: 'success', summary: this._localizeServe.getLabelValue('lbl_success')
           , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
         });
-        this.getEnterpriseInfoData();
 
       });
     }

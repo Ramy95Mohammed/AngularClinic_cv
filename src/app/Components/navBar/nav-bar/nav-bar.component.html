@@ -80,7 +80,7 @@
                 <span class="font-medium text-900 block mb-2">{{localizeServ.getLabelValue('lbl_languages')}}</span>
                 <ul  class="list-none p-0 m-0 flex flex-column  gap-3">
                     <li  *ngFor="let lng of languages" class="flex align-items-center gap-2 hand-cursor" >
-                        <img  [src]="'/assets/images/' + lng.image" style="width: 32px" (click)="setLocalizeData(lng.lang)" />
+                        <img  src="{{'/assets/images/'+ lng.image}}" style="width: 32px" (click)="setLocalizeData(lng.lang)" />
                         <div>
                             <span (click)="setLocalizeData(lng.lang)" class="font-medium">{{ localizeServ.getLabelValue(lng.name) }}</span>
                         </div>

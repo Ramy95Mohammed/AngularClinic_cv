@@ -12,9 +12,11 @@ import { LicencePermissionComponent } from './Components/licencePermission/licen
 import { SectionComponent } from './Components/MainData/sections/section/section.component';
 import { EnterpriseInfoComponent } from './Components/MainData/EnterpriseInfo/enterprise-info/enterprise-info.component';
 import { DoctorComponent } from './Components/MainData/doctors/doctor/doctor.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
-    {path:"" , pathMatch:"full" , component:HomeComponent},
+    {path:"" , pathMatch:"full" , canActivate:[authGuard] ,component:HomeComponent},
+
     {path:"app-home" , component:HomeComponent,
     data: { animation: 'app-home' ,
     controller:'Home'}
@@ -55,5 +57,10 @@ export const routes: Routes = [
 {path:"app-doctor" , canActivate:[authGuard], component:DoctorComponent,
     data: { animation: 'app-doctor' , controller:'Doctor'}
 }
+
+
+
+,
+{ path: '**', component: PageNotFoundComponent, data: { animation: 'app-home'} },
 
 ];
