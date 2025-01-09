@@ -12,9 +12,9 @@
   <p-toast  *ngIf="dir == 'rtl'" position="bottom-right" />
   <p-toast *ngIf="dir == 'ltr'" position="bottom-left" />
   <div class="row flex-row-reverse ">
-    <div [@routeAnimations]="prepareRoute(outlet)" id="bodyContents" class='router-container  col-md-10 '>
+    <div [@routeAnimations]="prepareRoute(outlet)" id="bodyContents" class='router-container pt-xs-5 pt-md-1  col-md-10 '>
       
-      <router-outlet  #outlet="outlet"></router-outlet>
+      <router-outlet   #outlet="outlet"></router-outlet>
       </div>
   
 </div>

@@ -194,8 +194,8 @@ export class SpecifyPermissionsComponent implements OnInit {
     if (this.app_shared_permissions.permissionMasterToDelete != null) {
       this.permissionsSpecificationServ.deletePermissionsSpecDataWithDetails(this.app_shared_permissions.permissionMasterToDelete).subscribe((res) => {
         this.messageService.add({ severity: 'success', summary: this._localizeServ.getLabelValue('lbl_success'), detail: this._localizeServ.getLabelValue('lbl_missionCompletedSuccessfully'), life: 3000 });
+        this.app_shared_permissions.onPageChange(this.app_shared_permissions.paginatorRefPermissionsMaster.paginatorRef);
         this.openNew(false);
-        this.app_shared_permissions.onPageChange(this.app_shared_permissions.paginatorRef);
       });
     }
   }

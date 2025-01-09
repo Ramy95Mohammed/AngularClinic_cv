@@ -49,7 +49,6 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
   @ViewChild('dtHavePermssions') dtHavePermssions!: Table
   @ViewChild('permissionsCustomDialog') permissionsCustomDialog!: CustomDialogComponent
   @ViewChild('paginatorRefPermissionsMaster') paginatorRefPermissionsMaster!: CustomPaginatorFilterSearchComponent
-  @ViewChild('paginatorRef') paginatorRef!: Paginator
   @ViewChild('txtCustomtxtSearchSherdPermissions') txtCustomtxtSearchSherdPermissions!:CustomSearchFilterInputComponent;
   @ViewChild('txtCustomSearchUsersWithoutPermissions') txtCustomSearchUsersWithoutPermissions!:CustomSearchFilterInputComponent;
   @ViewChild('txtCustomSearchUsersHavePermission') txtCustomSearchUsersHavePermission!:CustomSearchFilterInputComponent;

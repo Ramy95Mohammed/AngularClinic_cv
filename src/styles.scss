@@ -172,6 +172,15 @@ p-sidebar * {
     min-width: 50px;
 }
 
+@media (max-width: 575.98px) {
+    /* Styles for xs (less than 576px) */
+    .pt-xs-5
+    {
+        padding-top: 48px;
+    }
+}
+
+
 //   ::-webkit-scrollbar {
 //     width: 15px; /* Set scrollbar width */
 //     height: 12px; /* For horizontal scrollbar */
