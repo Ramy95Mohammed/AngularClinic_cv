@@ -9,6 +9,7 @@ import { Sidebar } from 'primeng/sidebar';
 import { SlideBarComponent } from '../../slideBar/slide-bar/slide-bar.component';
 import { Router } from '@angular/router'
 import { AppComponent } from '../../../app.component';
+import { Menubar } from 'primeng/menubar';
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,10 +23,12 @@ export class NavBarComponent implements OnInit {
   items: MenuItem[] | undefined;
   localizeServ: LocalizeService;
   isSignedIn: boolean = false;
-  @ViewChild('op') op!: OverlayPanel;
-
+  @ViewChild('opLanguage') opLanguage!: OverlayPanel;
+  @ViewChild('opUser') opUser!: OverlayPanel;
+  _localStorage: Storage | undefined;
 
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
+  @ViewChild('menuBar') menuBar!: Menubar;
   sidebarVisible: boolean = true;
   @Input() dir: string = ''
 
@@ -51,6 +54,8 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit() {
     this.addMenuBarItems();
+    if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined')
+    this._localStorage = localStorage;
   }
 
   addMenuBarItems() {
@@ -119,8 +124,7 @@ export class NavBarComponent implements OnInit {
       {
         label: 'lbl_language',
         icon: 'pi pi-language',
-        badge: '',
-        command: (event) => { this.onItemClick(event); }
+        badge: '', 
       }
     ];
   }
@@ -132,21 +136,27 @@ export class NavBarComponent implements OnInit {
     // localStorage.removeItem('userImage');
   }
   onItemClick(event: MenuItemCommandEvent) {
-    event.originalEvent?.preventDefault();
+       
   }
-  showLanguagePanel(label: string, event: any) {
+  showLanguagePanel(label: string, event: MouseEvent) {
     if (label == 'lbl_language')
-      this.op.toggle(event);
+    {
+      this.opLanguage.toggle(event);
+      this.menuBar.toggle(event);
+    }
   }
 
   setLocalizeData(strLang: string) {
     localStorage.setItem('userLanguage', strLang);
     //window.location.reload();
     this._appComponent.getLocalizeData();
-    this.reloadComponent();
-    
+    this.opLanguage.hide();
+    this.reloadComponent();    
   }
-
+  showUserOverlayPanel(event: MouseEvent)
+  {
+    this.opUser.toggle(event);
+  }
 
   //   getLocalizeData(strLang:string)
   // {

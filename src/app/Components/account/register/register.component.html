@@ -1,7 +1,7 @@
 <form [formGroup]="registerForm">
     <div class="flex flex-column md:flex-row  h-100 mt-3">
         <app-custom-search-btn class="px-2" [btnClass]="''" (onBtnSearchClick)="showDialogAndGetData() "
-            [outlined]="false" [severity]="'primary'" [label]="localizeServ.getLabelValue('lbl_usersList')"
+            [outlined]="true" [severity]="'primary'" [label]="localizeServ.getLabelValue('lbl_usersList')"
             [ControllerName]="ControllerName"></app-custom-search-btn>
         <div class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5 ">
 
@@ -123,7 +123,7 @@
 <form #userForm="ngForm">
     <!--Users List-->
 
-    <app-custom-dialog #usersListCustomDialog [visible]="usersListDialogVisibility" [contentStyle]="{'overflow-y': 'hidden'}" [height]="'auto'" [width]="'50vw'"
+    <app-custom-dialog #usersListCustomDialog [visible]="usersListDialogVisibility" [contentStyle]="{'overflow-y': 'hidden'}" [height]="'auto'" styleClass="w-xs-100vw w-md-100 w-sm-100vw" [width]="''"
         (onClose)="usersListDialogVisibility = false;">
             
         <ng-template #dialogContent>

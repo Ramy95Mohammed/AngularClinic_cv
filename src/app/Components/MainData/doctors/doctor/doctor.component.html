@@ -6,7 +6,7 @@
                     icon="pi pi-plus"></app-custom-new-btn>
 
                 <app-custom-print-btn [ControllerName]="ControllerName"
-                (onBtnPrintClick)="printDoctorsData()"></app-custom-print-btn>
+                    (onBtnPrintClick)="printDoctorsData()"></app-custom-print-btn>
                 <div class="flex align-items-center gap-1 mx-2  cursor-pointer">
 
                     <label for="printAll" pInputText
@@ -69,14 +69,11 @@
                     <td class="text-center">{{doctor.email}}</td>
                     <td class="text-center">{{doctor.section?.name}}</td>
                     <td class="text-center">{{doctor.formattedUpdatedDate}}</td>
-                    <td class="text-center">
-                        <div dir="ltr">
-                            <app-custom-delete-btn [ControllerName]="ControllerName"
-                                (onBtnDeleteClick)="showConfirmDialogAndSetDoctorToDelete(doctor.keyId)"></app-custom-delete-btn>
-                            <app-custom-edit-btn [ControllerName]="ControllerName"
-                                (onBtnEditClick)="getDoctorForEdit(doctor.keyId)"></app-custom-edit-btn>
-
-                        </div>
+                    <td class="text-center d-flex">
+                        <app-custom-edit-btn [ControllerName]="ControllerName"
+                            (onBtnEditClick)="getDoctorForEdit(doctor.keyId)"></app-custom-edit-btn>
+                        <app-custom-delete-btn [ControllerName]="ControllerName"
+                            (onBtnDeleteClick)="showConfirmDialogAndSetDoctorToDelete(doctor.keyId)"></app-custom-delete-btn>
                     </td>
                 </tr>
             </ng-template>

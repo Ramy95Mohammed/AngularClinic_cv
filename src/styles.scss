@@ -181,6 +181,8 @@ p-sidebar * {
 }
 
 
+
+
 //   ::-webkit-scrollbar {
 //     width: 15px; /* Set scrollbar width */
 //     height: 12px; /* For horizontal scrollbar */
@@ -225,3 +227,47 @@ p-confirmDialog .p-confirm-dialog-accept {
     padding-bottom: 10px;
     font-size: medium;
 }
+
+
+
+
+  
+  /* Extra Large screens (xl) - large desktops (min-width: 1200px) */
+  @media (min-width: 1200px) {
+ 
+  }
+  
+  /* Large screens (lg) - standard desktops (min-width: 1024px) and (max-width: 1199px) */
+  @media (min-width: 1024px) and (max-width: 1199px) {
+    .w-lg-50vw{
+        width: 50vw;
+       }
+  }
+  
+  /* Medium screens (md) - tablets and smaller laptops (min-width: 768px) and (max-width: 1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .w-md-25vw{
+        width: 25vw;
+       }
+       .w-md-50vw{
+        width: 50vw;
+       }
+       .w-md-100vw{
+        width: 100vw;
+       }
+  }
+  
+  /* Small screens (sm) - mobile devices in landscape mode (min-width: 480px) and (max-width: 767px) */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .w-sm-100vw{
+        width: 100vw;
+       }
+  }
+  
+  /* Extra Small screens (xs) - small mobile devices (max-width: 479px) */
+  @media (max-width: 479px) {
+    .w-xs-100vw{
+        width: 100vw;
+       }
+  }
+  
