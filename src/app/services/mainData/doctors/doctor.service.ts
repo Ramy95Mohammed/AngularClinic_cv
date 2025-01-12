@@ -21,16 +21,30 @@ export class DoctorService {
     return this._httpClient.get(environment.apiUrl+"Doctor/doctorById/"+keyId);
   }
  
-  saveDoctorData(value:any):Observable<any>
+  saveDoctorData(value:FormData,options:{}):Observable<any>
   {
-      return this._httpClient.post(environment.apiUrl+"Doctor" ,value  ,{ responseType: 'json' });
+      return this._httpClient.post(environment.apiUrl+"Doctor" ,value  ,options);
   }
-  editDoctorData(value:any):Observable<any>
+  editDoctorData(value:FormData,options:{}):Observable<any>
   {
-      return this._httpClient.put(environment.apiUrl+"Doctor" ,value  ,{ responseType: 'json' });
+      return this._httpClient.put(environment.apiUrl+"Doctor" ,value  ,options);
   }
   deleteDoctor(keyId:number)
   {
     return this._httpClient.delete(environment.apiUrl+"Doctor/"+keyId);
   }
+  deleteImageFile(fileName:string , keyId:number):Observable<any>
+  {
+    return this._httpClient.delete(environment.apiUrl+"Doctor/deleteImageFile/"+keyId,{
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify({ fileName: fileName }) 
+    });
+  }
+  checkIfUserIsBooked(Id: string,keyId:number): Observable<any> {
+    return this._httpClient.get<any>(environment.apiUrl+'Doctor/checkIfUserIsBooked?id='+Id+"&keyId="+keyId);
+  
+}
+  
 }

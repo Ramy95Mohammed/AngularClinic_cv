@@ -97,7 +97,7 @@ export class EnterpriseInfoComponent implements OnInit {
 
   }
   onClearFile() {
-    //this.uploadedFiles = [];
+    this.uploadedFiles = [];
   }
   appendFormData(formData: FormData) {
     formData.append('keyId', this.enterPriseInfoForm.get('keyId')?.value);

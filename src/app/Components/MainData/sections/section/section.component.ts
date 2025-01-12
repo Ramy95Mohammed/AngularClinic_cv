@@ -120,7 +120,7 @@ export class SectionComponent implements OnInit {
           , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
         });
 
-        this.hideDialog();
+        //this.hideDialog();
         this.sectionForm = this.initsectionForm(null);
         this.getPaginatedData();
       });
@@ -138,7 +138,7 @@ export class SectionComponent implements OnInit {
           , detail: this._localizeServe.getLabelValue('lbl_missionCompletedSuccessfully')
         });
 
-        this.hideDialog();
+        //this.hideDialog();
         this.sectionForm = this.initsectionForm(null);
         this.getPaginatedData();
       });

@@ -1,18 +1,35 @@
+@if (isLoading) {
+  <p-card  styleClass="vw-100 vh-100 d-flex justify-content-center align-items-center position-absolute z-9000">
+    <p-progressSpinner ariaLabel="loading" />
+    <p-progressSpinner 
+    
+        styleClass="w-4rem h-4rem" 
+        strokeWidth="8" 
+        fill="var(--surface-ground)" 
+        animationDuration=".5s" />
+      </p-card>
+    }
+
+
+    @if (!isLoading) {
 <div id="navBarCard px-0">
-  <app-nav-bar [dir]="dir" *ngIf="_accountServ.getToken() != null"></app-nav-bar>
+  <app-nav-bar  [dir]="dir" *ngIf="_accountServ.getToken() != null"></app-nav-bar>
 </div>
-<!-- <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '90px' }"></p-progressBar> -->
+
+<!-- <p-progressBar *ngIf="isLoading" mode="indeterminate" [style]="{ height: '10px' }"></p-progressBar> -->
+
+
 <!-- <div style="height: 40px;"></div> -->
 
 
 
 
-<p-card [dir]="dir" id="mainLayout" class="vh-100 " styleClass="vh-100 no-border-rauis">
-  <app-slide-bar *ngIf="_accountServ.getToken() != null" [dir]="dir"></app-slide-bar> 
+<p-card  [dir]="dir" id="mainLayout" class="vh-100 " styleClass="vh-100 no-border-rauis">
+  <app-slide-bar *ngIf="_accountServ.getToken() != null  " [dir]="dir"></app-slide-bar> 
   <p-toast  *ngIf="dir == 'rtl'" position="bottom-right" />
   <p-toast *ngIf="dir == 'ltr'" position="bottom-left" />
   <div class="row flex-row-reverse ">
-    <div [@routeAnimations]="prepareRoute(outlet)" id="bodyContents" class='router-container pt-xs-5 pt-md-1  col-md-10 '>
+    <div  [@routeAnimations]="prepareRoute(outlet)" id="bodyContents" class='router-container pt-xs-5 pt-md-1  col-md-10 '>
       
       <router-outlet   #outlet="outlet"></router-outlet>
       </div>
@@ -20,6 +37,7 @@
 </div>
 
 </p-card>
+    }
 
 
 

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
@@ -50,4 +50,10 @@ export class SharedDataService {
         this.sectionsData = res;
        });
   }
+
+  getAdminUsersData():Observable<any>
+  {
+    return this.httpClient.get(environment.apiUrl + "SharedData/adminUsersData");
+  }
+  
 }

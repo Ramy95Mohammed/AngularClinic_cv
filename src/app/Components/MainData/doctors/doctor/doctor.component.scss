@@ -13,3 +13,7 @@
         margin-right: .25rem;
     }
 }
+:host ::ng-deep #btnDeleteImage .p-button-danger {
+    padding-right: 13px !important;
+    padding-left: 13px !important;
+}

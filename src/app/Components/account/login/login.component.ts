@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
     let title = this._localizeServ.getLabelValue('lbl_login');
     if (title != '')
       this.titleService.setTitle(title);
+      
   }
 
   intializeForm(): FormGroup {

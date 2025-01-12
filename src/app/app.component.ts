@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ThemeService } from './services/theme.service';
 import { CardModule } from 'primeng/card';
@@ -21,6 +21,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { AccountService } from './services/account/account.service';
 
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -37,28 +38,34 @@ import { AccountService } from './services/account/account.service';
     ])
   ]
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'Prime x';
   dir='ltr';
   isLoading: boolean = true;  
-
+  routeAnimations: string ='';
   @ViewChild(SlideBarComponent) sideBarComponent!: SlideBarComponent;
   prepareRoute(outlet: RouterOutlet) {
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+    const currentUrl = this.router.url;  
+    let routeData = (outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'])??currentUrl.replace('/','');    
+    return routeData;
   } 
 
   _accountServ:AccountService;
 constructor(private themeSerivce:ThemeService , private localizeServ:LocalizeService ,private csrfService: CsrfService , accountServ:AccountService
-  ,private _appSideBar:SlideBarComponent)
+  ,private _appSideBar:SlideBarComponent,private cdRef: ChangeDetectorRef,private router: Router) 
 {
    this._accountServ = accountServ;   
 }
+ 
 ngOnInit(): void {
    this.changeTheme('aura-dark-amber'); 
+   this.setReportColors();
+   this. getSharedData();  
   this.getLocalizeData();
   //this.setCSRFConfig();
-  this.setReportColors();
-  this. getSharedData();
+ //this.loadAppContent();
+ 
+ 
 }
 changeTheme(theme:string)
 {
@@ -74,7 +81,7 @@ changeTheme(theme:string)
       this.localizeServ.getLocalizeData().subscribe((data)=>{
         this.localizeServ.localizeData = data.localizedStrings;
         this.dir =userLang === 'ar-EG' ? 'rtl' : 'ltr';       
-        
+        this.loadAppContent();
 
       });
 
@@ -82,9 +89,17 @@ changeTheme(theme:string)
     
    }
   finally {
-    this.isLoading = false;  // Once loading is complete, hide the progress bar
+    //this.isLoading = false;  // Once loading is complete, hide the progress bar
   }
  }
+ loadAppContent() {
+  
+  setTimeout(() => {
+  
+    this.isLoading = false;
+  }, 2000); 
+}
+
 
    setCSRFConfig()
    {

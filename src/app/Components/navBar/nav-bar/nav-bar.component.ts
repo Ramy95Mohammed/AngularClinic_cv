@@ -31,6 +31,7 @@ export class NavBarComponent implements OnInit {
   @ViewChild('menuBar') menuBar!: Menubar;
   sidebarVisible: boolean = true;
   @Input() dir: string = ''
+  
 
   constructor(private _localizeServ: LocalizeService, private _accounService: AccountService, private router: Router, private _appComponent: AppComponent) {
 
