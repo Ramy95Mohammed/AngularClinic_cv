@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { LocalizeService } from '../../../../services/localize/localize.service';
 import { PrintService } from '../../../../services/printingservice/print.service';
@@ -21,6 +21,7 @@ import { DoctorService } from '../../../../services/mainData/doctors/doctor.serv
 import { HelperService } from '../../../../services/helper.service';
 import { HttpHeaders } from '@angular/common/http';
 import { Dropdown, DropdownChangeEvent } from 'primeng/dropdown';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 
@@ -31,7 +32,7 @@ import { Dropdown, DropdownChangeEvent } from 'primeng/dropdown';
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.scss'
 })
-export class DoctorComponent implements OnInit {
+export class DoctorComponent implements OnInit ,AfterViewInit{
   ControllerName: string = 'Doctor';
   _localizeServe: LocalizeService;
   printAll: boolean = false;
@@ -76,7 +77,8 @@ export class DoctorComponent implements OnInit {
   expandedRows = {};
   weekDayControl: any;
   constructor(localizeServ: LocalizeService, private messageService: MessageService, private titleService: Title, private _printServ: PrintService, private sharedDataServ: SharedDataService,
-    private changeDetectorRef: ChangeDetectorRef, appComp: AppComponent, private _doctorServ: DoctorService, private _helperServ: HelperService, private printServ: PrintService) {
+    private cdr: ChangeDetectorRef, appComp: AppComponent, private _doctorServ: DoctorService, private _helperServ: HelperService, private printServ: PrintService,
+    private route: ActivatedRoute,private _router:Router) {
     this._localizeServe = localizeServ;
     this._appComp = appComp;
 
@@ -89,8 +91,12 @@ export class DoctorComponent implements OnInit {
 
 
   }
+  ngAfterViewInit(): void {
+    this.openDialogAccordingToOperation();
+      this.cdr.detectChanges();
+  }
   ngOnInit(): void {
-    let title = this._localizeServe.getLabelValue('lbl_doctors');
+    let title = this._localizeServe.getLabelValue('lbl_showDoctors');
     if (title != '')
       this.titleService.setTitle(title);
 
@@ -106,7 +112,17 @@ export class DoctorComponent implements OnInit {
   get getSectionsData() {
     return this.sharedDataServ.sectionsData;
   }
+  openDialogAccordingToOperation() {
+    this.route.queryParams.subscribe((params:any) => {
 
+      if(params['operation'] == 'add')
+      {
+        this.openNew();
+        this._router.navigate([]);        
+      }
+      
+    });
+  }
   getGendersData() {
 
     this.sharedDataServ.getGenderData().subscribe((res) => {
@@ -248,7 +264,7 @@ export class DoctorComponent implements OnInit {
 
     this.setDoctorAppointmentsData(null);
     //this.expandAll();
-
+    this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_addDoctor'));
     this.showDialog('lbl_addDoctor', true);
   }
 
@@ -283,9 +299,12 @@ export class DoctorComponent implements OnInit {
     return this.weekDays.find(w => w.key == weekDay).value;
   }
   showDialog(dialogHeader: string, saveOrEdit: boolean = true) {
+    if(this.doctorCustomDialog != undefined)
+    {
     this.doctorCustomDialog.header = this._localizeServe.getLabelValue(dialogHeader);
     this.doctorCustomDialog.saveOrEdit = saveOrEdit;
     this.doctorsDialog = true;
+    }
   }
   addTimeToWeekDay(doctorApp: FormGroup) {
     if (doctorApp?.get('doctorAppointmentTimes') != null) {
@@ -324,6 +343,7 @@ export class DoctorComponent implements OnInit {
   getDoctorForEdit(keyId: number) {
     this._doctorServ.getDoctorById(keyId).subscribe((res) => {
       this.setDoctorsDataForEdit(res);
+      this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_editDoctor'));
       this.showDialog('lbl_editDoctor', false);
     });
   }
@@ -493,7 +513,7 @@ export class DoctorComponent implements OnInit {
   onSelectFile(event: any) {
     this.uploadedFiles = [];
     for (let file of event.files) {
-
+     if(file.size<=30000)
       this.uploadedFiles.push(file);
     }
   }
@@ -553,5 +573,11 @@ export class DoctorComponent implements OnInit {
 
       
     }
+  }
+  onDialogClose()
+  {
+    let title = this._localizeServe.getLabelValue('lbl_showDoctors');
+    if (title != '')
+      this.titleService.setTitle(title);
   }
 }

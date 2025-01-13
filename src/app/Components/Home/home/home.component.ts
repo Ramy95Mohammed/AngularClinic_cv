@@ -67,6 +67,7 @@ themeItems:any;
   changeTheme(theme:string)
   {
     this.themeSerivce.switchTheme(theme);
+    localStorage.setItem('appTheme',theme);
   } 
  changeThemeByDropDown(e:DropdownChangeEvent)
  {

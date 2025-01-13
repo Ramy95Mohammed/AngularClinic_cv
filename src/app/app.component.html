@@ -26,7 +26,7 @@
 
 <p-card  [dir]="dir" id="mainLayout" class="vh-100 " styleClass="vh-100 no-border-rauis">
   <app-slide-bar *ngIf="_accountServ.getToken() != null  " [dir]="dir"></app-slide-bar> 
-  <p-toast  *ngIf="dir == 'rtl'" position="bottom-right" />
+  <p-toast  *ngIf="dir == 'rtl'" position="bottom-right" /> 
   <p-toast *ngIf="dir == 'ltr'" position="bottom-left" />
   <div class="row flex-row-reverse ">
     <div  [@routeAnimations]="prepareRoute(outlet)" id="bodyContents" class='router-container pt-xs-5 pt-md-1  col-md-10 '>

@@ -8,7 +8,11 @@
   [styleClass]="styleClass"
   (onHide)="resetDialog()"
   [resizable]="resizable"
-  [contentStyle]="contentStyle">
+  [contentStyle]="contentStyle"
+  [transitionOptions]="'500ms ease-in-out'"
+  [dismissableMask]="dismissableMask"  
+  
+  >
   
   <!-- Injected content goes here -->
   <ng-template pTemplate="content">

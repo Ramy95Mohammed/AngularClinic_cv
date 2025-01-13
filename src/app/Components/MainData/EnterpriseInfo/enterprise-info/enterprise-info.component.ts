@@ -91,6 +91,7 @@ export class EnterpriseInfoComponent implements OnInit {
     this.uploadedFiles = [];
     for (let file of event.files) {
       // this.enterPriseInfoForm.get('imageData')?.setValue(file);
+      if(file.size<=30000)
       this.uploadedFiles.push(file);
     }
 

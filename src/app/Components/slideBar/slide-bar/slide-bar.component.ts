@@ -7,6 +7,7 @@ import { RippleModule } from 'primeng/ripple';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ImportsModule } from '../../../app/imports';
 import { LocalizeService } from '../../../services/localize/localize.service';
+import { Router } from '@angular/router';
 
 
 
@@ -21,8 +22,10 @@ import { LocalizeService } from '../../../services/localize/localize.service';
 export class SlideBarComponent implements OnInit, AfterViewInit {
   _localStorage: Storage | undefined;
   _localizeServ: LocalizeService;
-  constructor(localizeServ: LocalizeService) {
+  
+  constructor(localizeServ: LocalizeService,private router: Router) {
     this._localizeServ = localizeServ;
+  
   }
   ngAfterViewInit(): void {
 
@@ -70,5 +73,11 @@ export class SlideBarComponent implements OnInit, AfterViewInit {
         element?.classList.add('col-md-12');
       }
   
+  }
+
+  navigateToUrlWithParams(route:string,queryParams:{}|null)
+  {
+    
+    this.router.navigate([route],{ queryParams: queryParams});
   }
 }

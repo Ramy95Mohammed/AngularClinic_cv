@@ -19,6 +19,7 @@ export class CustomDialogComponent implements OnInit{
   @Input() width: string = '450px';
   @Input() height:string ='450px';
   @Input() modal: boolean = true; 
+  @Input() dismissableMask: boolean = true; 
   @Input() styleClass: string = 'p-fluid max-height-dialog'; 
   @Input() contentStyle = {}; 
   @Input() saveOrEdit: boolean = true; 

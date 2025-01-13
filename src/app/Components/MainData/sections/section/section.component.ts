@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ImportsModule } from '../../../../app/imports';
 import { SectionsService } from '../../../../services/sections/sections.service';
 import { LocalizeService } from '../../../../services/localize/localize.service';
@@ -19,6 +19,7 @@ import { CustomPrintBtnComponent } from "../../../customComponents/customPrintBt
 import { PrintService } from '../../../../services/printingservice/print.service';
 import { json } from 'stream/consumers';
 import { stringify } from 'querystring';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-section',
@@ -27,7 +28,7 @@ import { stringify } from 'querystring';
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
-export class SectionComponent implements OnInit {
+export class SectionComponent implements OnInit ,AfterViewInit{
   ControllerName: string = 'Sections';
   sections: any[] = [];
   _localizeServe: LocalizeService;
@@ -37,7 +38,7 @@ export class SectionComponent implements OnInit {
   totalRecords: number = 10;
   sectionsDialog: boolean = false;
   sectionKeyId: number | null = null;
-  printAll:boolean = false;
+  printAll: boolean = false;
   @ViewChild('sectionCustomDialog') sectionCustomDialog!: CustomDialogComponent;
   @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
   @ViewChild('customMessageDialog') customMessageDialog!: CustomConfirmDialogComponent;
@@ -45,17 +46,33 @@ export class SectionComponent implements OnInit {
   sectionForm: FormGroup;
 
   constructor(private sectionsServ: SectionsService, localizeServ: LocalizeService, private titleService: Title,
-    private messageService: MessageService,private printServ:PrintService) {
+    private messageService: MessageService, private printServ: PrintService, private route: ActivatedRoute,private _router:Router,private cdr: ChangeDetectorRef) {
     this._localizeServe = localizeServ;
     this.sectionForm = this.initsectionForm(null);
+  
+  }
+  ngAfterViewInit(): void {
+      this.openDialogAccordingToOperation();
+      this.cdr.detectChanges();
   }
   ngOnInit(): void {
     let title = this._localizeServe.getLabelValue('lbl_showSections');
     if (title != '')
       this.titleService.setTitle(title);
+  
     this.getSectionsData(1, 10, "", null);
   }
+  openDialogAccordingToOperation() {
+    this.route.queryParams.subscribe((params:any) => {
 
+      if(params['operation'] == 'add')
+      {
+        this.openNew();
+        this._router.navigate([]);        
+      }
+      
+    });
+  }
   getSectionsData(pageIndex: number, pageSize: number, searchValue: string, sort: string | null) {
     this.sectionsServ.getSectionsData(pageIndex, pageSize, searchValue, sort).subscribe((data) => {
       this.sections = data.data;
@@ -83,13 +100,18 @@ export class SectionComponent implements OnInit {
 
   openNew() {
     this.sectionForm = this.initsectionForm(null);
+    this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_addSection'));
     this.showDialog('lbl_addSection', true);
   }
 
   hideDialog() {
     this.sectionsDialog = false;
   }
-
+  onDialogClose() {
+    let title = this._localizeServe.getLabelValue('lbl_showSections');
+    if (title != '')
+      this.titleService.setTitle(title);
+  }
   showConfirmDialog(keyId: number) {
     this.sectionKeyId = keyId;
     this.customDeleteDialog.showDialog('lbl_sureToDelete', 'lbl_confirm', 'lbl_yes', 'lbl_no');
@@ -97,15 +119,20 @@ export class SectionComponent implements OnInit {
 
 
   showDialog(dialogHeader: string, saveOrEdit: boolean = true) {
+    
+    if(this.sectionCustomDialog != undefined)
+    {
     this.sectionCustomDialog.header = this._localizeServe.getLabelValue(dialogHeader);
     this.sectionCustomDialog.saveOrEdit = saveOrEdit;
     this.sectionsDialog = true;
+  }
   }
 
   getSectionForEdit(keyId: number) {
 
     this.sectionsServ.getSectionById(keyId).subscribe((res) => {
       this.sectionForm = this.initsectionForm(res);
+      this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_editSection'));
       this.showDialog('lbl_editSection', false);
     });
 
@@ -160,21 +187,21 @@ export class SectionComponent implements OnInit {
         this.sectionKeyId = null;
         this.getPaginatedData();
       },
-      (err)=>{
-                
-        if(err?.error?.errors?.entries((s :any)=> s == 'This Section Exists DoctrosTable')){
-          this.customMessageDialog.showDialog('lbl_thisRecordExistsInOtherTablesDeleteItFromOthersAndTryAgain', 'lbl_warning', 'lbl_Ok', 'lbl_Ok', false);
-        }
-      });
+        (err) => {
+
+          if (err?.error?.errors?.entries((s: any) => s == 'This Section Exists DoctrosTable')) {
+            this.customMessageDialog.showDialog('lbl_thisRecordExistsInOtherTablesDeleteItFromOthersAndTryAgain', 'lbl_warning', 'lbl_Ok', 'lbl_Ok', false);
+          }
+        });
     }
   }
   printSectionsData() {
     let obj = {
-      sections:this.sections,
-      printAll:this.printAll
+      sections: this.sections,
+      printAll: this.printAll
 
     };
-    let jsonString = JSON.stringify(obj);    
-      this.printServ.generateReportWithBodyWithHeaders('Sections/print', jsonString,this._localizeServe.getLabelValue('lbl_sectionsReport') , {"Content-Type": "application/json" });
+    let jsonString = JSON.stringify(obj);
+    this.printServ.generateReportWithBodyWithHeaders('Sections/print', jsonString, this._localizeServe.getLabelValue('lbl_sectionsReport'), { "Content-Type": "application/json" });
   }
 }

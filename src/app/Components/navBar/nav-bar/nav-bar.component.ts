@@ -78,7 +78,19 @@ export class NavBarComponent implements OnInit {
           {
             label: 'lbl_doctors',
             icon: 'fa-solid fa-user-doctor',
-            route: 'app-doctor'
+            items:[
+              {
+                label: 'lbl_showDoctors',
+                icon: 'fa-solid fa-arrows-to-eye',
+                route: "app-doctor"                
+              },
+              {
+                label: 'lbl_addDoctor',
+                icon: 'fa-solid fa-plus',  
+                route: "app-doctor",              
+               command:(event: any) =>this.navigateToUrlWithParams('/app-doctor',{ operation: 'add' })
+              }
+            ]
           },
           {
             label: 'lbl_sections',
@@ -87,7 +99,13 @@ export class NavBarComponent implements OnInit {
               {
                 label: 'lbl_showSections',
                 icon: 'fa-solid fa-arrows-to-eye',
-                route: "app-section"
+                route: "app-section"                
+              },
+              {
+                label: 'lbl_addSection',
+                icon: 'fa-solid fa-plus',  
+                route: "app-section",              
+               command:(event: any) =>this.navigateToUrlWithParams('/app-section',{ operation: 'add' })
               }
             ]
           }
@@ -128,6 +146,10 @@ export class NavBarComponent implements OnInit {
         badge: '', 
       }
     ];
+  }
+  navigateToUrlWithParams(route:string,queryParams:{}|null)
+  {
+    this.router.navigate([route],{ queryParams: queryParams});
   }
   exexuteLogOut() {
     this._accounService.logOut();

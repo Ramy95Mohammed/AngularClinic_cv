@@ -94,7 +94,7 @@
         </p-table>
 
 
-        <app-custom-dialog #doctorCustomDialog [contentStyle]="{'overflow-y': 'auto'}" [ControllerName]="ControllerName"
+        <app-custom-dialog (onClose)="onDialogClose()" #doctorCustomDialog [contentStyle]="{'overflow-y': 'auto'}" [ControllerName]="ControllerName"
             height="100%" [visible]="doctorsDialog" [width]="'100%'" (onClose)="doctorsDialog = false;"
             (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()">
 

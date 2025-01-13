@@ -85,9 +85,9 @@
 
     <form [formGroup]="sectionForm">
         
-    <app-custom-dialog #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" [resizable]="false" styleClass="w-md-25vw w-xs-100vw"  height="230px" [visible]="sectionsDialog"  (onClose)="hideDialog()"
+    <app-custom-dialog (onClose)="onDialogClose()" #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" [resizable]="false" styleClass="w-md-25vw w-xs-100vw"  height="230px" [visible]="sectionsDialog"  (onClose)="hideDialog()"
       (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()"
-        >
+        > 
 
         <!-- Pass dynamic content to the dialog using ng-template -->
         <ng-template #dialogContent>

@@ -46,7 +46,9 @@ export class AppComponent implements OnInit {
   @ViewChild(SlideBarComponent) sideBarComponent!: SlideBarComponent;
   prepareRoute(outlet: RouterOutlet) {
     const currentUrl = this.router.url;  
-    let routeData = (outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'])??currentUrl.replace('/','');    
+    const url = new URL(currentUrl, window.location.href);    
+    const pathWithoutSlash = url.pathname.substring(1);
+    let routeData = (outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'])??pathWithoutSlash;    
     return routeData;
   } 
 
@@ -58,18 +60,22 @@ constructor(private themeSerivce:ThemeService , private localizeServ:LocalizeSer
 }
  
 ngOnInit(): void {
-   this.changeTheme('aura-dark-amber'); 
+   this.changeTheme(); 
    this.setReportColors();
    this. getSharedData();  
   this.getLocalizeData();
-  //this.setCSRFConfig();
- //this.loadAppContent();
+
  
  
 }
-changeTheme(theme:string)
+changeTheme()
 {
-  this.themeSerivce.switchTheme(theme);
+  if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined')
+  {
+    let theme = localStorage.getItem('appTheme')??'aura-dark-amber';
+    this.themeSerivce.switchTheme(theme);
+    
+  }
 }
 
   getLocalizeData()
