@@ -45,6 +45,8 @@
                 <th class="text-center">#</th>
                 <th pSortableColumn="name" class="text-center">{{_localizeServe.getLabelValue('lbl_sectionName')}}
                     <p-sortIcon field="name" /></th>
+                    <th style="width: 250px;" pSortableColumn="description" class="text-center">{{_localizeServe.getLabelValue('lbl_description')}}
+                        <p-sortIcon field="description" /></th>
                 <th pSortableColumn="formattedUpdatedDate" class="text-center">
                     {{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" /></th>
                 <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
@@ -53,7 +55,11 @@
         <ng-template pTemplate="body" let-section>
             <tr>
                 <td class="text-center">{{section.keyId}}</td>
-                <td class="text-center">{{section.name}}</td>
+                <td class="text-center"><a class="text-decoration-none" routerLink="/app-doctor" [queryParams]="{sectionId:section.keyId}">{{section.name}}</a> </td>
+                <td class="text-center break-words">
+                    {{ section.description.length > 50 ? (section.description | slice:0:50) + '...' : section.description }}
+                </td>
+                
                 <td class="text-center">{{section.formattedUpdatedDate}}</td>
                 <td class="text-center">
                     <div dir="ltr" >
@@ -85,7 +91,7 @@
 
     <form [formGroup]="sectionForm">
         
-    <app-custom-dialog (onClose)="onDialogClose()" #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" [resizable]="false" styleClass="w-md-25vw w-xs-100vw"  height="230px" [visible]="sectionsDialog"  (onClose)="hideDialog()"
+    <app-custom-dialog (onClose)="onDialogClose()" #sectionCustomDialog [ControllerName]="ControllerName" [maximizable]="false" [resizable]="false" styleClass="w-md-25vw w-xs-100vw"  height="auto" [visible]="sectionsDialog"  (onClose)="hideDialog()"
       (onBtnSaveClick)="onSave()" (onBtnEditClick)="onEdit()"
         > 
 
@@ -93,14 +99,26 @@
         <ng-template #dialogContent>
             <div class="mt-4">
                 <input hidden class="w-100" formControlName="keyId"  type="text" pInputText />
-            <p-floatLabel >
-                <input class="w-100" formControlName="name" id="sectionName"  type="text" pInputText />
-                <label for="sectionName" dir="ltr" class="w-100">{{_localizeServe.getLabelValue('lbl_sectionName')}}</label>
-                <p *ngIf="(sectionForm.get('name')?.getError('required') || sectionForm.get('name')?.getError('pattern')
-                            )&& (sectionForm.get('name')?.touched  )"
-                           class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
-             </p-floatLabel>
-            
+                <div class="w-100 mb-5">
+                    <p-floatLabel >
+             
+                        <input class="w-100" formControlName="name" id="sectionName"  type="text" pInputText />
+                        <label for="sectionName" dir="ltr" class="w-100">{{_localizeServe.getLabelValue('lbl_sectionName')}}</label>
+                        <p *ngIf="(sectionForm.get('name')?.getError('required') || sectionForm.get('name')?.getError('pattern')
+                                    )&& (sectionForm.get('name')?.touched  )"
+                                   class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                     </p-floatLabel>
+                </div>
+                <div class="w-100 mb-5">
+                    <p-floatLabel>
+                      
+                        <textarea id="sectionDescription"   class="w-100" rows="5" cols="30" formControlName="description" pInputTextarea  >
+            </textarea>
+                        <label for="sectionDescription" dir="ltr"
+                            class="w-100 mx-2">{{_localizeServe.getLabelValue('lbl_description')}}</label>
+                       
+                    </p-floatLabel>
+                </div>
             </div>
         </ng-template>
 

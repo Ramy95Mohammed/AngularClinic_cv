@@ -84,7 +84,8 @@ export class SectionComponent implements OnInit ,AfterViewInit{
   initsectionForm(section: any): FormGroup {
     return new FormGroup({
       keyId: new FormControl(section?.keyId ?? 0, Validators.required),
-      name: new FormControl(section?.name ?? '', [Validators.required, Validators.pattern("^(?!\\s+$).+")])
+      name: new FormControl(section?.name ?? '', [Validators.required, Validators.pattern("^(?!\\s+$).+")]),
+      description:new FormControl(section?.description)
     })
   }
   getPaginatedData() {

@@ -100,7 +100,8 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
     if (title != '')
       this.titleService.setTitle(title);
 
-    this.getDoctorsData(1, 10, this.doctorsTxtSearch, null);
+  //  this.getDoctorsData(1, 10, this.doctorsTxtSearch, null);
+  this.getDoctorsDataBySectionId();
     this.getAvailableStatusData();
     this.getWeekDaysData();
     this.getTypeOfMedicalExaminationData();
@@ -123,6 +124,15 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
       
     });
   }
+  getDoctorsDataBySectionId()
+  {
+    this.route.queryParams.subscribe((params:any) => {
+
+      this.getDoctorsData(1, 10, this.doctorsTxtSearch, null , params['sectionId']);      
+   
+      
+    });
+  }
   getGendersData() {
 
     this.sharedDataServ.getGenderData().subscribe((res) => {
@@ -135,13 +145,25 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
       this.adminUsersData = res;
     });
   }
-  getDoctorsData(pageIndex: number, pageSize: number, searchValue: string, sort: string | null) {
-    this._doctorServ.getDoctorsData(pageIndex, pageSize, searchValue, sort).subscribe((res) => {
+  getDoctorsData(pageIndex: number, pageSize: number, searchValue: string, sort: string | null,sectionId:any = null) {
+    this._doctorServ.getDoctorsData(pageIndex, pageSize, searchValue, sort,sectionId).subscribe((res) => {
       this.doctorsData = res.data;
       this.totalRecords = res.count;
     });
   }
+  calculateTotal(sectionId: number) {
+    let total = 0;
 
+    if (this.doctorsData) {
+      for (let doc of this.doctorsData) {
+        if (doc.sectionId === sectionId) {
+          total++;
+        }
+      }
+    }
+
+    return total;
+  }
 
   getAcademicDegree() {
     this.sharedDataServ.getAcademicDegreeData().subscribe((res) => {

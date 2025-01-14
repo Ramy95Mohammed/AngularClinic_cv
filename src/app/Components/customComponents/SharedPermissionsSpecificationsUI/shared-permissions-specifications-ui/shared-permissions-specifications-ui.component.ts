@@ -122,19 +122,19 @@ export class SharedPermissionsSpecificationsUIComponent implements OnInit {
     console.log('Save button clicked from Parent! Save');
     // Add any additional logic for Save here
   }
-  calculateTotal(name: string) {
-    let total = 0;
+    calculateTotal(name: string) {
+      let total = 0;
 
-    if (this.data) {
-      for (let per of this.data) {
-        if (per.pageCategoryName === name) {
-          total++;
+      if (this.data) {
+        for (let per of this.data) {
+          if (per.pageCategoryName === name) {
+            total++;
+          }
         }
       }
-    }
 
-    return total;
-  }
+      return total;
+    }
 
   getByFiltering() {
     const searchTerm = this.txtCustomtxtSearchSherdPermissions.txtSerach.trim().toLowerCase();

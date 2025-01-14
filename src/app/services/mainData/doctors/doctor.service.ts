@@ -11,9 +11,27 @@ export class DoctorService {
 
   constructor(private _httpClient:HttpClient) { }
 
-  getDoctorsData(pageIndex:number , pageSize:number,searchValue:string,sort:string | null):Observable<any>
+  getDoctorsData(pageIndex:number , pageSize:number,searchValue:string,sort:string | null,sectionId:any):Observable<any>
   {
-    return this._httpClient.get(environment.apiUrl+"Doctor?pageIndex="+pageIndex+"&pageSize="+pageSize+"&searchValue="+searchValue+"&sort="+sort);
+    let params: string[] = [];
+  
+    params.push(`pageIndex=${pageIndex}`);
+    params.push(`pageSize=${pageSize}`);
+  
+    if (searchValue) {
+      params.push(`searchValue=${encodeURIComponent(searchValue)}`);
+    }
+  
+    if (sort) {
+      params.push(`sort=${encodeURIComponent(sort)}`);
+    }
+  
+    
+    if (sectionId !== null && sectionId !== undefined) {
+      params.push(`SectionId=${encodeURIComponent(sectionId)}`);
+    }
+    const queryString = params.join("&");
+    return this._httpClient.get(environment.apiUrl+"Doctor?"+queryString);
   }
 
   getDoctorById(keyId:number)

@@ -22,7 +22,9 @@
             </ng-template>
         </p-toolbar>
         <p-table #dt [value]="doctorsData" [rowHover]="true" [scrollable]="true" scrollHeight="600px"
-            [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
+            [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true"
+            rowGroupMode="subheader"
+                groupRowsBy="sectionId" >
             <ng-template pTemplate="caption">
                 <div class="flex justify-content-between">
 
@@ -60,6 +62,21 @@
                     <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
                 </tr>
             </ng-template>
+            <ng-template pTemplate="groupheader" let-doctor>
+                <tr pRowGroupHeader >
+                    <td colspan="8">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span class="font-bold ml-2">{{doctor.section?.name}}</span>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="groupfooter" let-doctor>
+                <tr >
+                    <td colspan="8" class="text-right font-bold pr-6">
+                        {{_localizeServe.getLabelValue('lbl_count')}}: {{calculateTotal(doctor.sectionId)}}
+                    </td>
+                </tr>
+            </ng-template>
             <ng-template pTemplate="body" let-doctor>
                 <tr>
                     <td class="text-center">{{doctor.keyId}}</td>
@@ -69,7 +86,7 @@
                     <td class="text-center">{{doctor.email}}</td>
                     <td class="text-center">{{doctor.section?.name}}</td>
                     <td class="text-center">{{doctor.formattedUpdatedDate}}</td>
-                    <td class="text-center d-flex">
+                    <td class="text-center d-flex justify-content-center">
                         <app-custom-edit-btn [ControllerName]="ControllerName"
                             (onBtnEditClick)="getDoctorForEdit(doctor.keyId)"></app-custom-edit-btn>
                         <app-custom-delete-btn [ControllerName]="ControllerName"
