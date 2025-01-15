@@ -57,6 +57,7 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
   doctorImagefileNameToDelete: string | null = null;
   academicDegreeData: any[] = [];
   doctorsData: any[] = [];
+  isNewDoctor:boolean = false
   doctorsTxtSearch: string = '';
   @ViewChild('doctorCustomDialog') doctorCustomDialog!: CustomDialogComponent;
   @ViewChild('customDeleteDialog') customDeleteDialog!: CustomConfirmDialogComponent;
@@ -88,12 +89,13 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
 
     this.doctorPriceFormArray = this.inintDoctorPriceFormArr();
     this.doctorAppointmentsFormArray = this.initDoctorAppointmentsFormArr();
-
-
+  
   }
-  ngAfterViewInit(): void {
-    this.openDialogAccordingToOperation();
-      this.cdr.detectChanges();
+  ngAfterViewInit(): void {    
+   this.openDialogAccordingToOperation();
+   
+    this.cdr.detectChanges();
+    
   }
   ngOnInit(): void {
     let title = this._localizeServe.getLabelValue('lbl_showDoctors');
@@ -103,12 +105,13 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
   //  this.getDoctorsData(1, 10, this.doctorsTxtSearch, null);
   this.getDoctorsDataBySectionId();
     this.getAvailableStatusData();
-    this.getWeekDaysData();
     this.getTypeOfMedicalExaminationData();
     this.getGendersData();
     this.getAdminUsersData();
     this.sharedDataServ.setSectionsData();
     this.getAcademicDegree();
+    this.getWeekDaysData();
+
   }
   get getSectionsData() {
     return this.sharedDataServ.sectionsData;
@@ -118,20 +121,30 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
 
       if(params['operation'] == 'add')
       {
-        this.openNew();
+        this.isNewDoctor = true;
+        this.showDialog('lbl_addDoctor', true);
         this._router.navigate([]);        
       }
-      
+   
     });
+  }
+  onDoctorDialogShow()
+  {    
+    if(this.isNewDoctor)
+    this.openNew();
   }
   getDoctorsDataBySectionId()
   {
     this.route.queryParams.subscribe((params:any) => {
 
-      this.getDoctorsData(1, 10, this.doctorsTxtSearch, null , params['sectionId']);      
-   
-      
+      this.getDoctorsData(1, 10, this.doctorsTxtSearch, null , params['sectionId']);               
     });
+  }
+
+  showDoctorDialog()
+  {
+    this.isNewDoctor = true;
+    this.showDialog('lbl_addDoctor', true);
   }
   getGendersData() {
 
@@ -273,26 +286,26 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
 
   openNew() {
     //    this.sectionForm = this.initsectionForm(null);    
-
+    this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_addDoctor'));    
     this.doctorForm = this.initDoctorForm(null);
     this.downloadedFiles = [];
-    this.doctorPriceFormArray = this.inintDoctorPriceFormArr();
+
     this.doctorAppointmentsFormArray = this.initDoctorAppointmentsFormArr();
-
-    this.doctorPriceFormArray.clear();
-
-    this.doctorPriceFormArray.push(this.initDoctorPriceFormGroup(null));
     this.doctorAppointmentsFormArray.clear();
-
     this.setDoctorAppointmentsData(null);
-    //this.expandAll();
-    this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_addDoctor'));
-    this.showDialog('lbl_addDoctor', true);
+
+    this.doctorPriceFormArray = this.inintDoctorPriceFormArr();
+    this.doctorPriceFormArray.clear();
+    this.doctorPriceFormArray.push(this.initDoctorPriceFormGroup(null));
+
+  //  this.showDialog('lbl_addDoctor', true);
   }
 
-  getWeekDaysData() {
+  getWeekDaysData() {    
+    
     this.sharedDataServ.getweekDaysData().subscribe((res) => {
       this.weekDays = res;
+    
     });
   }
   getTypeOfMedicalExaminationData() {
@@ -301,6 +314,7 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
     });
   }
   setDoctorAppointmentsData(doctorApp: any) {
+ 
     this.weekDays.forEach(d => {
 
       this.doctorAppointmentsFormArray.push(this.initDoctorAppointmentsFormGruoup(doctorApp, d.key));
@@ -363,6 +377,7 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
 
   }
   getDoctorForEdit(keyId: number) {
+    this.isNewDoctor = false;
     this._doctorServ.getDoctorById(keyId).subscribe((res) => {
       this.setDoctorsDataForEdit(res);
       this.titleService.setTitle(this._localizeServe.getLabelValue('lbl_editDoctor'));

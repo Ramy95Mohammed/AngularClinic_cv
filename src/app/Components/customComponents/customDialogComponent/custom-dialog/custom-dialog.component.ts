@@ -28,7 +28,7 @@ export class CustomDialogComponent implements OnInit{
   @Input() resizable: boolean = true; 
   @Output() onBtnSaveClick: EventEmitter<any> = new EventEmitter();
   @Output() onBtnEditClick: EventEmitter<any> = new EventEmitter();
-
+  @Output() onDialogShow: EventEmitter<any> = new EventEmitter();
   @Output() onClose: EventEmitter<any> = new EventEmitter(); 
 
   @ViewChild('pDialog') pDialog!:Dialog;
@@ -61,5 +61,9 @@ export class CustomDialogComponent implements OnInit{
     
     this.hideDialog();
    
+  }
+
+  onShow(): void {
+    this.onDialogShow.emit();
   }
 }

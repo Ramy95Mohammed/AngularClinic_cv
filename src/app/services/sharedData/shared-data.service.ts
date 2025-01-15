@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
+import { FormArray, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class SharedDataService {
   getweekDaysData(): Observable<any> {
     return this.httpClient.get(environment.apiUrl + "SharedData/weekDaysData");
   }
+
   getAvailableStatusData(): Observable<any> {
     return this.httpClient.get(environment.apiUrl + "SharedData/availableStatus");
   }
