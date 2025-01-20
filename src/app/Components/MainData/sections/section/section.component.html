@@ -57,7 +57,7 @@
                 <td class="text-center">{{section.keyId}}</td>
                 <td class="text-center"><a class="text-decoration-none" routerLink="/app-doctor" [queryParams]="{sectionId:section.keyId}">{{section.name}}</a> </td>
                 <td class="text-center break-words">
-                    {{ section.description.length > 50 ? (section.description | slice:0:50) + '...' : section.description }}
+                    {{ section.description?.length > 50 ? (section.description | slice:0:50) + '...' : section.description }}
                 </td>
                 
                 <td class="text-center">{{section.formattedUpdatedDate}}</td>

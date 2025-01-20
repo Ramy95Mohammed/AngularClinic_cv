@@ -13,6 +13,7 @@ import { SectionComponent } from './Components/MainData/sections/section/section
 import { EnterpriseInfoComponent } from './Components/MainData/EnterpriseInfo/enterprise-info/enterprise-info.component';
 import { DoctorComponent } from './Components/MainData/doctors/doctor/doctor.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SingleServiceComponent } from './Components/MainData/services/single-service/single-service.component';
 
 export const routes: Routes = [
     {path:"" , pathMatch:"full" , canActivate:[authGuard] ,component:HomeComponent},
@@ -56,6 +57,10 @@ export const routes: Routes = [
 ,
 {path:"app-doctor" , canActivate:[authGuard], component:DoctorComponent,
     data: { animation: 'app-doctor' , controller:'Doctor'}
+}
+,
+{path:"app-single-service" , canActivate:[authGuard], component:SingleServiceComponent,
+    data: { animation: 'app-single-service' , controller:'SingleService'}
 }
 
 

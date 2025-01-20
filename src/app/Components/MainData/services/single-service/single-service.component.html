@@ -1,1 +1,193 @@
-<p>single-service works!</p>
+<div class="mt-3" >
+    <p-toolbar styleClass="mb-2">
+        <ng-template pTemplate="left">
+            <app-custom-new-btn [ControllerName]="ControllerName" severity="success"
+                icon="pi pi-plus"
+                (onBtnNewClick)="openNew()"
+                ></app-custom-new-btn>
+                <app-custom-print-btn (onBtnPrintClick)="printSingleServicesData()" [ControllerName]="ControllerName"
+                ></app-custom-print-btn>
+                <div class="flex align-items-center gap-1 mx-2  cursor-pointer" >
+                        
+                    <label for="printAll" pInputText  class="cursor-pointer border-0 bg-transparent">{{_localizeServe.getLabelValue('lbl_printAll')}}</label>
+                
+                <p-checkbox 
+                name="printAll"                                     
+                [binary]="true"
+                [(ngModel)]="printAll"                    
+                inputId="printAll" />
+                </div>
+        </ng-template>
+
+        <ng-template pTemplate="right">
+
+        </ng-template>
+    </p-toolbar>
+    <p-table #dt [value]="singleServicesData"  [rowHover]="true" [scrollable]="true" scrollHeight="600px"
+        [tableStyle]="{'min-width': '50rem'}" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="row">
+                  <div class="col-2 mb-5 mt-2">
+                    <app-custom-clear-btn [ControllerName]="ControllerName"
+                    [outlined]="true" icon="pi pi-filter-slash"
+                    [label]="_localizeServe.getLabelValue('lbl_clear')"
+                    (onBtnClearClick)="resetSearchControls();getPaginatedData();"
+                    ></app-custom-clear-btn>
+                  </div>
+                    
+
+                  <div class="col-md-4 mb-5 mt-2">
+                    <app-custom-search-filter-input #txtCustomtxtSearchSextions
+                    [ControllerName]="ControllerName"                    
+                    [txtPlaceHolder]="_localizeServe.getLabelValue('lbl_search')"
+                    [txtSerach]="txtSearch" (onSearchFilterInput)="getPaginatedData()">
+                </app-custom-search-filter-input>
+                  </div> 
+
+                  <div class="col-md-4 mb-5 mt-2">
+                   <app-custom-search-filter-drop-down
+                   #drpIsActive
+                   [ControllerName]="ControllerName"
+                   [labelPlaceholder]="_localizeServe.getLabelValue('lbl_isActive')"
+                   [dropDownData] = "activityStatusData"
+                   [optionLabel]="'value'"
+                   [optionValue]="'key'"
+                   [showClear]="true"
+                   (onDropDownValueChanged)="getPaginatedData()"
+                   >
+                    
+                   </app-custom-search-filter-drop-down>
+                  </div>
+
+                 
+
+          
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="text-center">#</th>
+                <th pSortableColumn="name" class="text-center">{{_localizeServe.getLabelValue('lbl_serviceName')}}
+                    <p-sortIcon field="name" /></th>
+                    <th pSortableColumn="price" class="text-center">{{_localizeServe.getLabelValue('lbl_price')}}
+                        <p-sortIcon field="price" /></th>
+                    <th style="width: 250px;" pSortableColumn="description" class="text-center">{{_localizeServe.getLabelValue('lbl_description')}}
+                        <p-sortIcon field="description" /></th>
+                        <th class="text-center">{{_localizeServe.getLabelValue('lbl_isActive')}}</th>
+                <th pSortableColumn="formattedUpdatedDate" class="text-center">
+                    {{_localizeServe.getLabelValue('lbl_additionDate')}}<p-sortIcon field="formattedUpdatedDate" /></th>
+                <th class="text-center">{{_localizeServe.getLabelValue('lbl_operations')}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-service>
+            <tr>
+                <td class="text-center">{{service.keyId}}</td>
+                <td class="text-center">{{service.name}}</td>
+                <td class="text-center">{{service.price}}</td>  
+                <td class="text-center break-words">
+                    {{ service.description?.length > 50 ? (service.description | slice:0:50) + '...' : service.description }}
+                </td>              
+                <td class="text-center"> <p-tag [value]="getActivityValue(service.isActive)"
+                    [severity]="getSeverity(service.isActive)" /></td>              
+                
+                <td class="text-center">{{service.formattedUpdatedDate}}</td>
+                <td class="text-center">
+                    <div dir="ltr" >
+                        <app-custom-delete-btn [ControllerName]="ControllerName"
+                        (onBtnDeleteClick)="showConfirmDialog(service.keyId)"
+                            ></app-custom-delete-btn>
+                        <app-custom-edit-btn [ControllerName]="ControllerName"
+                        (onBtnEditClick)="getSingleServiceForEdit(service.keyId)"
+                            ></app-custom-edit-btn>
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">          
+                    <app-custom-paginator-filter-search [ControllerName]="ControllerName" 
+                    (onPageChange)="getPaginatedData()"
+                     dropdownAppendTo="body" [showCurrentPageReport]="true" 
+                     currentPageReportTemplate="{{_localizeServe.getLabelValue('lbl_show')}} {first} {{_localizeServe.getLabelValue('lbl_to')}} {last} {{_localizeServe.getLabelValue('lbl_of')}} {totalRecords} {{_localizeServe.getLabelValue('lbl_entries')}}" #paginatorRef [rows]="10" [totalRecords]="totalRecords"
+                      [rowsPerPageOptions]="[10, 20, 30,40,50]"></app-custom-paginator-filter-search>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+
+    <form [formGroup]="singleServicesForm">
+        
+    <app-custom-dialog  #singelServiceCustomDialog 
+    (onBtnSaveClick)="onSave()"
+    (onBtnEditClick)="onEdit()"
+    (onClose)="onDialogClose()"
+    [ControllerName]="ControllerName" [maximizable]="false" [resizable]="false" styleClass="w-md-25vw w-xs-100vw"  height="auto" [visible]="singeServiceDialog"  (onClose)="hideDialog()"
+      
+        > 
+
+        <!-- Pass dynamic content to the dialog using ng-template -->
+        <ng-template #dialogContent>
+            <div class="mt-4">
+                <input hidden class="w-100" formControlName="keyId"  type="text" pInputText />             
+
+                <div class="w-100 mb-5">
+                    <p-floatLabel >
+             
+                        <input class="w-100" formControlName="name"  id="singleServiceName"  type="text" pInputText />
+                        <label for="singleServiceName" dir="ltr" class="w-100">{{_localizeServe.getLabelValue('lbl_serviceName')}}</label>
+                        <p *ngIf="(singleServicesForm.get('name')?.getError('required') || singleServicesForm.get('name')?.getError('pattern')
+                                    )&& (singleServicesForm.get('name')?.touched  )"
+                                   class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                     </p-floatLabel>
+                </div>
+                <div class="w-100 mb-5">
+                    <p-floatLabel >
+             
+                        <p-inputNumber  formControlName="price"  styleClass="w-100" class="w-100"
+                        decrementButtonClass="p-button-danger"
+                        incrementButtonIcon="pi pi-plus"
+                        decrementButtonIcon="pi pi-minus" 
+                         id="singleServiceprice"  dir="ltr" 
+                        [allowEmpty]="false" inputStyleClass="text-center" min="1"
+                        [showButtons]="true" mode="currency" [currency]="priceCurrency" />
+                        <label for="singleServiceprice" dir="ltr" class="w-100">{{_localizeServe.getLabelValue('lbl_price')}}</label>
+                        <p *ngIf="(singleServicesForm.get('price')?.getError('required') || singleServicesForm.get('price')?.getError('pattern')
+                        )&& (singleServicesForm.get('price')?.touched  )"
+                       class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                     </p-floatLabel>
+                </div>
+              
+                <div class="w-100 mb-5">
+                    <p-floatLabel>
+                      
+                        <textarea   formControlName="description"  id="sectionDescription"   class="w-100" rows="5" cols="30"  pInputTextarea  >
+            </textarea>
+                        <label for="sectionDescription" dir="ltr"
+                            class="w-100 mx-2">{{_localizeServe.getLabelValue('lbl_description')}}</label>
+                       
+                    </p-floatLabel>
+                </div>  <div class="w-100 mb-5">
+                    <p-toggleButton 
+                    formControlName="isActive"
+                    [onLabel]="_localizeServe.getLabelValue('lbl_active')" 
+                    [offLabel]="_localizeServe.getLabelValue('lbl_Inactive')" 
+                    [onIcon]="'pi pi-check'" 
+                    [offIcon]="'pi pi-times'"                                         
+                    styleClass="w-9rem"
+                    ariaLabel="Do you confirm" />
+                </div>
+            </div>
+        </ng-template>
+
+    </app-custom-dialog>
+</form>
+
+    <app-custom-confirm-dialog #customDeleteDialog (onConfirm)="onDelete()" ></app-custom-confirm-dialog>
+    <app-custom-confirm-dialog #customMessageDialog ></app-custom-confirm-dialog>
+</div>

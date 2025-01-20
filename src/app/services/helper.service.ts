@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class HelperService {
-
+currency:string='EGP';
   constructor() { }
   convertCSharpDateFormatToJsFormat(date: any) {
     if(date != null)

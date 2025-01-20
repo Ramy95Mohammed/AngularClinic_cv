@@ -109,6 +109,18 @@ export class NavBarComponent implements OnInit {
               }
             ]
           }
+          ,
+          {
+            label: 'lbl_services',
+            icon: 'fa-brands fa-servicestack',
+            items: [
+              {
+                label: 'lbl_singleServices',
+                icon: 'fa-solid fa-1',
+                route: "app-single-service"                
+              }
+            ]
+          }
         ]
       },
       {

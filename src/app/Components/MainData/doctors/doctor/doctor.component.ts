@@ -77,9 +77,10 @@ export class DoctorComponent implements OnInit ,AfterViewInit{
   _appComp: AppComponent;
   expandedRows = {};
   weekDayControl: any;
+  priceCurrency:string = this._helperServ.currency;
   constructor(localizeServ: LocalizeService, private messageService: MessageService, private titleService: Title, private _printServ: PrintService, private sharedDataServ: SharedDataService,
     private cdr: ChangeDetectorRef, appComp: AppComponent, private _doctorServ: DoctorService, private _helperServ: HelperService, private printServ: PrintService,
-    private route: ActivatedRoute,private _router:Router) {
+    private route: ActivatedRoute,private _router:Router ) {
     this._localizeServe = localizeServ;
     this._appComp = appComp;
 

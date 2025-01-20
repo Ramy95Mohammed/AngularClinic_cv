@@ -806,7 +806,7 @@
                                             incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
                                             decrementButtonIcon="pi pi-minus" formControlName="price"
                                             [allowEmpty]="false" inputStyleClass="text-center" min="1"
-                                            [showButtons]="true" mode="currency" currency="EGP" />
+                                            [showButtons]="true" mode="currency" [currency]="priceCurrency" />
 
                                         <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
                                                            )&& (price.get('price')?.touched  )"
