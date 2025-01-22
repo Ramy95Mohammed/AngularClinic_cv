@@ -14,6 +14,7 @@ import { EnterpriseInfoComponent } from './Components/MainData/EnterpriseInfo/en
 import { DoctorComponent } from './Components/MainData/doctors/doctor/doctor.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SingleServiceComponent } from './Components/MainData/services/single-service/single-service.component';
+import { ServicesGroupComponent } from './Components/MainData/services/ServicesGroup/services-group/services-group.component';
 
 export const routes: Routes = [
     {path:"" , pathMatch:"full" , canActivate:[authGuard] ,component:HomeComponent},
@@ -62,7 +63,10 @@ export const routes: Routes = [
 {path:"app-single-service" , canActivate:[authGuard], component:SingleServiceComponent,
     data: { animation: 'app-single-service' , controller:'SingleService'}
 }
-
+,
+{path:"app-services-group" , canActivate:[authGuard], component:ServicesGroupComponent,
+    data: { animation: 'app-services-group' , controller:'ServicesGroup'}
+}
 
 
 ,

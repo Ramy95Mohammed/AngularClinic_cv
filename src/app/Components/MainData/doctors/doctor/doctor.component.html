@@ -799,30 +799,30 @@
                             </td>
 
                             <td class="text-center" [pEditableColumn]="price.price" pEditableColumnField="price">
-                                <p-cellEditor>
-                                    <ng-template pTemplate="input">
-                                        <p-inputNumber buttonLayout="horizontal" spinnerMode="horizontal"
-                                            decrementButtonClass="p-button-danger"
-                                            incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
-                                            decrementButtonIcon="pi pi-minus" formControlName="price"
-                                            [allowEmpty]="false" inputStyleClass="text-center" min="1"
-                                            [showButtons]="true" mode="currency" [currency]="priceCurrency" />
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber buttonLayout="horizontal" spinnerMode="horizontal"
+                                                decrementButtonClass="p-button-danger"
+                                                incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                                                decrementButtonIcon="pi pi-minus" formControlName="price"
+                                                [allowEmpty]="false" inputStyleClass="text-center" min="1"
+                                                [showButtons]="true" mode="currency" [currency]="priceCurrency" />
 
-                                        <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
-                                                           )&& (price.get('price')?.touched  )"
-                                            class="p-error float-start my-2">
-                                            {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
-                                    </ng-template>
-                                    <ng-template pTemplate="output">
-                                        <div class="h5">
+                                            <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
+                                                            )&& (price.get('price')?.touched  )"
+                                                class="p-error float-start my-2">
+                                                {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            <div class="h5">
 
-                                            {{' EGP '+ price.get('price').value }}
-                                        </div>
-                                        <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
-                                        )&& (price.get('price')?.touched  )" class="p-error float-start my-2">
-                                            {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
-                                    </ng-template>
-                                </p-cellEditor>
+                                                {{' EGP '+ price.get('price').value }}
+                                            </div>
+                                            <p *ngIf="(price.get('price')?.getError('required') || price.get('price')?.getError('pattern')
+                                            )&& (price.get('price')?.touched  )" class="p-error float-start my-2">
+                                                {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                                        </ng-template>
+                                    </p-cellEditor>
 
 
                             </td>

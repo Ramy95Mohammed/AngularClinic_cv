@@ -1,0 +1,159 @@
+<form>
+    <div class="row mt-3 ">
+        <div class="col-md-3 mb-5 mt-2">
+            <input hidden class="w-100" type="text" pInputText />
+            <p-floatLabel>
+
+                <input class="w-100" id="serviceName" type="text" pInputText />
+                <label for="serviceName" dir="ltr"
+                    class="w-100">{{_localizeServe.getLabelValue('lbl_serviceName')}}</label>
+                <!-- <p *ngIf="(sectionForm.get('name')?.getError('required') || sectionForm.get('name')?.getError('pattern')
+                        )&& (sectionForm.get('name')?.touched  )"
+                       class="p-error float-start my-2">{{_localizeServe.getLabelValue('lbl_requiredField')}}</p> -->
+            </p-floatLabel>
+        </div>
+        <div class="col-md-3 mb-5 mt-2">
+            <p-floatLabel>
+
+                <textarea id="serviceNotes" class="w-100" rows="5" cols="30"
+                style="resize: none;"
+                    pInputTextarea>
+                </textarea>
+                <label for="serviceNotes" dir="ltr"
+                    class="w-100 mx-2">{{_localizeServe.getLabelValue('lbl_notes')}}</label>
+
+            </p-floatLabel>
+        </div>
+        <div class="col-12 mb-5">
+            <p-table  #doctorsServiceGroupDetails [value]="getServicesGroupDetailsFormArrControls" [rowHover]="true"
+            [scrollable]="true" scrollHeight="40vh" dataKey="value.keyId" [tableStyle]="{'min-width': '50rem'}"
+            [showCurrentPageReport]="true">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">#</th>
+                   
+                    <th class="text-center">
+                        {{_localizeServe.getLabelValue('lbl_services')}}
+                    </th>
+                    <th class="text-center">
+                        {{_localizeServe.getLabelValue('lbl_price')}}
+                    </th>
+                    <th class="text-center">
+                        {{_localizeServe.getLabelValue('lbl_count')}}
+                    </th>
+
+                    <th class="text-center">
+                        <p-button icon="pi pi-plus" [rounded]="true" [outlined]="true"
+                            severity="secondary" />
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-detail let-editing="editing" let-rowIndex="rowIndex">
+                <tr [formGroup]="detail">
+                   <td class="text-center">{{detail.keyId}}</td>
+                    <td class="text-center" [pEditableColumn]="detail.singleServiceId"
+                        pEditableColumnField="singleServiceId">
+
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown  appendTo="body"
+                                    optionLabel="value" optionValue="key"
+                                    [placeholder]="_localizeServe.getLabelValue('lbl_choose')"
+                                    [style]="{'width':'100%'}" />
+                                <!-- <p *ngIf="(price.get('typeOfMedicalExamination')?.getError('required') )&& (price.get('typeOfMedicalExamination')?.touched  )"
+                                    class="p-error float-start my-2">
+                                    {{_localizeServe.getLabelValue('lbl_requiredField')}}</p> -->
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <div class="h5">
+                                    <!-- {{getTypeOfMedicalExaminationValue(price.get('typeOfMedicalExamination').value)}} -->
+                                  </div>
+                                <!-- <p *ngIf="(price.get('typeOfMedicalExamination')?.getError('required') )&& (price.get('typeOfMedicalExamination')?.touched  )"
+                                    class="p-error float-start my-2">
+                                    {{_localizeServe.getLabelValue('lbl_requiredField')}}</p> -->
+
+                            </ng-template>
+                        </p-cellEditor>
+
+                    </td>
+                    <td class="text-center" [pEditableColumn]="detail.price" pEditableColumnField="price">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-inputNumber buttonLayout="horizontal" spinnerMode="horizontal"
+                                    decrementButtonClass="p-button-danger"
+                                    incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus"
+                                    decrementButtonIcon="pi pi-minus" formControlName="price"
+                                    [allowEmpty]="false" inputStyleClass="text-center" min="1"
+                                    [showButtons]="true" mode="currency" [currency]="priceCurrency" />
+
+                                <p *ngIf="(detail.get('price')?.getError('required') || detail.get('price')?.getError('pattern')
+                                                   )&& (detail.get('price')?.touched  )"
+                                    class="p-error float-start my-2">
+                                    {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                <div class="h5">
+
+                                    {{' EGP '+ detail.get('price')?.value }}
+                                </div>
+                                <p *ngIf="(detail.get('price')?.getError('required') || detail.get('price')?.getError('pattern')
+                                )&& (detail.get('price')?.touched  )" class="p-error float-start my-2">
+                                    {{_localizeServe.getLabelValue('lbl_requiredField')}}</p>
+                            </ng-template>
+                        </p-cellEditor>
+
+                    </td>
+                    <td class="text-center" [pEditableColumn]="detail.quantity"
+                    pEditableColumnField="quantity">
+
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber 
+                          
+                            [showButtons]="true" 
+                            buttonLayout="vertical" 
+                            spinnerMode="vertical" 
+                            inputId="vertical"
+                            decrementButtonClass="p-button-secondary"
+                            incrementButtonClass="p-button-secondary" 
+                            incrementButtonIcon="pi pi-plus" 
+                            decrementButtonIcon="pi pi-minus" />
+                            <!-- <p *ngIf="(price.get('typeOfMedicalExamination')?.getError('required') )&& (price.get('typeOfMedicalExamination')?.touched  )"
+                                class="p-error float-start my-2">
+                                {{_localizeServe.getLabelValue('lbl_requiredField')}}</p> -->
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <div class="h5">
+                                {{detail.get('quantity').value}}
+                              </div>
+                            <!-- <p *ngIf="(price.get('typeOfMedicalExamination')?.getError('required') )&& (price.get('typeOfMedicalExamination')?.touched  )"
+                                class="p-error float-start my-2">
+                                {{_localizeServe.getLabelValue('lbl_requiredField')}}</p> -->
+
+                        </ng-template>
+                    </p-cellEditor>
+
+                </td>   
+                    <td class="text-center">
+
+                        <app-custom-delete-btn btnClass="" [ControllerName]="ControllerName"
+                            ></app-custom-delete-btn>
+
+
+
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6">{{_localizeServe.getLabelValue('lbl_noData')}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        </div>
+    </div>
+</form>
